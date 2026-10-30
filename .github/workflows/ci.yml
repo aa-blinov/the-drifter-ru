@@ -1,0 +1,51 @@
+name: ci
+
+# The translation is a data package, so the build is the test: the shipped
+# CSV is read the way the game reads it, and checked against the English
+# corpus it was built from. The house-style check is a separate workflow, so
+# that a failure of the standard is visibly different from a failure of the
+# data.
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: Check and test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Test
+        run: python3 -m unittest discover -s tests -v
+
+      - name: The checks
+        run: python3 src/drru/qa.py
+
+      - name: The file the game reads
+        run: |
+          python3 - <<'PY'
+          import csv, hashlib, io, os
+          path = "translation/Russian/translation.csv"
+          with open(path, "rb") as fh:
+              raw = fh.read()
+          print("bytes  %d" % len(raw))
+          print("sha256 %s" % hashlib.sha256(raw).hexdigest())
+          print("bom    %s" % (raw[:3] == b"\xef\xbb\xbf"))
+          rows = list(csv.reader(io.StringIO(raw.decode("utf-8-sig"), newline="")))
+          print("header %s" % rows[0])
+          print("rows   %d" % (len(rows) - 1))
+          PY
