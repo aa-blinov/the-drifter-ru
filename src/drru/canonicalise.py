@@ -1,14 +1,14 @@
 #!/usr/bin/env python
-"""Canonicalisation: one English line, one Russian line.
+"""Канонизация: одна английская строка, одна русская строка.
 
-The game uses the same English string in several places, and the translation
-has to be the same in all of them. The editorial pass can leave the same
-source with two different Russian renderings, because it saw the lines in
-different batches.
+Игра использует одну и ту же английскую строку в нескольких местах, и
+перевод должен быть одинаковым во всех них. Редакторский проход может
+оставить для одного источника два разных русских варианта, потому что видел
+строки в разных батчах.
 
-This stage collects the variants of every repeated source line and asks the
-model to pick one wording, then applies it everywhere. It is the last stage
-that touches the text, so a hand correction made after it survives.
+Этот этап собирает варианты каждой повторяющейся исходной строки и просит
+модель выбрать одну формулировку, а затем применяет её везде. Это последний
+этап, который трогает текст, поэтому ручная правка после него сохраняется.
 
     python3 src/drru/canonicalise.py
 """
@@ -29,7 +29,7 @@ ROOT = os.path.dirname(os.path.dirname(HERE))
 EDIT_PATH = os.path.join(ROOT, "work", "corpus", "edit.jsonl")
 OUT_PATH = os.path.join(ROOT, "work", "corpus", "canon.jsonl")
 
-SYSTEM = """Ты — редактор русского перевода игры The Drifter.
+SYSTEM = """Ты редактор русского перевода игры The Drifter.
 
 Тебе даны варианты перевода одной и той же английской строки. Выбери один вариант и верни его без изменений.
 
@@ -39,9 +39,9 @@ SYSTEM = """Ты — редактор русского перевода игры
 3. Сохранение смысла: ни одна деталь оригинала не потеряна.
 4. Разговорность, если реплика разговорная.
 
-Если все варианты хороши — возьми самый короткий и самый естественный.
+Если все варианты хороши, возьми самый короткий и самый естественный.
 
-ФОРМАТ ОТВЕТА: вход — JSON-массив объектов {"id": N, "variants": ["...", "..."]}. Выход — JSON-массив строк РОВНО той же длины и порядка: выбранный вариант для каждой группы, без изменений.
+ФОРМАТ ОТВЕТА: вход это JSON-массив объектов {"id": N, "variants": ["...", "..."]}. Выход это JSON-массив строк РОВНО той же длины и порядка: выбранный вариант для каждой группы, без изменений.
 """
 
 
@@ -64,21 +64,21 @@ def main():
         if len(variants) > 1:
             conflicts.append((english, variants, group))
 
-    batch.log("canonicalise: %d distinct lines, %d with more than one wording"
+    batch.log("канонизация: %d разных строк, у %d больше одного варианта"
               % (len(groups), len(conflicts)))
     if not conflicts:
         _write(rows, OUT_PATH)
         return
 
-    # The groups are independent, and a shorter batch is answered more
-    # reliably, so they go in small pieces.
+    # Группы независимы, а короткий батч модель отвечает надёжнее, поэтому
+    # они идут небольшими кусками.
     from drru.batch import call_split
     payload = [{"id": i, "variants": variants}
                for i, (_en, variants, _group) in enumerate(conflicts)]
     replies = call_split(args.model, SYSTEM, payload, temperature=0.2,
                           tag="canon", chunk=20)
     if replies is None:
-        batch.log("canonicalise: the model broke the contract, keeping the variants")
+        batch.log("канонизация: модель нарушила контракт, варианты оставлены как есть")
         _write(rows, OUT_PATH)
         return
 
@@ -93,7 +93,7 @@ def _write(rows, path):
     with open(path, "w", encoding="utf-8", newline="\n") as fh:
         for row in rows:
             fh.write(json.dumps(row, ensure_ascii=False) + "\n")
-    batch.log("canonicalise: wrote %d lines -> %s" % (len(rows), path))
+    batch.log("канонизация: записано %d строк -> %s" % (len(rows), path))
 
 
 if __name__ == "__main__":
