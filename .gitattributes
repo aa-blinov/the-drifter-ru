@@ -10,7 +10,7 @@
 # takes the file as it is, and without CRLF it reads one long line. It also
 # holds line breaks inside quoted fields, and normalisation would turn them
 # into CRLF, so the file is stored and taken exactly as it is.
-translation/Russian/translation.csv -text
+translation/Russian/translation.csv -text -eol
 
 # Binary assets never get line-ending treatment.
 *.png binary
