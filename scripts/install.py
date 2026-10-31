@@ -68,7 +68,13 @@ def game_paths(game_dir: str):
 
 
 def install_translation(paths, dry_run=False):
-    """Copy the translation next to the executable."""
+    """Copy the translation next to the executable.
+
+    The file is written with CRLF whatever the working tree holds. The
+    repository stores LF — that is what `.gitattributes` says — but the
+    importer of the game reads CRLF, and a fresh clone would otherwise
+    install a file the game cannot read.
+    """
     target = paths["translation"]
     if not os.path.exists(TRANSLATION):
         raise SystemExit("translation not built: %s" % TRANSLATION)
@@ -76,7 +82,10 @@ def install_translation(paths, dry_run=False):
         rows = sum(1 for _ in open(TRANSLATION, encoding="utf-8-sig")) - 1
         print("would write %s (%d rows)" % (target, rows))
         return target
-    shutil.copy2(TRANSLATION, target)
+    with open(TRANSLATION, encoding="utf-8-sig", newline="") as fh:
+        text = fh.read()
+    with open(target, "w", encoding="utf-8-sig", newline="") as fh:
+        fh.write(text.replace("\r\n", "\n").replace("\n", "\r\n"))
     print("installed %s" % target)
     return target
 
