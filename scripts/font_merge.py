@@ -95,11 +95,17 @@ def scale_for(target: Metrics, source: Metrics, mode: str) -> float:
     raise SystemExit("неизвестный режим слияния: %s" % mode)
 
 
-def merge(original: bytes, source_path: str, mode: str = "metric"):
+def merge(original: bytes, source_path: str, mode: str = "metric", bold: int = 0):
     """Добавить кириллические глифы источника к одному шрифту игры.
 
     Возвращает новый шрифт, число добавленных глифов и масштаб, в котором
     глифы нарисованы.
+
+    `bold` — насколько контур утолщается, в единицах шрифта цели. У игры
+    штрих тяжелее, чем у пиксельного источника, и разница видна: кириллица
+    выглядит тоньше латиницы в одной строке. Утолщение рисует контур ещё раз
+    со смещением; TrueType хранит координаты целыми, поэтому смещение должно
+    быть целым, и буквы остаются пиксельными.
     """
     from fontTools.pens.transformPen import TransformPen
     from fontTools.pens.ttGlyphPen import TTGlyphPen
@@ -141,13 +147,17 @@ def merge(original: bytes, source_path: str, mode: str = "metric"):
         if glyph_name in existing:
             continue
 
+        offsets = [(0, 0)]
+        if bold:
+            offsets += [(bold, 0), (-bold, 0), (0, bold), (0, -bold)]
         pen = TTGlyphPen(None)
-        transform = TransformPen(pen, (scale, 0, 0, scale, 0, 0))
-        source_glyphs[source_name].draw(transform)
+        for dx, dy in offsets:
+            transform = TransformPen(pen, (scale, 0, 0, scale, dx, dy))
+            source_glyphs[source_name].draw(transform)
         target_glyphs.glyphs[glyph_name] = pen.glyph()
 
         advance, lsb = source_hmtx[source_name]
-        target_hmtx.metrics[glyph_name] = (int(round(advance * scale)),
+        target_hmtx.metrics[glyph_name] = (int(round(advance * scale)) + bold,
                                            int(round(lsb * scale)))
         order.append(glyph_name)
         existing.add(glyph_name)

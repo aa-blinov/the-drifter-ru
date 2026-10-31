@@ -71,7 +71,7 @@ def patch_object(data: bytes, font: bytes, new_font: bytes):
 
 
 def patch_assets(assets_path: str, mode: str = "metric", fonts=None,
-                  source: str = None):
+                  source: str = None, bold: int = 0):
     """Файл, в шрифтах которого есть кириллица."""
     import UnityPy
 
@@ -96,7 +96,7 @@ def patch_assets(assets_path: str, mode: str = "metric", fonts=None,
             source_path = source
         else:
             source_path, _source_metrics = source_for(target_metrics)
-        new_font, added, scale = merge(raw_font, source_path, mode)
+        new_font, added, scale = merge(raw_font, source_path, mode, bold)
         data = obj.get_raw_data()
         result = patch_object(data, raw_font, new_font)
         if result is None:

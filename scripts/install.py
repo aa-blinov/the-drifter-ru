@@ -121,7 +121,7 @@ def install_font_license(paths):
     return target
 
 
-def install_fonts(paths, dry_run=False, mode="metric", source=None):
+def install_fonts(paths, dry_run=False, mode="metric", source=None, bold=0):
     """Вписывание кириллицы в шрифты игры."""
     if dry_run:
         print("будут правиться %d шрифтов в %s" % (len(GAME_FONTS), paths["assets"]))
@@ -131,7 +131,8 @@ def install_fonts(paths, dry_run=False, mode="metric", source=None):
         from font_metrics import load_font
         cmap = load_font(source).getBestCmap()
         expected_cyrillic = len([c for c in cmap if 0x0400 <= c <= 0x04FF]) * len(GAME_FONTS)
-    data, patched = patch_assets(paths["assets"], mode, set(GAME_FONTS), source)
+    data, patched = patch_assets(paths["assets"], mode, set(GAME_FONTS), source,
+                                bold)
 
     staged = paths["assets"] + ".new"
     with open(staged, "wb") as fh:
@@ -151,6 +152,9 @@ def main():
                         help="как кириллица масштабируется под шрифт игры: "
                              "cap — по высоте заглавных (по умолчанию), "
                              "metric — по высоте строчных, grid — по сетке")
+    parser.add_argument("--bold", type=int, default=0,
+                        help="насколько утолщить кириллицу, в единицах "
+                             "шрифта игры: 25 — как в игре, 50 — заметно")
     parser.add_argument("--source", default=None,
                         help="шрифт, из которого берётся кириллица (по умолчанию "
                              "подбирается по шрифту игры)")
@@ -167,7 +171,7 @@ def main():
         backup(paths, game_dir)
     install_translation(paths, args.dry_run)
     if not args.no_fonts:
-        install_fonts(paths, args.dry_run, args.mode, args.source)
+        install_fonts(paths, args.dry_run, args.mode, args.source, args.bold)
         license_path = install_font_license(paths)
         if license_path:
             print("лицензия шрифта: %s" % license_path)
