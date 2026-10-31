@@ -49,9 +49,13 @@ EXTRA_CHARS = "«»—…№„“”‘’°"
 def source_for(target: Metrics):
     """Пиксельный шрифт, из которого берётся кириллица.
 
-    Берётся тот, у которого размер прорисовки ближе всего к размеру
-    прорисовки цели: глиф, нарисованный для другого размера, имеет другие
-    пропорции.
+    Берётся тот, который вписывается в цель без искажения: масштаб,
+    ближайший к единице. Глиф, нарисованный для другого размера, приходится
+    перерисовывать, а перерисовка ломает пиксельную сетку.
+
+    Размер прорисовки цели сравнить не с чем: у шрифтов игры сетка не
+    определяется, и «пикселей на em» выходит в тысячу. Поэтому мера здесь
+    одна: насколько источник придётся растянуть.
     """
     best = None
     for size, name in sorted(CYRILLIC_SOURCES.items()):
@@ -59,7 +63,8 @@ def source_for(target: Metrics):
         if not os.path.exists(path):
             continue
         metrics = Metrics(load_font(path))
-        distance = abs(metrics.pixels - target.pixels)
+        scale = scale_for(target, metrics, "metric")
+        distance = abs(scale - 1.0)
         if best is None or distance < best[0]:
             best = (distance, path, metrics)
     if best is None:
@@ -73,6 +78,11 @@ def scale_for(target: Metrics, source: Metrics, mode: str) -> float:
     """Во сколько раз источник масштабируется под цель."""
     if mode == "grid":
         # Один пиксель источника становится одним пикселем цели.
+        if target.grid <= 1 or source.grid <= 1:
+            raise SystemExit(
+                "у шрифта цели не определяется пиксельная сетка (%d), "
+                "режим сетки неприменим: глифы сойдут в ноль. "
+                "Используйте режим x-height." % target.grid)
         return target.grid / float(source.grid)
     if mode == "metric":
         # Строчные источника становятся той же высоты, что строчные цели.
