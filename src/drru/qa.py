@@ -17,6 +17,8 @@ from __future__ import annotations
 
 import argparse
 import collections
+import csv
+import io
 import json
 import os
 import sys
@@ -28,6 +30,22 @@ from drru import checks, corpus  # noqa: E402
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(HERE))
 CANON_PATH = os.path.join(ROOT, "work", "corpus", "final.jsonl")
+TRANSLATION = os.path.join(ROOT, "translation", "Russian", "translation.csv")
+
+
+def load_rows(path: str):
+    """Строки перевода: из отгружаемого файла или из корпуса пайплайна.
+
+    Отгружаемый файл лежит в репозитории, а корпус пайплайна остаётся
+    черновиком, поэтому проверка должна работать и в свежем клоне.
+    """
+    if path.endswith(".jsonl"):
+        return corpus.read_jsonl(path)
+    with io.open(path, encoding="utf-8-sig", newline="") as fh:
+        table = list(csv.reader(fh))
+    header, rows = table[0], table[1:]
+    return [{"character": row[0], "id": row[1], "file": row[2],
+             "context": row[3], "en": row[4], "ru": row[5]} for row in rows]
 
 
 def check_structural(rows, findings):
@@ -79,12 +97,14 @@ def check_repeats(rows, findings):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--corpus", default=CANON_PATH)
+    parser.add_argument("--corpus", default=TRANSLATION,
+                        help="что проверять: отгружаемый файл или корпус "
+                             "пайплайна")
     parser.add_argument("--strict", action="store_true",
                         help="выйти с ненулевым кодом при любой находке")
     args = parser.parse_args()
 
-    rows = corpus.read_jsonl(args.corpus)
+    rows = load_rows(args.corpus)
     findings = []
     check_structural(rows, findings)
     check_linguistic(rows, findings)
