@@ -13,6 +13,10 @@ python3 scripts/fetch_fonts.py                # download the pixel fonts
 python3 scripts/install.py --game "<path>"    # install into a copy of the game
 ```
 
+The game itself: `python3 scripts/screenshot.py --out work/shots/scene.png`
+takes the window of the running game, `scripts/click.py --at 960,515` clicks
+in it, and `scripts/send_keys.py --keys "{ENTER}"` types in it.
+
 The pipeline needs a model endpoint. `src/drru/llm_client.py` reads it from
 `DRRU_BASE_URL` (default `http://127.0.0.1:8788/v1`) and `DRRU_MODEL` (default
 `minimax-m3`). Every call is cached under `work/cache/`, so a re-run costs
@@ -58,6 +62,15 @@ previous one wrote: `bulk` → `edit` → `canon` → `typo` → `polish` →
   true.
 - **The importer wants UTF-8 with a BOM and CRLF.** Without the BOM the
   Cyrillic arrives as mojibake, and it is not a typo: it is the encoding.
+- **The game reads `translation.csv` from its own directory**, and the name in
+  the last column of the header is the name it shows in Options → Language.
+- **The assets file is patched byte by byte, never rebuilt.** Unity's reader
+  for it loses the data of the objects it did not parse: the file comes back
+  1.3 MB instead of 30 MB, and the game does not start. The patch writes the
+  bytes of the font data over the old ones and moves everything that follows.
+- **Only the seven text fonts carry the Cyrillic.** The other thirteen are for
+  titles and icons; a font without lowercase letters has no x-height to match,
+  and the scale that follows from it produces a font the game cannot read.
 - **The column code is the language code.** The header is
   `Character,ID,File,Context,English,Русский`, and the last cell is what the
   game shows in Options → Language.
@@ -93,3 +106,6 @@ previous one wrote: `bulk` → `edit` → `canon` → `typo` → `polish` →
 - **The game's files are the developer's.** The repository holds the text and
   the tooling. The installer reads a copy the user owns and backs up what it
   touches.
+- **The measured width of the Russian text is below the English one.** The
+  median ratio is 0.85 to 0.96 and the ninety-ninth percentile is below 0.55;
+  `docs/layout.md` holds the numbers and how they were taken.

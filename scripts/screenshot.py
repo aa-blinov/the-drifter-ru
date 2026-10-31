@@ -1,0 +1,159 @@
+#!/usr/bin/env python
+"""Take a screenshot of the running game.
+
+The game draws its text with fonts that live in its own assets, and the only
+way to know whether the Russian text fits, sits on the baseline and reads the
+way the English does, is to look at the game.
+
+The window of the game is found by the process of the game, and the picture
+of that window is taken directly, so that whatever covers it does not end up
+in the shot.
+
+    python3 scripts/screenshot.py --out work/shots/scene.png
+    python3 scripts/screenshot.py --out work/shots/scene.png --full
+"""
+from __future__ import annotations
+
+import argparse
+import ctypes
+import ctypes.wintypes as w
+import os
+import subprocess
+import sys
+import time
+
+POWERSHELL = r"C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe"
+
+CAPTURE = r"""
+Add-Type -AssemblyName System.Drawing
+Add-Type @"
+using System;
+using System.Runtime.InteropServices;
+public class Shot {
+  [DllImport("user32.dll")] public static extern bool GetWindowRect(IntPtr h, out RECT r);
+  [DllImport("user32.dll")] public static extern bool SetForegroundWindow(IntPtr h);
+  [DllImport("user32.dll")] public static extern bool ShowWindow(IntPtr h, int cmd);
+  [DllImport("user32.dll")] public static extern bool PrintWindow(IntPtr h, IntPtr dc, uint flags);
+  [StructLayout(LayoutKind.Sequential)] public struct RECT { public int Left, Top, Right, Bottom; }
+}
+"@
+$handle = [IntPtr]::new([int64]$env:SHOT_HWND)
+$r = New-Object Shot+RECT
+[void][Shot]::GetWindowRect($handle, [ref]$r)
+$w = $r.Right - $r.Left
+$h = $r.Bottom - $r.Top
+if ($w -le 0 -or $h -le 0) { exit 3 }
+$bitmap = New-Object System.Drawing.Bitmap $w, $h
+$graphics = [System.Drawing.Graphics]::FromImage($bitmap)
+$dc = $graphics.GetHdc()
+[void][Shot]::PrintWindow($handle, $dc, 2)
+$graphics.ReleaseHdc($dc)
+$graphics.Dispose()
+$bitmap.Save($env:SHOT_PATH, [System.Drawing.Imaging.ImageFormat]::Png)
+$bitmap.Dispose()
+"""
+
+
+def game_pid(name: str = "TheDrifter.exe"):
+    """The process of the running game."""
+    result = subprocess.run(
+        ["tasklist", "/FI", "IMAGENAME eq %s" % name, "/FO", "CSV", "/NH"],
+        capture_output=True)
+    for line in result.stdout.decode("utf-8", "replace").splitlines():
+        parts = [p.strip('" ') for p in line.split('","')]
+        if len(parts) > 1 and parts[0].lower() == name.lower():
+            return int(parts[1])
+    return None
+
+
+def game_window(pid: int):
+    """The window of the game, by the process that owns it."""
+    user32 = ctypes.windll.user32
+    found = []
+
+    enum_proc = ctypes.WINFUNCTYPE(ctypes.c_bool, w.HWND, w.LPARAM)
+
+    def callback(hwnd, _lparam):
+        owner = w.DWORD()
+        user32.GetWindowThreadProcessId(hwnd, ctypes.byref(owner))
+        if owner.value != pid or not user32.IsWindowVisible(hwnd):
+            return True
+        length = user32.GetWindowTextLengthW(hwnd)
+        if length:
+            buf = ctypes.create_unicode_buffer(length + 1)
+            user32.GetWindowTextW(hwnd, buf, length + 1)
+            rect = w.RECT()
+            user32.GetWindowRect(hwnd, ctypes.byref(rect))
+            if rect.right - rect.left > 200 and rect.bottom - rect.top > 200:
+                found.append((hwnd, rect.left, rect.top))
+        return True
+
+    user32.EnumWindows(enum_proc(callback), 0)
+    return found[0][0] if found else None
+
+
+def capture_window(hwnd: int, path: str) -> str:
+    """One picture of one window."""
+    os.makedirs(os.path.dirname(os.path.abspath(path)), exist_ok=True)
+    env = dict(os.environ, SHOT_PATH=os.path.abspath(path),
+               SHOT_HWND=str(hwnd))
+    result = subprocess.run([POWERSHELL, "-NoProfile", "-Command", CAPTURE],
+                            env=env, capture_output=True)
+    if not os.path.exists(path):
+        raise SystemExit("the screenshot was not written: %s"
+                         % result.stderr.decode("utf-8", "replace")[:300])
+    return path
+
+
+def capture_screen(path: str) -> str:
+    """One picture of the whole screen."""
+    os.makedirs(os.path.dirname(os.path.abspath(path)), exist_ok=True)
+    script = r"""
+Add-Type -AssemblyName System.Windows.Forms, System.Drawing
+$bounds = [System.Windows.Forms.Screen]::PrimaryScreen.Bounds
+$bitmap = New-Object System.Drawing.Bitmap $bounds.Width, $bounds.Height
+$graphics = [System.Drawing.Graphics]::FromImage($bitmap)
+$graphics.CopyFromScreen($bounds.Location, [System.Drawing.Point]::Empty, $bounds.Size)
+$bitmap.Save($env:SHOT_PATH, [System.Drawing.Imaging.ImageFormat]::Png)
+$graphics.Dispose()
+$bitmap.Dispose()
+"""
+    env = dict(os.environ, SHOT_PATH=os.path.abspath(path))
+    subprocess.run([POWERSHELL, "-NoProfile", "-Command", script], env=env, check=True)
+    return path
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--out", default="work/shots/screen.png")
+    parser.add_argument("--full", action="store_true",
+                        help="the whole screen, not the window of the game")
+    parser.add_argument("--delay", type=float, default=0.0)
+    parser.add_argument("--focus", action="store_true",
+                        help="bring the window of the game to the front")
+    args = parser.parse_args()
+
+    if args.delay:
+        time.sleep(args.delay)
+
+    if args.full:
+        print(capture_screen(args.out))
+        return
+
+    pid = game_pid()
+    if not pid:
+        raise SystemExit("the game is not running")
+    hwnd = game_window(pid)
+    if not hwnd:
+        raise SystemExit("the window of the game was not found")
+    if args.focus:
+        # The game starts minimised when it is launched from the command
+        # line; a window that is minimised has no picture to take.
+        ctypes.windll.user32.ShowWindow(hwnd, 9)
+        ctypes.windll.user32.SetForegroundWindow(hwnd)
+        time.sleep(0.8)
+    print(capture_window(hwnd, args.out))
+
+
+if __name__ == "__main__":
+    main()

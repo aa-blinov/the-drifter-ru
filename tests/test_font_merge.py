@@ -24,7 +24,8 @@ import unittest
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "scripts"))
 
-from install import design_pixels, merge_one, pixel_grid  # noqa: E402
+from font_merge import merge  # noqa: E402
+from font_metrics import Metrics, load_font  # noqa: E402
 
 FONT_DIR = os.path.join(ROOT, "work", "fonts")
 SOURCE_10 = os.path.join(FONT_DIR, "ark-pixel-10px-proportional-latin.ttf")
@@ -69,7 +70,7 @@ class FontMergeTest(unittest.TestCase):
 
     def merged(self):
         from fontTools.ttLib import TTFont
-        data = merge_one(self.game_font, SOURCE_12)
+        data, _added, _scale = merge(self.game_font, SOURCE_12, "metric")
         return TTFont(io.BytesIO(data))
 
     def test_the_cyrillic_glyphs_are_added(self):
@@ -97,7 +98,7 @@ class FontMergeTest(unittest.TestCase):
 
     def test_the_merged_glyphs_land_on_the_pixel_grid(self):
         merged = self.merged()
-        grid = pixel_grid(self.game)
+        grid = Metrics(self.game).grid
         self.assertGreater(grid, 0)
         cmap = merged.getBestCmap()
         checked = 0
@@ -114,8 +115,9 @@ class FontMergeTest(unittest.TestCase):
     def test_the_pixel_size_is_measured_on_the_font(self):
         # The font the game draws its dialogue at is a 12 px font: the em
         # covers twelve pixels of the grid.
-        self.assertEqual(design_pixels(self.game), 12)
-        self.assertEqual(pixel_grid(self.game), 100)
+        metrics = Metrics(self.game)
+        self.assertEqual(metrics.pixels, 12)
+        self.assertEqual(metrics.grid, 100)
 
     def test_the_source_font_carries_the_whole_cyrillic_range(self):
         cmap = self.source.getBestCmap()
@@ -127,7 +129,8 @@ class FontMergeTest(unittest.TestCase):
         # not depend on what happened before it.
         from fontTools.ttLib import TTFont
         once = self.merged()
-        twice = TTFont(io.BytesIO(merge_one(self.game_font, SOURCE_12)))
+        data, _added, _scale = merge(self.game_font, SOURCE_12, "metric")
+        twice = TTFont(io.BytesIO(data))
         self.assertEqual(sorted(once.getBestCmap()), sorted(twice.getBestCmap()))
 
 

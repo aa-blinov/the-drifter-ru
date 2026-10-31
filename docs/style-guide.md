@@ -109,6 +109,16 @@ The check is a measurement, and the English source is the yardstick:
 python3 src/drru/qa.py
 ```
 
+## What the game does with the text
+
+The game reads `translation.csv` from its own directory. The header is
+`Character,ID,File,Context,English,<language name>`, and the name in the last
+cell is the name the game shows in Options → Language. The key of a line is
+the pair `(Character, ID)`.
+
+The file is read as UTF-8 with a BOM, and the rows are separated by CRLF.
+Without the BOM the Cyrillic arrives as mojibake.
+
 ## The checks that run afterwards
 
 The editor is followed by three automated passes, and they are the ones that
