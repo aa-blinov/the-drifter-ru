@@ -6,232 +6,296 @@ not to replace a glossary word with a synonym, and the canonicalisation pass
 gives one source line one wording.
 
 The machine-readable form is [../src/voice/glossary.json](../src/voice/glossary.json).
+The table below is rendered from that file by
+[../scripts/render_glossary.py](../scripts/render_glossary.py), so the document
+cannot drift from the file the pipeline reads.
 
-| English | Russian |
-| --- | --- |
-| Mick | Мик |
-| Mick's | Мика |
-| Roth | Рот |
-| Roth's | Рота |
-| Hara | Хара |
-| Hara's | Хары |
-| Klein | Кляйн |
-| Klein's | Кляйна |
-| Grace | Грейс |
-| Grace's | Грейс |
-| Annie | Энни |
-| Annie's | Энни |
-| Sarah | Сара |
-| Sarah's | Сары |
-| Sanjay | Санджай |
-| Sanjay's | Санджая |
-| Carter | Картер |
-| Carter's | Картера |
-| Gideon | Гайдон |
-| Gideon Roth | Гайдон Рот |
-| Maxwell | Максвелл |
-| Maxwell Holden | Максвелл Холден |
-| Angela | Анджела |
-| Angela Grace | Анджела Грейс |
-| Alec | Алек |
-| Alec Carter | Алек Картер |
-| Sophia | София |
-| Sophia Roth | София Рот |
-| Nazari | Назари |
-| Holden | Холден |
-| Holden's | Холдена |
-| Bill | Билл |
-| Bill's | Билла |
-| Joe | Джо |
-| Peters | Питерс |
-| Daswani | Дасвани |
-| Sanjay Daswani | Санджай Дасвани |
-| Galanis | Галанис |
-| Anne Galanis | Энн Галанис |
-| Joe Galanis | Джо Галанис |
-| Ross | Росс |
-| Constable Ross | Констебль Росс |
-| Trinity Biotech | Тринити Биотех |
-| Trinity | Тринити |
-| Trinity's | Тринити |
-| Quantum Cognition | Квантовое познание |
-| MedCon | MedCon |
-| Mulindji | Мулинджи |
-| Wunyerra | Вуньерра |
-| Great Wunyerra desert | Большая пустыня Вуньерра |
-| Wunyerra Desert | пустыня Вуньерра |
-| Breaker's Cut | Брейкерс-Кат |
-| Bucket Butcher | Мясник в ведре |
-| The Bucket Butcher | Мясник в ведре |
-| Desert Pea | Пустынный горошек |
-| Deadly Consent | Смертельное согласие |
-| The Pitt | Пит |
-| The Herald | Герольд |
-| Herr Doktor | Герр Доктор |
-| Geiger counter | счётчик Гейгера |
-| Geiger-Müller tube | трубка Гейгера-Мюллера |
-| geiger | гейгер |
-| Mawson Unit | подразделение Маусон |
-| Mawson | Маусон |
-| Ford Transit | Ford Transit |
-| cold war | холодная война |
-| Cold War | холодная война |
-| unpacking | распаковка |
-| sand | песок |
-| radiation | радиация |
-| reactor | реактор |
-| accelerator | ускоритель |
-| funicular | фуникулёр |
-| coffin | гроб |
-| crypt | крипта |
-| chapel | часовня |
-| cemetery | кладбище |
-| morgue | морг |
-| vent | вентиляция |
-| basement | подвал |
-| hideout | укрытие |
-| corridor | коридор |
-| bunker | бункер |
-| nurse | медсестра |
-| doctor | доктор |
-| detective | следователь |
-| reporter | репортёр |
-| writer | писательница |
-| caretaker | смотритель |
-| minister | министр |
-| constable | констебль |
-| cop | коп |
-| butcher | мясник |
-| hobo | бродяга |
-| paper | газета |
-| trinity | Тринити |
-| bucket | ведро |
-| cognition | познание |
-| quantum | квантовый |
-| joystick | джойстик |
-| slider | ползунок |
-| shader | шейдер |
-| sprite | спрайт |
-| vo | озвучка |
-| sfx | звуки |
-| hd font | HD-шрифт |
-| HD Dialogue Font | HD-шрифт диалогов |
-| chapter | глава |
-| prologue | пролог |
-| epilogue | эпилог |
-| end chapter | конец главы |
-| End Ch. | Конец гл. |
-| volume | громкость |
-| brightness | яркость |
-| resolution | разрешение |
-| fullscreen | полный экран |
-| windowed | окно |
-| vsync | вертикальная синхронизация |
-| save slot | слот сохранения |
-| load | загрузить |
-| save | сохранить |
-| quit | выход |
-| options | настройки |
-| accessibility | специальные возможности |
-| gamepad | геймпад |
-| controller | контроллер |
-| notifications | уведомления |
-| music | музыка |
-| dialogue | диалоги |
-| end-periods | точки в конце |
-| hotspot highlighter | подсветка точек |
-| more | больше |
-| less | меньше |
-| on | вкл. |
-| off | выкл. |
-| yes | да |
-| no | нет |
-| ok | ок |
-| none | нет |
-| new | новый |
-| back | назад |
-| continue | продолжить |
-| retry | ещё раз |
-| skip | пропуск |
-| play | играть |
-| load game | загрузить игру |
-| new game | новая игра |
-| options menu | меню настроек |
-| main menu | главное меню |
-| quit game | выйти из игры |
-| language | язык |
-| credits | титры |
-| room | комната |
-| wall | стена |
-| floor | пол |
-| ceiling | потолок |
-| door | дверь |
-| window | окно |
-| stairs | лестница |
-| rubble | обломки |
-| junk | хлам |
-| trash | мусор |
-| pipe | труба |
-| wire | провод |
-| cable | кабель |
-| battery | батарейка |
-| batteries | батарейки |
-| mask | маска |
-| suit | костюм |
-| goggles | очки |
-| gun | пистолет |
-| rifle | винтовка |
-| knife | нож |
-| lighter | зажигалка |
-| flask | колба |
-| syringe | шприц |
-| tablet | таблетка |
-| bread | хлеб |
-| coffee | кофе |
-| beer | пиво |
-| rum | ром |
-| whisky | виски |
-| cigarette | сигарета |
-| cigarettes | сигареты |
+<!-- glossary:table:begin -->
+| accelerator | ускоритель | — 9 строк
+| access shaft | шахта для доступа | — 3 строк
+| accessibility | специальные возможности | — 1 строка
+| Alec | Алек | — 32 строк
+| Alec Carter | Алек Картер | — 2 строк
+| Alison O'Leary | Элисон О’Лири | — 1 строка
+| Andrew Sullivan | Эндрю Салливан | — 1 строка
+| Angela | Анджела | — 36 строк
+| Angela Grace | Анджела Грейс | — 33 строк
+| Anne | Энн | — 7 строк
+| Anne Galanis | Энн Галанис | — 4 строк
+| Annie | Энни | — 167 строк
+| Annie Galanis | Энни Галанис | — 1 строка
+| Annie's | Энни | — 33 строк
+| APB | розыск | — 1 строка
 | ashtray | пепельница |
-| newspaper | газета |
-| letter | письмо |
-| photo | фотография |
-| map | карта |
+| back | назад | — 346 строк
+| basement | подвал |
+| Batten's disease | болезнь Баттена |
+| batteries | батарейки | — 2 строк
+| battery | батарейка | — 20 строк
+| beer | пиво |
+| Bill | Билл | — 64 строк
+| Bill's | Билла | — 14 строк
+| Biotech | Биотех | — 43 строк
+| blast door | взрывная дверь | — 5 строк
+| bread | хлеб |
+| Breaker's Cut | Брейкерс-Кат | — 1 строка
+| brightness | яркость |
+| bucket | ведро | — 44 строк
+| Bucket Butcher | Мясник в ведре | — 41 строк
+| bunker | бункер | — 2 строк
+| business ID | регистрационный номер | — 6 строк
+| Butcher | Мясник | — 75 строк
+| butcher | мясник | — 75 строк
+| cable | кабель | — 8 строк
+| caretaker | смотритель | — 17 строк
+| Carter | Картер | — 55 строк
+| Carter's | Картера | — 1 строка
+| CCTV | камера наблюдения | — 5 строк
+| ceiling | потолок | — 25 строк
+| Cemetery | кладбище | — 18 строк
+| cemetery | кладбище | — 18 строк
+| chapel | часовня | — 5 строк
+| chapter | глава | — 15 строк
+| cigarette | сигарета | — 2 строк
+| cigarettes | сигареты | — 1 строка
+| Clarke | Кларк | — 2 строк
+| coffee | кофе | — 26 строк
+| coffin | гроб | — 14 строк
+| Cognition | познание | — 50 строк
+| cognition | познание | — 50 строк
+| Cold War | холодная война | — 4 строк
+| cold war | холодная война | — 4 строк
 | compass | компас |
+| console | пульт | — 13 строк
+| Constable | констебль | — 4 строк
+| constable | констебль | — 4 строк
+| Constable Ross | Констебль Росс | — 2 строк
+| continue | продолжить | — 7 строк
+| controller | контроллер | — 1 строка
+| cop | коп | — 18 строк
+| corridor | коридор | — 32 строк
+| coupler | соединитель | — 16 строк
+| CPM | CPM | — 8 строк
+| credits | титры | — 1 строка
+| crypt | крипта | — 7 строк
+| Dad | папа | — 32 строк
+| Daswani | Дасвани | — 10 строк
+| Deadly Consent | Смертельное согласие | — 3 строк
+| Death sequence | Сцена смерти | — 2 строк
+| Desert | пустыня | — 36 строк
+| Desert Pea | Пустынный горошек | — 5 строк
+| Desert-Pea | Пустынный горошек | — 5 строк
+| Detective | следователь | — 58 строк
+| detective | следователь | — 58 строк
+| Detective Inspector | следователь | — 1 строка
+| DI | следователь | — 14 строк
+| DI Hara | следователь Хара | — 12 строк
+| dialogue | диалоги | — 2 строк
+| Doc | доктор | — 17 строк
+| doctor | доктор | — 12 строк
+| Doktor | Доктор | — 7 строк
+| door | дверь | — 139 строк
+| Dr | доктор | — 110 строк
+| Dr. | доктор | — 108 строк
+| EM | ЭМИ | — 32 строк
+| EM pulse coil | катушка ЭМИ | — 10 строк
+| End Ch. | Конец гл. | — 1 строка
+| end chapter | конец главы | — 2 строк
+| end-periods | точки в конце | — 1 строка
+| epilogue | эпилог | — 1 строка
+| Esky | холодильник | — 7 строк
+| feed | видеосигнал | — 4 строк
+| flask | колба |
+| floor | пол | — 54 строк
+| Forbes-Yates | Форбс-Йейтс | — 6 строк
+| Ford Transit | Ford Transit | — 3 строк
+| fullscreen | полный экран | — 2 строк
+| funicular | фуникулёр |
+| Galanis | Галанис | — 8 строк
+| gamepad | геймпад |
+| Geiger | Гейгер | — 39 строк
+| Geiger counter | счётчик Гейгера | — 32 строк
+| Geiger-Müller tube | трубка Гейгера-Мюллера | — 4 строк
+| Gideon | Гайдон | — 44 строк
+| Gideon Roth | Гайдон Рот | — 22 строк
+| goggles | очки | — 14 строк
+| Grace | Грейс | — 88 строк
+| Grace's | Грейс | — 19 строк
+| grand mal seizure | генерализованный судорожный приступ | — 3 строк
+| Great Wunyerra desert | Большая пустыня Вуньерра | — 5 строк
+| gun | пистолет | — 18 строк
+| Hara | Хара | — 122 строк
+| Hara's | Хары | — 18 строк
+| HD Dialogue Font | HD-шрифт диалогов | — 1 строка
+| hd font | HD-шрифт | — 1 строка
+| Herald | Герольд | — 10 строк
+| Herr | Герр | — 13 строк
+| Herr Doctor | Герр Доктор | — 1 строка
+| Herr Doktor | Герр Доктор | — 7 строк
+| Herr Klein | Герр Кляйн | — 5 строк
+| hideout | укрытие | — 1 строка
+| hobo | бродяга | — 1 строка
+| Holden | Холден | — 91 строк
+| Holden's | Холдена | — 23 строк
+| hotspot highlighter | подсветка точек | — 1 строка
+| Hull road | Халл-роуд | — 4 строк
+| ID | регистрационный номер | — 6 строк
+| IDs | регистрационные номера | — 6 строк
+| IV | капельница | — 7 строк
+| Joe | Джо | — 19 строк
+| Joe Galanis | Джо Галанис | — 1 строка
+| joystick | джойстик |
+| Judith | Джудит | — 3 строк
+| Judith Carter | Джудит Картер | — 3 строк
+| junk | хлам | — 11 строк
+| Klein | Кляйн | — 98 строк
+| Klein's | Кляйна | — 21 строк
+| knife | нож | — 43 строк
+| language | язык | — 1 строка
+| less | меньше | — 6 строк
+| letter | письмо | — 15 строк
+| lighter | зажигалка | — 13 строк
 | lighter fluid | жидкость для зажигалки |
-| schnapps | шнапс |
+| live wire | провод под напряжением | — 3 строк
+| load | загрузить | — 2 строк
+| load game | загрузить игру |
+| M.O. | почерк | — 2 строк
+| main menu | главное меню |
+| map | карта | — 23 строк
+| mask | маска | — 44 строк
+| Mawson | Маусон | — 4 строк
+| Mawson Unit | подразделение Маусон | — 1 строка
+| Maxwell | Максвелл | — 36 строк
+| Maxwell Holden | Максвелл Холден | — 26 строк
+| Means | средства | — 18 строк
+| MedCon | MedCon | — 15 строк
+| Mick | Мик | — 93 строк
+| Mick's | Мика |
+| minister | министр | — 8 строк
+| more | больше | — 151 строк
+| morgue | морг | — 1 строка
+| Motive | Мотив | — 13 строк
+| Mr | мистер | — 28 строк
+| Mr. | мистер | — 28 строк
+| Ms | миссис | — 14 строк
+| Ms. | миссис | — 14 строк
+| Ms. Clarke | миссис Кларк | — 1 строка
+| Ms. Forbes-Yates | миссис Форбс-Йейтс | — 1 строка
+| Mulindji | Мулинджи | — 43 строк
+| music | музыка | — 3 строк
+| Nazari | Назари | — 31 строк
+| new | новый | — 32 строк
+| new game | новая игра | — 1 строка
+| newspaper | газета | — 12 строк
+| no | нет | — 359 строк
+| none | нет | — 8 строк
+| notifications | уведомления | — 1 строка
+| nurse | медсестра | — 22 строк
+| off | выкл. | — 105 строк
+| ok | ок | — 80 строк
+| on | вкл. | — 555 строк
+| Opportunity | возможность | — 10 строк
+| options | настройки | — 6 строк
+| options menu | меню настроек |
+| paper | газета | — 36 строк
+| Pea | Пустынный горошек | — 10 строк
+| Peters | Питерс | — 2 строк
+| phase-flip | фазовый переворот | — 44 строк
+| phase-flipping | фазовый переворот | — 10 строк
+| photo | фотография | — 25 строк
+| pipe | труба | — 51 строк
+| Pitt | Пит | — 9 строк
+| play | играть | — 16 строк
+| prologue | пролог |
+| Quantum | Квантовое | — 72 строк
+| quantum | квантовый | — 72 строк
+| Quantum Cognition | Квантовое познание | — 50 строк
+| quantum coupler | квантовый соединитель | — 12 строк
+| quit | выход | — 11 строк
+| quit game | выйти из игры |
+| radiation | радиация | — 30 строк
+| reactor | реактор | — 125 строк
+| reactor floor | пол реактора | — 14 строк
+| receptionist | рецепционистка | — 18 строк
+| reporter | репортёр | — 88 строк
+| resolution | разрешение |
+| retry | ещё раз |
+| rifle | винтовка | — 15 строк
+| Rogue Hypothesis | Гипотеза отщепенца | — 2 строк
+| room | комната | — 92 строк
+| Ross | Росс | — 3 строк
+| Roth | Рот | — 298 строк
+| Roth's | Рота | — 98 строк
+| rubble | обломки | — 2 строк
+| rum | ром | — 4 строк
+| sand | песок | — 7 строк
+| Sandford | Сэндфорд | — 4 строк
+| Sandford publishing house | издательство Сэндфорд | — 2 строк
+| Sanj | Сандж | — 10 строк
+| Sanjay | Санджай | — 78 строк
+| Sanjay Daswani | Санджай Дасвани | — 2 строк
+| Sanjay's | Санджая | — 15 строк
+| Sarah | Сара | — 57 строк
+| Sarah's | Сары | — 14 строк
+| save | сохранить | — 30 строк
+| save slot | слот сохранения |
+| schnapps | шнапс | — 2 строк
+| sfx | звуки | — 2 строк
+| shader | шейдер |
+| shredded paper | измельчённая бумага | — 4 строк
+| shrink | вправить мозги | — 1 строка
+| skip | пропуск | — 8 строк
+| slider | ползунок | — 3 строк
+| Sophia | София | — 26 строк
+| Sophia Roth | София Рот | — 10 строк
+| sprite | спрайт |
+| stairs | лестница | — 3 строк
+| Strange Signals PR | Strange Signals PR | — 1 строка
+| suit | костюм | — 2 строк
+| sync program | программа синхронизации | — 4 строк
+| syringe | шприц | — 11 строк
+| Tab | Tab | — 11 строк
+| Tab+ | Tab+ |
+| tablet | таблетка |
+| The Bucket Butcher | Мясник в ведре | — 33 строк
+| The Herald | Герольд | — 9 строк
+| The Pitt | Пит | — 9 строк
+| third founder | третья соучредительница | — 15 строк
+| trash | мусор |
+| Trinity | Тринити | — 175 строк
+| trinity | Тринити | — 175 строк
+| Trinity Biotech | Тринити Биотех | — 43 строк
+| Trinity's | Тринити | — 50 строк
+| TV | телевизор | — 10 строк
+| unpacking | распаковка |
+| vent | вентиляция | — 20 строк
+| vo | озвучка |
 | vodka | водка |
+| volume | громкость | — 4 строк
+| vsync | вертикальная синхронизация | — 1 строка
+| wall | стена | — 49 строк
+| War | холодная война | — 5 строк
+| Warren Hill | Уоррен-Хилл | — 2 строк
+| Warren Hill Cemetery | кладбище Уоррен-Хилл | — 1 строка
+| Welcoming Party | Вечеринка в честь встречи | — 3 строк
+| whisky | виски |
+| window | окно | — 25 строк
+| windowed | окно | — 1 строка
+| wire | провод | — 22 строк
+| WorldCare | WorldCare | — 3 строк
+| writer | писательница | — 1 строка
+| Wunyerra | Вуньерра | — 16 строк
+| Wunyerra Desert | пустыня Вуньерра | — 7 строк
+| yes | да | — 56 строк
+| Zippo | Zippo | — 6 строк
+<!-- glossary:table:end -->
 
 ## The names
 
 Names of people are transliterated. The rule is one spelling per name, and
-the glossary is where it is fixed:
-
-| English | Russian |
-| --- | --- |
-| Mick | Мик |
-| Roth | Рот |
-| Hara | Хара |
-| Klein | Кляйн |
-| Grace | Грейс |
-| Annie | Энни |
-| Sarah | Сара |
-| Sanjay | Санджай |
-| Carter | Картер |
-| Gideon | Гайдон |
-| Maxwell | Максвелл |
-| Angela | Анджела |
-| Alec | Алек |
-| Sophia | София |
-| Nazari | Назари |
-| Holden | Холден |
-| Bill | Билл |
-| Joe | Джо |
-| Peters | Питерс |
-| Daswani | Дасвани |
-| Galanis | Галанис |
-| Ross | Росс |
+the glossary is where it is fixed. A name with a case ending is a separate
+entry, because the ending is fixed too: «Mick» is «Мик» and «Mick's» is
+«Мика».
 
 ## What stays in Latin
 

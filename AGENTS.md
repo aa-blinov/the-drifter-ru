@@ -8,6 +8,7 @@
 ```bash
 python3 -m unittest discover -s tests        # check the shipped CSV
 python3 src/drru/qa.py                        # the checks, with the findings
+python3 scripts/check_terms.py                # one term, one word
 python3 src/drru/build.py                     # the corpus becomes the CSV
 python3 scripts/fetch_fonts.py                # download the pixel fonts
 python3 scripts/install.py --game "<path>"    # install into a copy of the game
@@ -31,6 +32,7 @@ python3 src/drru/translate.py --stage editorial
 python3 src/drru/canonicalise.py
 python3 src/drru/typography.py
 python3 src/drru/polish.py
+python3 src/drru/proofread.py
 python3 src/drru/translate.py --stage manual
 python3 src/drru/qa.py
 python3 src/drru/build.py
@@ -39,6 +41,10 @@ python3 src/drru/build.py
 The stages write `work/corpus/*.jsonl`, and each one reads the file the
 previous one wrote: `bulk` → `edit` → `canon` → `typo` → `polish` →
 `final`. The build reads `final`.
+
+The proofread stage is the reading pass: every line of the translation is read
+against its English source, and the model names the lines it doubts. Every
+finding is read by a human before it is changed.
 
 ## Where things live
 
@@ -59,7 +65,9 @@ previous one wrote: `bulk` → `edit` → `canon` → `typo` → `polish` →
   by the line number. The same English line appears in several places, and the
   translation has to be the same in all of them. `src/drru/canonicalise.py`
   enforces that; running it after any hand edit is the cheapest way to keep it
-  true.
+  true. A line of one word is the exception: the game reuses the same string
+  for different words («Right» is «Верно» in one scene and «Вправо» in
+  another), and there is nothing in the line itself to tell them apart.
 - **The importer wants UTF-8 with a BOM and CRLF.** Without the BOM the
   Cyrillic arrives as mojibake, and it is not a typo: it is the encoding.
 - **The game reads `translation.csv` from its own directory**, and the name in
@@ -90,6 +98,21 @@ previous one wrote: `bulk` → `edit` → `canon` → `typo` → `polish` →
   words inside a Russian sentence.
 - **`Mulindji`, `Herr Doktor`, `MedCon` stay in Latin.** They are the world's
   words, not the translation's.
+- **One term, one word.** The glossary says a name has one Russian form, and
+  the text has to agree with it. `scripts/check_terms.py` reads the lines
+  where a term appears and names the ones rendered another way; the case
+  endings are not a drift, but two spellings of one name are.
+- **A term the glossary does not hold is translated again in every file of
+  the script.** The batches do not cross the files of the script, so each
+  file invents its own word for the term: `phase-flip` was written five ways
+  in fifteen files, and `receptionist` four ways in six. The number of
+  variants of a term is the number of files that mention it. Fill the
+  glossary before the translation, not after — including the terms the text
+  has not used yet.
+- **The narrator speaks in the first person, the others in the third.** A
+  line that begins with an English `He` or `She` about somebody else must not
+  begin with a Russian `Я`. The proofreading pass finds these; they are the
+  most common defect in the text.
 
 ## Style / safety rails
 
