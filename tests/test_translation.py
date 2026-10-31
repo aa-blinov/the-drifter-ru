@@ -133,6 +133,12 @@ class TranslationTest(unittest.TestCase):
         for row in self.data:
             variants.setdefault(row[4], set()).add(row[5])
         for english, ru in variants.items():
+            # A line of one word carries no context. The game reuses the
+            # same string for different words: «Right» is the answer «Верно»
+            # in one scene and the command «Вправо» in another, and there is
+            # nothing in the line itself to tell the two apart.
+            if len(english.split()) < 2:
+                continue
             self.assertEqual(len(ru), 1,
                              "inconsistent rendering of %r: %r" % (english, ru))
 

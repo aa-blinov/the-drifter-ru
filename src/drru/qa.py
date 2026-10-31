@@ -64,9 +64,16 @@ def check_repeats(rows, findings):
     for row in rows:
         by_english[row["en"]].add(row["ru"])
     for english, variants in by_english.items():
-        if len(variants) > 1:
-            findings.append(("inconsistent-repeat", english[:60],
-                             "%d variants" % len(variants)))
+        if len(variants) == 1:
+            continue
+        # A line of one word carries no context: the same word is an
+        # agreement in one place and a command in another («Right» — «Верно»
+        # and «Вправо»), and there is nothing in the line to tell them
+        # apart.
+        if len(english.split()) < 2:
+            continue
+        findings.append(("inconsistent-repeat", english[:60],
+                         "%d variants" % len(variants)))
     return findings
 
 

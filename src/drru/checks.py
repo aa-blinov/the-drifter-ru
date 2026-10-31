@@ -93,6 +93,40 @@ def defects(en: str, ru: str):
         if word not in ALLOWED_LATIN:
             found.append("английское слово внутри русской строки: %s" % word)
             break
+    foreign = foreign_scripts(ru)
+    if foreign:
+        found.append("посторонний алфавит в русской строке: %s"
+                     % ", ".join(sorted(foreign)))
     if JSON_BLOB.search(ru):
         found.append("вместо текста лежит фрагмент разметки")
+    return found
+
+
+def foreign_scripts(text: str):
+    """The alphabets of the text that have no business being there.
+
+    A Russian line is written in Cyrillic and, for the names of the world, in
+    Latin. Anything else is a model that lost its place: one line of the
+    corpus came back with a Chinese word at the end of it.
+
+    The punctuation, the marks of the game (`<color=#5FCDE4FF>`) and the
+    signs of arithmetic are not alphabets, and they are left alone.
+    """
+    import unicodedata
+
+    found = set()
+    for char in text:
+        if char.isspace() or char.isdigit():
+            continue
+        if char in "«»—–…„“”‘’'\"()[]{}.,:;!?-/\\|+*=%&#@×÷±°":
+            continue
+        if char in "<>":
+            # The tags of the game, `<color=#5FCDE4FF>`.
+            continue
+        name = unicodedata.name(char, "")
+        for script in ("CYRILLIC", "LATIN"):
+            if script in name:
+                break
+        else:
+            found.add(name.split()[0] if name else repr(char))
     return found

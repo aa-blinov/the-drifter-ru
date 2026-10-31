@@ -183,6 +183,34 @@ def call_split(model: str, system: str, payload, temperature: float = 0.3,
     return out
 
 
+def call_report(model: str, system: str, payload, temperature: float = 0.1,
+               max_tokens: int = 4000, tag: str = "report"):
+    """One call for a stage whose reply is shorter than the request.
+
+    The proofreading stage asks for the doubtful lines and gets back only
+    those, so the reply is shorter than the request. The contract is
+    different: what matters is that the reply is a list of objects with an
+    id, and that the ids point at real rows.
+    """
+    user = json.dumps(payload, ensure_ascii=False, indent=1)
+    key = "%s|%s|%s" % (tag, model, user)
+    for attempt in range(3):
+        try:
+            text = llm_client.call_llm(model, system, user, max_tokens=max_tokens,
+                                       temperature=temperature, cache_key=key)
+        except Exception as exc:
+            log("  %s: call failed: %s" % (tag, exc))
+            time.sleep(2 + 4 * attempt)
+            continue
+        parsed = llm_client.extract_json_array(text)
+        if parsed is None:
+            log("  %s: no array in the reply, retry %d" % (tag, attempt + 1))
+            time.sleep(1 + 3 * attempt)
+            continue
+        return parsed
+    return None
+
+
 def run_parallel(jobs, worker: int = WORKERS):
     """Run the jobs on a small pool. The order of the results is the order of the jobs."""
     results = [None] * len(jobs)

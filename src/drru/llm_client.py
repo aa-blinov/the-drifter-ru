@@ -114,6 +114,38 @@ def _stream(request, timeout) -> str:
 _FENCE = re.compile(r"^\s*```(?:json)?\s*|\s*```\s*$", re.M)
 
 
+def extract_json_object(text: str):
+    """The first JSON object in the reply, or None."""
+    start = text.find("{")
+    while start != -1:
+        depth = 0
+        in_string = False
+        escape = False
+        for index in range(start, len(text)):
+            char = text[index]
+            if in_string:
+                if escape:
+                    escape = False
+                elif char == "\\":
+                    escape = True
+                elif char == '"':
+                    in_string = False
+                continue
+            if char == '"':
+                in_string = True
+            elif char == "{":
+                depth += 1
+            elif char == "}":
+                depth -= 1
+                if depth == 0:
+                    try:
+                        return json.loads(text[start:index + 1])
+                    except Exception:
+                        break
+        start = text.find("{", start + 1)
+    return None
+
+
 def extract_json_array(text: str):
     """The first JSON array in a reply, fenced or not."""
     stripped = _FENCE.sub("", text).strip()
