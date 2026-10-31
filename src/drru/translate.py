@@ -82,7 +82,7 @@ def _tail(batches, index, count=4):
             + "\n".join(lines))
 
 
-def stage_bulk(model: str):
+def stage_bulk(model: str, out_path: str = None):
     rows = corpus.load_corpus()
     voice = batch.load_voice()
     glossary = batch.load_glossary()
@@ -117,11 +117,12 @@ def stage_bulk(model: str):
         out.extend(result)
     if failed:
         batch.log("bulk: %d batches failed" % failed)
-    os.makedirs(WORK, exist_ok=True)
-    with open(BULK_PATH, "w", encoding="utf-8", newline="\n") as fh:
+    path = out_path or BULK_PATH
+    os.makedirs(os.path.dirname(path) or WORK, exist_ok=True)
+    with open(path, "w", encoding="utf-8", newline="\n") as fh:
         for row in out:
             fh.write(json.dumps(row, ensure_ascii=False) + "\n")
-    batch.log("bulk: wrote %d lines -> %s" % (len(out), BULK_PATH))
+    batch.log("bulk: wrote %d lines -> %s" % (len(out), path))
     return out
 
 
@@ -204,12 +205,15 @@ def main():
     parser.add_argument("--source", default=None,
                         help="the file the manual fixes are applied to")
     parser.add_argument("--out", default=None,
-                        help="where the manual fixes are written")
+                        help="where the stage writes: the bulk corpus or the "
+                             "manual fixes. A bulk run with --out leaves the "
+                             "working corpus alone — a trial run does not "
+                             "overwrite what ships")
     parser.add_argument("--model", default=os.environ.get("DRRU_MODEL", "minimax-m3"))
     args = parser.parse_args()
 
     if args.stage in ("bulk", "all"):
-        stage_bulk(args.model)
+        stage_bulk(args.model, args.out)
     if args.stage in ("editorial", "all"):
         stage_editorial(args.model)
     if args.stage in ("manual", "all"):
