@@ -1,14 +1,13 @@
 #!/usr/bin/env python
-"""Render docs/glossary.md from the glossary and the translation.
+"""Сборка docs/glossary.md из глоссария и перевода.
 
-The glossary has two forms: the machine-readable one, which the pipeline is
-bound to, and the document, which a reader reads. A document that is written
-by hand drifts from the file it describes: a term is added to the file and
-the table still does not have it.
+У глоссария две формы: машинная, к которой привязан пайплайн, и документ,
+который читает человек. Документ, написанный руками, расходится с файлом,
+который описывает: термин добавлен в файл, а в таблице его нет.
 
-This renders the table from the file and the counts from the translation,
-so the two cannot disagree. The prose is kept in the document between the
-markers; only the table and the counts are generated.
+Скрипт собирает таблицу из файла, а счётчики из перевода, поэтому они не
+могут разойтись. Проза остаётся в документе между маркерами; генерируются
+только таблица и счётчики.
 
     python3 scripts/render_glossary.py
 """
@@ -34,10 +33,10 @@ WORD = re.compile(r"[A-Za-z][A-Za-z'’\-]*")
 
 
 def source_terms(corpus):
-    """How many lines of the source mention each term.
+    """Сколько строк источника упоминают каждый термин.
 
-    The term is matched as a whole, with its case endings: «Mick» and
-    «Mick's» are the same mention, and «Roth» is a mention in «Dr. Roth».
+    Термин ищется целиком, вместе с падежными окончаниями: «Mick» и
+    «Mick's» это одно упоминание, а «Roth» это упоминание в «Dr. Roth».
     """
     seen = collections.Counter()
     for row in corpus:
@@ -65,20 +64,20 @@ def main():
                     if re.search(pattern, row[4], re.IGNORECASE))
         note = ""
         if count == 1:
-            note = " — 1 строка"
+            note = " (1 строка)"
         elif count > 1:
-            note = " — %d строк" % count
+            note = " (%d строк)" % count
         lines.append("| %s | %s |%s" % (term, ru, note))
 
     body = "\n".join(lines)
     text = io.open(DOC, encoding="utf-8").read()
     if BEGIN not in text or END not in text:
-        raise SystemExit("the markers are not in the document")
+        raise SystemExit("маркеров нет в документе")
     head, rest = text.split(BEGIN, 1)
     _old, tail = rest.split(END, 1)
     text = "%s%s\n%s\n%s%s" % (head, BEGIN, body, END, tail)
     io.open(DOC, "w", encoding="utf-8", newline="\n").write(text)
-    print("glossary.md: %d terms" % len(lines))
+    print("glossary.md: %d терминов" % len(lines))
 
 
 if __name__ == "__main__":

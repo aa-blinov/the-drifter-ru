@@ -1,16 +1,17 @@
 #!/usr/bin/env python
-"""One term, one word: the phase-flip of the game.
+"""Один термин, одно слово: phase-flip игры.
 
-The game's ability has six Russian names in the text: «фазовый переворот»,
-«смена фазы», «фазовый сдвиг», «фазовое переключение», «фазовый переход» and
-«сдвиг фазы». The player reads one ability under six names.
+У способности игры в тексте шесть русских имён: «фазовый переворот»,
+«смена фазы», «фазовый сдвиг», «фазовое переключение», «фазовый переход» и
+«сдвиг фазы». Игрок читает одну способность под шестью именами.
 
-The glossary fixes the term: «фазовый переворот». This script brings the text
-to it. The substitutions are written out in full, because a term is replaced
-in the case the sentence needs, not by a regular expression that guesses.
+Глоссарий фиксирует термин: «фазовый переворот». Скрипт приводит текст к
+нему. Подстановки выписаны целиком, потому что термин заменяется в том
+падеже, который нужен предложению, а не регулярным выражением, которое
+угадывает.
 
-    python3 scripts/fix_phase_flip.py            # what would change
-    python3 scripts/fix_phase_flip.py --apply    # write it into the CSV
+    python3 scripts/fix_phase_flip.py            # что изменится
+    python3 scripts/fix_phase_flip.py --apply    # записать это в CSV
 """
 from __future__ import annotations
 
@@ -27,8 +28,9 @@ CORPUS = os.path.join(ROOT, "corpus", "english.csv")
 GLOSSARY = os.path.join(ROOT, "src", "voice", "glossary.json")
 MANUAL = os.path.join(ROOT, "src", "voice", "manual_fixes.json")
 
-# The term as the text must carry it: the noun in the cases the game needs,
-# and the verb in the two tenses the game uses.
+# Термин в том виде, в каком его должен нести текст: существительное в
+# падежах, которые нужны игре, и глагол в двух временах, которыми игра
+# пользуется.
 NOUN = {
     "фазовый переворот": "фазовый переворот",
     "фазового переворота": "фазового переворота",
@@ -61,7 +63,7 @@ NOUN = {
     "переворота фазы": "фазового переворота",
 }
 
-# The verb: the ability is done, not switched.
+# Глагол: способность совершают, а не переключают.
 VERB = {
     "переключать фазу": "совершать фазовый переворот",
     "переключая фазу": "совершая фазовый переворот",
@@ -88,14 +90,14 @@ VERB = {
     "способность к фазовому перевороту": "способность к фазовому перевороту",
 }
 
-# The longest phrases first: a short one that is a part of a long one would
-# break it.
+# Сначала самые длинные фразы: короткая, которая входит в длинную, сломала
+# бы её.
 ORDER = sorted(list(VERB) + list(NOUN), key=len, reverse=True)
 
-# The phrases that need a word around them, because the term stands where a
-# word of another gender stood.
+# Фразы, которым нужно слово вокруг, потому что термин стоит там, где стояло
+# слово другого рода.
 EXACT = {
-    # «сама смена фазы» — the noun is feminine in the sentence
+    # «сама смена фазы»: в предложении существительное женского рода
     "Ну, сама смена фазы… последствия поражают воображение":
         "Ну, сам фазовый переворот… последствия поражают воображение",
     "Какие ещё мысли об этой смене фазы?":
@@ -188,7 +190,7 @@ def main():
             changed[key] = new
             print("%-14s %s" % (key, new[:86]))
 
-    print("lines changed: %d" % len(changed))
+    print("изменено строк: %d" % len(changed))
 
     if args.apply:
         for row in table[1:]:
@@ -212,7 +214,7 @@ def main():
         with io.open(GLOSSARY, "w", encoding="utf-8", newline="\n") as fh:
             json.dump(ordered, fh, ensure_ascii=False, indent=2, sort_keys=True)
             fh.write("\n")
-        print("applied: %d lines, glossary %d entries"
+        print("применено: %d строк, в глоссарии %d записей"
               % (len(changed), len(glossary)))
 
 

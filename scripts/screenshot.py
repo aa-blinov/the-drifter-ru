@@ -1,13 +1,12 @@
 #!/usr/bin/env python
-"""Take a screenshot of the running game.
+"""Снимок экрана запущенной игры.
 
-The game draws its text with fonts that live in its own assets, and the only
-way to know whether the Russian text fits, sits on the baseline and reads the
-way the English does, is to look at the game.
+Игра рисует текст шрифтами из своих собственных ассетов, и единственный
+способ узнать, помещается ли русский текст, стоит ли он на базовой линии и
+читается ли так же, как английский, это посмотреть на игру.
 
-The window of the game is found by the process of the game, and the picture
-of that window is taken directly, so that whatever covers it does not end up
-in the shot.
+Окно игры находится по процессу игры, а снимок окна снимается напрямую,
+поэтому то, что его закрывает, в кадр не попадает.
 
     python3 scripts/screenshot.py --out work/shots/scene.png
     python3 scripts/screenshot.py --out work/shots/scene.png --full
@@ -55,7 +54,7 @@ $bitmap.Dispose()
 
 
 def game_pid(name: str = "TheDrifter.exe"):
-    """The process of the running game."""
+    """Процесс запущенной игры."""
     result = subprocess.run(
         ["tasklist", "/FI", "IMAGENAME eq %s" % name, "/FO", "CSV", "/NH"],
         capture_output=True)
@@ -67,7 +66,7 @@ def game_pid(name: str = "TheDrifter.exe"):
 
 
 def game_window(pid: int):
-    """The window of the game, by the process that owns it."""
+    """Окно игры по процессу, которому оно принадлежит."""
     user32 = ctypes.windll.user32
     found = []
 
@@ -93,20 +92,20 @@ def game_window(pid: int):
 
 
 def capture_window(hwnd: int, path: str) -> str:
-    """One picture of one window."""
+    """Один снимок одного окна."""
     os.makedirs(os.path.dirname(os.path.abspath(path)), exist_ok=True)
     env = dict(os.environ, SHOT_PATH=os.path.abspath(path),
                SHOT_HWND=str(hwnd))
     result = subprocess.run([POWERSHELL, "-NoProfile", "-Command", CAPTURE],
                             env=env, capture_output=True)
     if not os.path.exists(path):
-        raise SystemExit("the screenshot was not written: %s"
+        raise SystemExit("снимок не записан: %s"
                          % result.stderr.decode("utf-8", "replace")[:300])
     return path
 
 
 def capture_screen(path: str) -> str:
-    """One picture of the whole screen."""
+    """Один снимок всего экрана."""
     os.makedirs(os.path.dirname(os.path.abspath(path)), exist_ok=True)
     script = r"""
 Add-Type -AssemblyName System.Windows.Forms, System.Drawing
@@ -127,10 +126,10 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--out", default="work/shots/screen.png")
     parser.add_argument("--full", action="store_true",
-                        help="the whole screen, not the window of the game")
+                        help="весь экран, а не окно игры")
     parser.add_argument("--delay", type=float, default=0.0)
     parser.add_argument("--focus", action="store_true",
-                        help="bring the window of the game to the front")
+                        help="вывести окно игры на передний план")
     args = parser.parse_args()
 
     if args.delay:
@@ -142,13 +141,13 @@ def main():
 
     pid = game_pid()
     if not pid:
-        raise SystemExit("the game is not running")
+        raise SystemExit("игра не запущена")
     hwnd = game_window(pid)
     if not hwnd:
-        raise SystemExit("the window of the game was not found")
+        raise SystemExit("окно игры не найдено")
     if args.focus:
-        # The game starts minimised when it is launched from the command
-        # line; a window that is minimised has no picture to take.
+        # Игра стартует свёрнутой, когда её запускают из командной строки, а у
+        # свёрнутого окна нет картинки, которую можно снять.
         ctypes.windll.user32.ShowWindow(hwnd, 9)
         ctypes.windll.user32.SetForegroundWindow(hwnd)
         time.sleep(0.8)

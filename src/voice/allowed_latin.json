@@ -1,5 +1,5 @@
 {
-  "_comment": "The words that stay in Latin inside a Russian line, and why. The QA stage and the polish stage both read this list, so a word that is allowed in one is allowed in the other.",
+  "_comment": "Слова, которые остаются на латинице внутри русской строки, и почему. Список читают стадии QA и полировки, поэтому слово, разрешённое одной, разрешено другой.",
   "names": [
     "Mick",
     "Roth",

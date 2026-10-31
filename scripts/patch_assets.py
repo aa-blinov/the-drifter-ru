@@ -1,25 +1,25 @@
 #!/usr/bin/env python
-"""The Cyrillic glyphs, patched into the fonts inside the game's assets.
+"""Кириллические глифы, вписанные в шрифты внутри ассетов игры.
 
-The game keeps its fonts in `TheDrifter_Data/sharedassets1.assets`. The
-fonts are raw byte arrays inside their objects, and the objects are
-addressed by their place in the file.
+Игра держит шрифты в `TheDrifter_Data/sharedassets1.assets`. Шрифты это
+сырые массивы байтов внутри своих объектов, а объекты адресуются своим
+местом в файле.
 
-Unity's reader for that file rebuilds it from the parsed objects, and the
-rebuild loses the data of the objects it did not parse: the file comes back
-a fraction of its size, and the game does not start. So the file is not
-rebuilt from the parsed objects. Every object keeps its own bytes, and
-only the fonts are replaced:
+Ридер Unity для этого файла пересобирает его из разобранных объектов, и
+пересборка теряет данные объектов, которые разобрать не удалось: файл
+возвращается в разы меньше прежнего, и игра не запускается. Поэтому файл не
+пересобирается из разобранных объектов. Каждый объект сохраняет свои
+байты, и заменяются только шрифты:
 
-  1. the font of an object is read, the Cyrillic is merged into it, and
-     the new bytes are put back into the object;
-  2. the objects are written out with their own bytes, so that everything
-     the file holds besides the fonts survives unchanged;
-  3. the result is read back, every object is compared with the original,
-     and the file is only put in place when they all match.
+  1. шрифт объекта читается, в него вливается кириллица, и новые байты
+     кладутся обратно в объект;
+  2. объекты выписываются со своими байтами, поэтому всё, что файл держит
+     кроме шрифтов, остаётся неизменным;
+  3. результат читается обратно, каждый объект сравнивается с оригиналом,
+     и файл встаёт на место только когда совпадают все.
 
-The result is written next to the original, read back, and only then put
-in place.
+Результат пишется рядом с оригиналом, читается обратно и только потом
+встаёт на место.
 """
 from __future__ import annotations
 
@@ -35,7 +35,7 @@ from font_metrics import Metrics, load_font  # noqa: E402
 
 
 def font_objects(env):
-    """Every font of the file, with the bytes it holds."""
+    """Все шрифты файла вместе с их байтами."""
     for obj in env.objects:
         if obj.type.name != "Font":
             continue
@@ -50,8 +50,8 @@ def font_objects(env):
 
 
 def find_font_data(raw: bytes, font: bytes):
-    """Where the font sits in the bytes of its object, and the length field
-    that says how long it is."""
+    """Где шрифт лежит в байтах своего объекта и поле длины, которое говорит,
+    какова она."""
     offset = raw.find(font)
     if offset < 4:
         return None, None
@@ -62,7 +62,7 @@ def find_font_data(raw: bytes, font: bytes):
 
 
 def patch_object(data: bytes, font: bytes, new_font: bytes):
-    """The object with the new font in it, or None when it was not found."""
+    """Объект с новым шрифтом внутри или None, если он не найден."""
     offset, length_at = find_font_data(data, font)
     if offset is None:
         return None
@@ -71,14 +71,15 @@ def patch_object(data: bytes, font: bytes, new_font: bytes):
 
 
 def patch_assets(assets_path: str, mode: str = "metric", fonts=None):
-    """The file with the Cyrillic in its fonts."""
+    """Файл, в шрифтах которого есть кириллица."""
     import UnityPy
 
     env = UnityPy.load(assets_path)
     objects = list(env.objects)
 
-    # Every object keeps its own bytes. Without this the writer rebuilds the
-    # objects it did not parse, and the file loses most of its data.
+    # Каждый объект сохраняет свои байты. Без этого писатель пересобирает
+    # объекты, которые не разобрал, и файл теряет большую часть своих
+    # данных.
     for obj in objects:
         try:
             obj.set_raw_data(obj.get_raw_data())
@@ -95,30 +96,28 @@ def patch_assets(assets_path: str, mode: str = "metric", fonts=None):
         data = obj.get_raw_data()
         result = patch_object(data, raw_font, new_font)
         if result is None:
-            print("!! could not find the font bytes of %s" % name)
+            print("!! не найдены байты шрифта %s" % name)
             continue
         obj.set_raw_data(result)
-        print("patched %-28s +%d glyphs, x-height scaled %.3f (%s)"
+        print("поправлен %-28s +%d глифов, x-height масштаб %.3f (%s)"
               % (name, added, scale, target_metrics.describe()))
         patched += 1
 
     if not patched:
-        raise SystemExit("no font was patched")
+        raise SystemExit("ни один шрифт не поправлен")
 
     data = env.file.save()
 
-    # The reader holds the file open, and Windows will not replace a file
-    # that is held open.
+    # Ридер держит файл открытым, а Windows не заменяет открытый файл.
     release(env)
     return data, patched
 
 
 def release(env) -> None:
-    """Let go of the files the reader holds.
+    """Отпускание файлов, которые держит ридер.
 
-    The reader keeps the file open, and Windows will not replace a file that
-    is held open. The stream under the reader is the one that has to be
-    closed.
+    Ридер держит файл открытым, а Windows не заменяет открытый файл. Закрыть
+    нужно поток под ридером.
     """
     for reader in env.file.files.values():
         stream = getattr(getattr(reader, "reader", None), "stream", None)
@@ -132,7 +131,7 @@ def release(env) -> None:
 
 
 def verify(path: str, original_path: str) -> None:
-    """The written file has to hold the same objects as the original."""
+    """Записанный файл должен держать те же объекты, что и оригинал."""
     import UnityPy
 
     before_env = UnityPy.load(original_path)
@@ -142,7 +141,7 @@ def verify(path: str, original_path: str) -> None:
     by_id = {obj.path_id: obj for obj in objects}
 
     if len(objects) != len(before):
-        raise SystemExit("the written file holds %d objects, the original held %d"
+        raise SystemExit("в записанном файле %d объектов, в оригинале было %d"
                          % (len(objects), len(before)))
 
     differing = 0
@@ -159,27 +158,25 @@ def verify(path: str, original_path: str) -> None:
             cyrillic += count_cyrillic(by_id[path_id])
 
     if differing > len(before) // 10:
-        raise SystemExit("%d of %d objects changed: the patch is not a font patch"
+        raise SystemExit("изменилось %d объектов из %d: это не правка шрифтов"
                          % (differing, len(before)))
     if cyrillic < 1000:
-        raise SystemExit("the written file holds %d Cyrillic glyphs, expected "
-                         "more than a thousand" % cyrillic)
-    print("verified: %d objects, %d changed, %d Cyrillic glyphs"
+        raise SystemExit("в записанном файле %d кириллических глифов, ожидалось больше "
+                         "тысячи" % cyrillic)
+    print("проверено: %d объектов, %d изменено, %d кириллических глифов"
           % (len(objects), differing, cyrillic))
 
-    # The reader keeps the file open, and Windows will not replace a file
-    # that is held open.
+    # Ридер держит файл открытым, а Windows не заменяет открытый файл.
     for env in (before_env, after_env):
         release(env)
     del before_env, after_env
 
 
 def count_cyrillic(obj) -> int:
-    """The Cyrillic glyphs a font object holds.
+    """Кириллические глифы, которые держит объект шрифта.
 
-    The object holds the font as a byte array inside a larger structure, so
-    the font is looked up by its own bytes rather than parsed out of the
-    object.
+    Объект держит шрифт массивом байтов внутри более крупной структуры,
+    поэтому шрифт ищется по своим байтам, а не разбирается из объекта.
     """
     try:
         tree = obj.read_typetree()
@@ -203,7 +200,7 @@ def main():
     parser.add_argument("--out", required=True)
     parser.add_argument("--mode", default="metric", choices=["metric", "grid"])
     parser.add_argument("--fonts", default="",
-                        help="comma separated names of the fonts to patch")
+                        help="имена шрифтов через запятую, которые нужно править")
     args = parser.parse_args()
 
     wanted = {name.strip() for name in args.fonts.split(",") if name.strip()}
@@ -211,7 +208,7 @@ def main():
 
     with open(args.out, "wb") as fh:
         fh.write(data)
-    print("wrote %s (%d bytes, was %d)"
+    print("записан %s (%d байт, было %d)"
           % (args.out, len(data), os.path.getsize(args.assets)))
     verify(args.out, args.assets)
 

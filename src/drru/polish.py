@@ -1,13 +1,13 @@
 #!/usr/bin/env python
-"""The polish stage: the lines the checks found broken.
+"""Этап полировки: строки, которые проверки нашли сломанными.
 
-The QA stage reports the lines that carry a defect: a word fused across two
-scripts, an English word left inside a Russian sentence, a lost placeholder,
-a raw JSON fragment where a line of text belongs.
+Этап контроля качества сообщает о строках с дефектом: слово, склеенное из
+двух алфавитов, английское слово внутри русского предложения, потерянный
+плейсхолдер, сырой фрагмент JSON на месте строки текста.
 
-This stage takes those lines and asks for them again, one at a time, with
-the defect named. A line that comes back with the same defect is left alone
-and reported, because a second wrong answer is worse than a known defect.
+Этот этап берёт такие строки и просит их заново, по одной, с названным
+дефектом. Строка, которая вернулась с тем же дефектом, остаётся как есть и
+попадает в отчёт, потому что второй неверный ответ хуже известного дефекта.
 
     python3 src/drru/polish.py
 """
@@ -33,7 +33,7 @@ PLACEHOLDER = re.compile(r"\{[^}]*\}")
 FUSED = re.compile(r"[А-Яа-яЁё][A-Za-z]{2,}|[A-Za-z]{2,}[А-Яа-яЁё]")
 LATIN_WORD = re.compile(r"[A-Za-z]{3,}")
 
-SYSTEM = """Ты — корректор русского перевода игры The Drifter.
+SYSTEM = """Ты корректор русского перевода игры The Drifter.
 
 Тебе дают английскую строку и её перевод, в котором есть дефект. Верни исправленный перевод.
 
@@ -42,7 +42,7 @@ SYSTEM = """Ты — корректор русского перевода игр
 - Плейсхолдеры {0} переносятся как есть.
 - Никаких английских слов, кроме имён и терминов из глоссария: Mick, Roth, Hara, Klein, Trinity Biotech, Mulindji, MedCon, Quantum Cognition, Zippo, Tab, GUI, HDD и подобных.
 - Никаких слов, склеенных из русского и английского.
-- Кавычки-ёлочки, тире «—» без пробела перед ним, многоточие «…» одним символом.
+- Кавычки-ёлочки, тире «—»: в скобочной конструкции с пробела с обеих сторон, в разрыве фразы без пробела, тире примыкает к слову, многоточие «…» одним символом.
 - Никаких кальки и канцелярита: нуарный тон, сухо, от первого лица.
 
 ФОРМАТ ОТВЕТА: JSON-массив из одной строки: только перевод, без пояснений.
@@ -50,24 +50,24 @@ SYSTEM = """Ты — корректор русского перевода игр
 
 
 
-# A word inside a markup tag, a URL or a name is not a defect: those stay in
-# Latin on purpose.
+# Слово внутри тега разметки, URL или имени не дефект: такие остаются
+# латиницей намеренно.
 KEPT = re.compile(r"<[^>]*>|https?://\S*|[\w-]+(?:\.[\w-]+){2,}\b|[\w-]+\.(?:com|org|net|gg|io|ru)\b\S*|\[[A-Z]{1,6}\]")
 JSON_BLOB = re.compile(r'\{\s*"id"\s*:')
 
 
 def strip_kept(text: str) -> str:
-    """The text with the parts that are Latin on purpose removed."""
+    """Текст без частей, которые намеренно оставлены латиницей."""
     return KEPT.sub(" ", text)
 
 
 def defects(row):
-    """What is wrong with this line."""
+    """Что не так с этой строкой."""
     return checks.defects(row["en"], row["ru"])
 
 
 def ask(model: str, row, glossary) -> str:
-    """One line, asked for again with its defect named."""
+    """Одна строка, запрошенная заново с названным дефектом."""
     found = defects(row)
     system = SYSTEM + batch.format_glossary(
         batch.glossary_for([row["en"]], glossary, limit=10))
@@ -103,7 +103,7 @@ def main():
     rows = corpus.read_jsonl(args.source)
     glossary = batch.load_glossary()
     broken = [row for row in rows if defects(row)]
-    batch.log("polish: %d lines with a defect" % len(broken))
+    batch.log("полировка: %d строк с дефектом" % len(broken))
 
     fixed = 0
     still = []
@@ -116,13 +116,13 @@ def main():
         probe["ru"] = candidate
         if defects(probe):
             still.append(probe)
-            batch.log("  %s|%s: still broken" % (row["character"], row["id"]))
+            batch.log("  %s|%s: дефект остался" % (row["character"], row["id"]))
             continue
         row["ru"] = candidate
         fixed += 1
         batch.log("  %s|%s -> %s" % (row["character"], row["id"], candidate[:60]))
 
-    batch.log("polish: %d fixed, %d still broken" % (fixed, len(still)))
+    batch.log("полировка: исправлено %d, с дефектом осталось %d" % (fixed, len(still)))
     for row in still:
         batch.log("  %s|%s: %s" % (row["character"], row["id"], "; ".join(defects(row))))
 
@@ -130,7 +130,7 @@ def main():
     with open(args.out, "w", encoding="utf-8", newline="\n") as fh:
         for row in rows:
             fh.write(json.dumps(row, ensure_ascii=False) + "\n")
-    batch.log("polish: wrote %d lines -> %s" % (len(rows), args.out))
+    batch.log("полировка: записано %d строк -> %s" % (len(rows), args.out))
 
 
 if __name__ == "__main__":

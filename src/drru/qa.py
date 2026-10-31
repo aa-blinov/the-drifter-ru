@@ -1,14 +1,15 @@
 #!/usr/bin/env python
-"""The checks that run before the translation ships.
+"""Проверки, которые выполняются до отгрузки перевода.
 
-Two kinds of check:
+Два вида проверок:
 
-  structural — the placeholders, the keys, the row count. A line that lost a
-  placeholder is a broken line in the game, not a typo.
-  linguistic — English left inside a Russian sentence, a fused word across
-  two scripts, a straight quote, a three-dot ellipsis, a duplicated wording.
+  структурные: плейсхолдеры, ключи, число строк. Строка, потерявшая
+  плейсхолдер, это сломанная строка в игре, а не опечатка.
+  языковые: английский текст внутри русского предложения, слово, склеенное
+  из двух алфавитов, прямые кавычки, многоточие из трёх точек, повтор
+  формулировки.
 
-Every check reports the key, so the failing line can be found in the game.
+Каждая проверка сообщает ключ, чтобы сломанную строку можно было найти в игре.
 
     python3 src/drru/qa.py
 """
@@ -30,20 +31,20 @@ CANON_PATH = os.path.join(ROOT, "work", "corpus", "final.jsonl")
 
 
 def check_structural(rows, findings):
-    """The placeholders and the keys."""
+    """Плейсхолдеры и ключи."""
     for row in rows:
         key = corpus.key_of(row)
         if not row["ru"].strip():
-            findings.append(("empty", key, "the Russian line is empty"))
+            findings.append(("empty", key, "русская строка пуста"))
     keys = collections.Counter(corpus.key_of(row) for row in rows)
     for key, count in keys.items():
         if count > 1:
-            findings.append(("duplicate-key", key, "%d rows" % count))
+            findings.append(("duplicate-key", key, "%d строк" % count))
     return findings
 
 
 def check_linguistic(rows, findings):
-    """What a reader would notice."""
+    """То, что заметил бы читатель."""
     for row in rows:
         key = corpus.key_of(row)
         ru = row["ru"]
@@ -59,21 +60,20 @@ def check_linguistic(rows, findings):
 
 
 def check_repeats(rows, findings):
-    """One English line, one Russian line."""
+    """Одна английская строка, одна русская строка."""
     by_english = collections.defaultdict(set)
     for row in rows:
         by_english[row["en"]].add(row["ru"])
     for english, variants in by_english.items():
         if len(variants) == 1:
             continue
-        # A line of one word carries no context: the same word is an
-        # agreement in one place and a command in another («Right» — «Верно»
-        # and «Вправо»), and there is nothing in the line to tell them
-        # apart.
+        # Строка из одного слова не несёт контекста: одно и то же слово в
+        # одном месте это согласие, в другом приказ («Right»: «Верно» и
+        # «Вправо»), и в строке нет ничего, что их различало бы.
         if len(english.split()) < 2:
             continue
         findings.append(("inconsistent-repeat", english[:60],
-                         "%d variants" % len(variants)))
+                         "%d вариантов" % len(variants)))
     return findings
 
 
@@ -81,7 +81,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--corpus", default=CANON_PATH)
     parser.add_argument("--strict", action="store_true",
-                        help="exit non-zero on any finding")
+                        help="выйти с ненулевым кодом при любой находке")
     args = parser.parse_args()
 
     rows = corpus.read_jsonl(args.corpus)
@@ -91,13 +91,13 @@ def main():
     check_repeats(rows, findings)
 
     by_kind = collections.Counter(kind for kind, _key, _detail in findings)
-    print("qa: %d lines, %d findings" % (len(rows), len(findings)))
+    print("контроль качества: %d строк, %d находок" % (len(rows), len(findings)))
     for kind, count in by_kind.most_common():
         print("  %-22s %d" % (kind, count))
     for kind, key, detail in findings[:60]:
         print("  %-22s %-28s %s" % (kind, key, detail))
     if len(findings) > 60:
-        print("  ... %d more" % (len(findings) - 60))
+        print("  ... ещё %d" % (len(findings) - 60))
 
     if findings and args.strict:
         sys.exit(1)

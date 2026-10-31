@@ -1,13 +1,13 @@
 #!/usr/bin/env python
-"""The checks on one line of Russian text.
+"""Проверки одной строки русского текста.
 
-They live in one module because three places need them and they must agree:
-the QA stage reports what is wrong, the polish stage fixes what is wrong, and
-the tests check what was fixed.
+Они живут в одном модуле, потому что они нужны трём местам и должны
+согласовываться: этап контроля качества сообщает, что не так, этап
+полировки это чинит, а тесты проверяют, что починено.
 
-A word in Latin is not a defect when it is a name, a brand, a part of the
-game's own notation, a URL or a code identifier. The list of what is allowed
-is a file, so the three places read the same one.
+Слово латиницей не дефект, если это имя, бренд, часть собственной нотации
+игры, URL или идентификатор кода. Список разрешённого хранится в файле,
+поэтому все три места читают один и тот же.
 """
 from __future__ import annotations
 
@@ -23,19 +23,19 @@ LATIN_WORD = re.compile(r"[A-Za-z]{3,}")
 FUSED = re.compile(r"[А-Яа-яЁё][A-Za-z]{2,}|[A-Za-z]{2,}[А-Яа-яЁё]")
 JSON_BLOB = re.compile(r'\{\s*"id"\s*:')
 
-# The parts of a line that stay in Latin on purpose: a markup tag, a URL, a
-# domain, the controller prompts of the interface.
+# Части строки, которые намеренно остаются латиницей: тег разметки, URL,
+# домен, подсказки кнопок интерфейса.
 KEPT = re.compile(r"<[^>]*>|https?://\S*|[\w-]+(?:\.[\w-]+){2,}\b"
                   r"|[\w-]+\.(?:com|org|net|gg|io|ru)\b\S*|\[[A-Z]{1,6}\]")
 
-# A line the game shows as it is: an identifier, a number sequence, a key
-# name. There is nothing to translate in them, and the tests must not claim
-# otherwise.
+# Строка, которую игра показывает как есть: идентификатор, числовая
+# последовательность, имя клавиши. Переводить в них нечего, и тесты не
+# должны утверждать обратное.
 DOMAIN = re.compile(r"https?://|\.[a-z]{2,4}\b")
 CAMEL = re.compile(r"[a-z][A-Z]")
 WORD = re.compile(r"[A-Za-z]{3,}")
-# A run of lowercase letters of three or more is a word of a language. `Esc`
-# and `R` are key names; `Jesus.` is a word.
+# Серия из трёх и более строчных букв это слово какого-то языка. `Esc`
+# и `R` это имена клавиш, `Jesus.` это слово.
 LOWER_RUN = re.compile(r"[a-z]{3,}")
 
 
@@ -54,36 +54,36 @@ ALLOWED_LATIN = load_allowed_latin()
 
 
 def strip_kept(text: str) -> str:
-    """The text with the parts that are Latin on purpose removed."""
+    """Текст без частей, которые намеренно оставлены латиницей."""
     return KEPT.sub(" ", text)
 
 
 def is_code(text: str) -> bool:
-    """True when the line is an identifier and has nothing to translate.
+    """Истина, когда строка это идентификатор и переводить в ней нечего.
 
-    The game shows a few strings as they are: the name of a key, a button, a
-    combination of digits, a domain. They are code, not prose, and a
-    translation that leaves them alone is right.
+    Игра показывает несколько строк как есть: имя клавиши, кнопку,
+    сочетание цифр, домен. Это код, а не проза, и перевод, который их не
+    трогает, прав.
     """
     stripped = text.strip()
     if not stripped:
         return False
     if DOMAIN.search(stripped):
         return True
-    # A name in camel case is a name: BtnContinue, TopicGauge, FlamerFire.
+    # Имя в camel case это имя: BtnContinue, TopicGauge, FlamerFire.
     if CAMEL.search(stripped):
         return True
-    # A line of digits, punctuation and spaces carries no words.
+    # Строка из цифр, знаков препинания и пробелов не несёт слов.
     if not WORD.search(stripped):
         return True
-    # A capitalised word with no lowercase run is a key name: Esc, R.
+    # Слово с заглавной буквы без серии строчных это имя клавиши: Esc, R.
     if not LOWER_RUN.search(stripped):
         return True
     return False
 
 
 def defects(en: str, ru: str):
-    """The defects of one line, as a list of descriptions."""
+    """Дефекты одной строки в виде списка описаний."""
     found = []
     if sorted(PLACEHOLDER.findall(en)) != sorted(PLACEHOLDER.findall(ru)):
         found.append("потерян плейсхолдер")
@@ -103,14 +103,14 @@ def defects(en: str, ru: str):
 
 
 def foreign_scripts(text: str):
-    """The alphabets of the text that have no business being there.
+    """Алфавиты текста, которым там не место.
 
-    A Russian line is written in Cyrillic and, for the names of the world, in
-    Latin. Anything else is a model that lost its place: one line of the
-    corpus came back with a Chinese word at the end of it.
+    Русская строка написана кириллицей и, ради имён мира, латиницей. Всё
+    остальное это модель, сбившаяся: одна строка корпуса вернулась с
+    китайским словом в конце.
 
-    The punctuation, the marks of the game (`<color=#5FCDE4FF>`) and the
-    signs of arithmetic are not alphabets, and they are left alone.
+    Знаки препинания, метки игры (`<color=#5FCDE4FF>`) и знаки арифметики
+    алфавитами не считаются, и их не трогают.
     """
     import unicodedata
 
@@ -121,7 +121,7 @@ def foreign_scripts(text: str):
         if char in "«»—–…„“”‘’'\"()[]{}.,:;!?-/\\|+*=%&#@×÷±°":
             continue
         if char in "<>":
-            # The tags of the game, `<color=#5FCDE4FF>`.
+            # Теги игры, `<color=#5FCDE4FF>`.
             continue
         name = unicodedata.name(char, "")
         for script in ("CYRILLIC", "LATIN"):

@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Look for the traces of AI writing in the Russian localization.
+"""Поиск следов ИИ-письма в русской локализации.
 
-The list of patterns is the one of the `humanizer` skill, translated into
-Russian. The check is a measurement, not a rule: a line that matches is a
-line to read, and the line next to it in the English source says whether the
-word comes from the game or from the translation.
+Список шаблонов взят из скилла `humanizer` и переведён на русский. Проверка
+это измерение, а не правило: строка, которая совпала, это строка для чтения,
+а соседняя строка английского источника говорит, пришло ли слово из игры или
+из перевода.
 
     python3 scripts/scan_ai_patterns.py
     python3 scripts/scan_ai_patterns.py --verbose
@@ -22,7 +22,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TRANSLATION = os.path.join(ROOT, "translation", "Russian", "translation.csv")
 CORPUS = os.path.join(ROOT, "corpus", "english.csv")
 
-# The patterns of the humanizer skill, in Russian.
+# Шаблоны скилла humanizer, по-русски.
 PATTERNS = [
     "стоит отметить", "следует отметить", "важно отметить", "стоит сказать",
     "достаточно сказать", "нельзя не отметить",
@@ -52,7 +52,7 @@ PATTERNS = [
     "как ни странно", "так или иначе", "остаётся только", "остается только",
 ]
 
-# The connectives, with the words the English source uses for them.
+# Связки и слова, которыми английский источник их передаёт.
 CONNECTIVES = [
     ("и это", "and it"), ("на самом деле", "actually"), ("по сути", "essentially"),
     ("итак", "so"), ("давайте", "let's"), ("не просто", "not just"),
@@ -64,7 +64,7 @@ CONNECTIVES = [
 
 
 def rows_of(path):
-    """Every (key, english, russian) of the translation."""
+    """Все тройки (ключ, английский, русский) из перевода."""
     if not os.path.exists(path):
         return
     with io.open(path, encoding="utf-8-sig", newline="") as fh:
@@ -95,8 +95,8 @@ def main():
                 hits[pattern].append((key, russian, english))
 
     total = sum(len(v) for v in hits.values())
-    report = ["rows: %d, characters: %d" % (rows, ru_chars),
-              "lines with a pattern: %d" % total, ""]
+    report = ["строк: %d, символов: %d" % (rows, ru_chars),
+              "строк с шаблоном: %d" % total, ""]
     for pattern, lines in sorted(hits.items(), key=lambda kv: -len(kv[1])):
         report.append("%5d  %s" % (len(lines), pattern))
     report.append("")
@@ -118,12 +118,12 @@ def main():
         ru_dash += russian.count("—") + russian.count("–")
         en_dash += english.count("—") + english.count("–")
         en_chars += len(english)
-    report.append("em dashes per 1000 characters:")
+    report.append("длинных тире на 1000 символов:")
     report.append("  RU %.3f" % (1000.0 * ru_dash / max(ru_chars, 1)))
     report.append("  EN %.3f" % (1000.0 * en_dash / max(en_chars, 1)))
 
     report.append("")
-    report.append("connectives per 1000 characters:")
+    report.append("связок на 1000 символов:")
     ru_all = [t.lower() for _k, _e, t in rows_of(TRANSLATION)]
     en_all = [e.lower() for _k, e, _t in rows_of(TRANSLATION)]
     for ru_pat, en_pat in CONNECTIVES:

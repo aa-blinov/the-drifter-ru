@@ -1,15 +1,15 @@
 #!/usr/bin/env python
-"""The metrics of a font, measured rather than assumed.
+"""Метрики шрифта, измеренные, а не взятые по умолчанию.
 
-The game draws its text with fonts that live in its own assets, and each of
-them has its own proportions: how high a capital letter stands, where the
-baseline sits, how deep a descender goes, and how big one pixel of its grid
-is. The Cyrillic glyphs have to match those proportions, or the Russian text
-looks like a different font dropped into the middle of an English line.
+Игра рисует текст шрифтами из своих собственных ассетов, и у каждого из
+них своя пропорция: насколько высок стоит заглавная буква, где проходит
+базовая линия, насколько глубоко уходит выносной элемент и как велик один
+пиксель её сетки. Кириллические глифы должны совпадать с этими
+пропорциями, иначе русский текст выглядит как чужой шрифт, вставленный
+в середину английской строки.
 
-Everything here is measured on the font itself: the pixel grid is the
-greatest common divisor of the coordinates of its letters, and the heights
-come from the letters themselves.
+Здесь всё измеряется на самом шрифте: пиксельная сетка это наибольший
+общий делитель координат его букв, а высоты берутся из самих букв.
 """
 from __future__ import annotations
 
@@ -20,8 +20,8 @@ from math import gcd
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 FONT_DIR = os.path.join(ROOT, "work", "fonts")
 
-# The source of the Cyrillic glyphs: a pixel font that carries the whole
-# Cyrillic range. The file is picked by the design size of the target font.
+# Источник кириллических глифов: пиксельный шрифт со всем кириллическим
+# диапазоном. Файл выбирается по размеру прорисовки целевого шрифта.
 CYRILLIC_SOURCES = {
     10: "ark-pixel-10px-proportional-latin.ttf",
     12: "ark-pixel-12px-proportional-latin.ttf",
@@ -30,7 +30,7 @@ CYRILLIC_SOURCES = {
 
 
 def _coordinates(font, name):
-    """The outline points of one glyph."""
+    """Контурные точки одного глифа."""
     glyf = font["glyf"]
     glyph = glyf[name]
     try:
@@ -41,10 +41,10 @@ def _coordinates(font, name):
 
 
 def pixel_grid(font) -> int:
-    """The size of one pixel of the font, in font units.
+    """Размер одного пикселя шрифта в единицах шрифта.
 
-    A pixel font has no coordinate off its own grid, so the greatest common
-    divisor of the coordinates of its glyphs is the size of one pixel.
+    У пиксельного шрифта нет координаты вне своей сетки, поэтому наибольший
+    общий делитель координат его глифов и есть размер одного пикселя.
     """
     grid = 0
     for name in font.getGlyphOrder():
@@ -55,7 +55,7 @@ def pixel_grid(font) -> int:
 
 
 def height_of(font, char) -> int:
-    """The height of one letter, in font units."""
+    """Высота одной буквы в единицах шрифта."""
     codepoint = ord(char)
     cmap = font.getBestCmap()
     if codepoint not in cmap:
@@ -68,7 +68,7 @@ def height_of(font, char) -> int:
 
 
 def baseline_of(font, char="H"):
-    """The y of the baseline, in font units."""
+    """Координата y базовой линии в единицах шрифта."""
     codepoint = ord(char)
     cmap = font.getBestCmap()
     if codepoint not in cmap:
@@ -80,7 +80,7 @@ def baseline_of(font, char="H"):
 
 
 class Metrics:
-    """What one font looks like, in its own units."""
+    """Как выглядит один шрифт в его собственных единицах."""
 
     def __init__(self, font):
         self.upem = font["head"].unitsPerEm
@@ -92,7 +92,7 @@ class Metrics:
 
     @property
     def pixels(self) -> float:
-        """How many pixels of its own grid the em covers."""
+        """Сколько пикселей своей сетки покрывает em."""
         return self.upem / self.grid
 
     def describe(self, label=""):
@@ -101,7 +101,7 @@ class Metrics:
 
 
 def load_font(data):
-    """A font from its bytes, or from the path to it."""
+    """Шрифт из своих байтов или по пути к нему."""
     from fontTools.ttLib import TTFont
     if isinstance(data, (bytes, bytearray)):
         return TTFont(io.BytesIO(data))

@@ -1,13 +1,13 @@
 #!/usr/bin/env python
-"""The model endpoint, the disk cache, the reply parser.
+"""Конечная точка модели, дисковый кэш, разбор ответа.
 
-The endpoint is a local OpenAI Responses API (the codex-router on
-127.0.0.1:8788 by default). Every call is cached on disk under work/cache/,
-keyed by the hash of model + system + user, so an interrupted run costs
-nothing when it is resumed.
+Конечная точка это локальный OpenAI Responses API (по умолчанию codex-router
+на 127.0.0.1:8788). Каждый вызов кэшируется на диске в work/cache/, ключом
+служит хэш модели, системного промпта и пользовательского сообщения, поэтому
+прерванный запуск при возобновлении не стоит ничего.
 
-Plain standard library: the pipeline has to run on a machine with nothing
-installed but Python 3.10 or newer.
+Только стандартная библиотека: пайплайн должен работать на машине, где
+установлен один лишь Python 3.10 или новее.
 """
 from __future__ import annotations
 
@@ -40,7 +40,7 @@ def call_llm(model: str, system: str, user: str, max_tokens: int = 8000,
              temperature: float = 0.3, timeout: float = 600.0,
              retries: int = 4, cache_key: str | None = None,
              reasoning_effort: str = "none") -> str:
-    """One model call. Returns the assistant text; raises on failure."""
+    """Один вызов модели. Возвращает текст ассистента; при неудаче бросает исключение."""
     key = cache_key or ("%s|%s|%s" % (model, system, user))
     path = cache_path(key)
     if os.path.exists(path):
@@ -63,9 +63,9 @@ def call_llm(model: str, system: str, user: str, max_tokens: int = 8000,
     if temperature is not None:
         body["temperature"] = temperature
     if reasoning_effort:
-        # The reasoning trace of this model is worth 180 seconds on a batch of
-        # forty lines and adds nothing to a translation. The stages that need
-        # the model to think about a hard choice ask for it explicitly.
+        # Ход рассуждений этой модели стоит 180 секунд на батч из сорока
+        # реплик и ничего не добавляет к переводу. Этапы, которым нужно, чтобы
+        # модель подумала о трудном выборе, просят об этом явно.
         body["reasoning"] = {"effort": reasoning_effort}
 
     request = urllib.request.Request(
@@ -84,18 +84,18 @@ def call_llm(model: str, system: str, user: str, max_tokens: int = 8000,
                     with open(path, "w", encoding="utf-8") as fh:
                         json.dump({"text": text, "model": model}, fh, ensure_ascii=False)
                 return text
-            last = "empty text"
+            last = "пустой текст"
         except urllib.error.HTTPError as exc:
             last = "HTTP %s: %s" % (exc.code, exc.read()[:200])
         except Exception as exc:
             last = "%s: %s" % (type(exc).__name__, exc)
         time.sleep(min(2 ** attempt, 20) + random.random())
 
-    raise RuntimeError("model call failed after %d attempts: %s" % (retries, last))
+    raise RuntimeError("вызов модели не удался после %d попыток: %s" % (retries, last))
 
 
 def _stream(request, timeout) -> str:
-    """The endpoint answers with an event stream; the text is the deltas."""
+    """Конечная точка отвечает потоком событий, текст это дельты."""
     text = ""
     with urllib.request.urlopen(request, timeout=timeout) as response:
         for raw in response:
@@ -115,7 +115,7 @@ _FENCE = re.compile(r"^\s*```(?:json)?\s*|\s*```\s*$", re.M)
 
 
 def extract_json_object(text: str):
-    """The first JSON object in the reply, or None."""
+    """Первый JSON-объект в ответе или None."""
     start = text.find("{")
     while start != -1:
         depth = 0
@@ -147,7 +147,7 @@ def extract_json_object(text: str):
 
 
 def extract_json_array(text: str):
-    """The first JSON array in a reply, fenced or not."""
+    """Первый JSON-массив в ответе, в ограждении или без."""
     stripped = _FENCE.sub("", text).strip()
     try:
         value = json.loads(stripped)

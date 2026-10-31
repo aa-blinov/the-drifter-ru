@@ -1,14 +1,14 @@
 #!/usr/bin/env python
-"""The repair stage: the lines that did not come back.
+"""Этап починки: строки, которые не вернулись.
 
-A batch can come back short, and a single line can fail on its own — the
-model refuses a long description of an item, or the reply is cut in the
-middle. Whatever the cause, the line is still missing, and a missing line is
-a hole in the game.
+Батч может вернуться коротким, а отдельная строка может не сработать сама
+по себе: модель отказывается переводить длинное описание предмета, или ответ
+обрывается посередине. Причина не важна, строка всё равно отсутствует, а
+отсутствующая строка это дыра в игре.
 
-This stage asks for the missing lines again, one at a time, with a short
-prompt that asks for nothing but the translation of one string. A single line
-has no room for the model to lose it.
+Этот этап просит недостающие строки заново, по одной, коротким промптом,
+который просит только перевод одной строки. У одной строки нет места, где
+модель её потеряет.
 
     python3 src/drru/repair.py
 """
@@ -31,12 +31,12 @@ SYSTEM = """Ты переводишь одну строку игры The Drifter
 
 Верни ТОЛЬКО перевод, без кавычек, без нумерации, без пояснений: JSON-массив из одной строки.
 
-Правила: нуарный тон, повествование от первого лица, маты по силе, кавычки-ёлочки, тире «—» без пробела, многоточие «…». Плейсхолдер {0} переноси как есть. Ничего не выдумывай.
+Правила: нуарный тон, повествование от первого лица, маты по силе, кавычки-ёлочки, тире «—»: в скобочной конструкции с пробела с обеих сторон, в разрыве фразы без пробела, тире примыкает к слову, многоточие «…». Плейсхолдер {0} переноси как есть. Ничего не выдумывай.
 """
 
 
 def repair_line(model: str, english: str, glossary) -> str:
-    """One line, asked for on its own."""
+    """Одна строка, запрошенная отдельно."""
     system = SYSTEM + batch.format_glossary(
         batch.glossary_for([english], glossary, limit=12))
     user = json.dumps([english], ensure_ascii=False)
@@ -52,8 +52,8 @@ def repair_line(model: str, english: str, glossary) -> str:
             candidate = parsed[0].strip()
             if candidate:
                 return candidate
-        # The model sometimes answers a one-line request with the line
-        # itself, without the JSON wrapper. That is a usable answer.
+        # Модель иногда отвечает на запрос одной строки самой строкой,
+        # без JSON-обёртки. Это пригодный ответ.
         bare = text.strip().strip('"').strip()
         if bare and "\n" not in bare:
             return bare
@@ -72,17 +72,17 @@ def main():
     missing = [row for row in rows if not row.get("ru", "").strip()]
 
     if not missing:
-        batch.log("repair: nothing is missing")
+        batch.log("починка: ничего не отсутствует")
         return
 
-    batch.log("repair: %d lines to repair" % len(missing))
+    batch.log("починка: строк к починке %d" % len(missing))
     for row in missing:
         row["ru"] = repair_line(args.model, row["en"], glossary)
         batch.log("  %s|%s -> %s" % (row["character"], row["id"], row["ru"][:60]))
 
     still = [row for row in missing if not row["ru"].strip()]
     if still:
-        batch.log("repair: %d lines still did not come back" % len(still))
+        batch.log("починка: %d строк так и не вернулись" % len(still))
         for row in still:
             batch.log("  %s|%s: %s" % (row["character"], row["id"], row["en"][:80]))
 
@@ -90,7 +90,7 @@ def main():
     with open(out, "w", encoding="utf-8", newline="\n") as fh:
         for row in rows:
             fh.write(json.dumps(row, ensure_ascii=False) + "\n")
-    batch.log("repair: wrote %d lines -> %s" % (len(rows), out))
+    batch.log("починка: записано %d строк -> %s" % (len(rows), out))
 
 
 if __name__ == "__main__":

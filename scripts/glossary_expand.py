@@ -1,22 +1,21 @@
 #!/usr/bin/env python
-"""Fill the gaps in the glossary from the translation that exists.
+"""Закрытие пробелов в глоссарии по тому переводу, который уже есть.
 
-The glossary is the promise that a term has one Russian word. A term that
-is missing from it is a term the pipeline is free to render any way it
-likes, and the proof of that is in the text: the same name comes out in two
-spellings.
+Глоссарий обещает, что у термина одно русское слово. Термин, которого в
+нём нет, это термин, который пайплайн вправе передать как угодно, и
+доказательство этого лежит в тексте: одно и то же имя выходит двумя
+написаниями.
 
-This script finds the terms of the source that the glossary does not cover
-and asks the model, over the lines where the term actually appears, which
-Russian word the translation uses for it. The answer comes from the text,
-not from the model's taste, and it is checked against the lines before it is
-written.
+Скрипт находит термины источника, которых глоссарий не покрывает, и
+спрашивает у модели по тем строкам, где термин действительно встречается,
+каким русским словом перевод его передаёт. Ответ приходит из текста, а не
+из вкуса модели, и он проверяется по строкам до записи.
 
-    python3 scripts/glossary_expand.py            # what would be added
-    python3 scripts/glossary_expand.py --apply    # write it into the glossary
+    python3 scripts/glossary_expand.py            # что добавится
+    python3 scripts/glossary_expand.py --apply    # записать это в глоссарий
 
-The terms the model cannot pin down are left out: a glossary entry that is
-wrong is worse than a missing one.
+Термины, которые модель не смогла определить, остаются за скобками: неверная
+запись глоссария хуже отсутствующей.
 """
 from __future__ import annotations
 
@@ -58,7 +57,7 @@ SYSTEM = """Ты работаешь с глоссарием русского п�
 
 
 def source_terms(corpus, stop):
-    """The capitalised words of the source that are not the first word."""
+    """Написанные с большой буквы слова источника, кроме первого слова строки."""
     counter = collections.Counter()
     lines = collections.defaultdict(list)
     for row in corpus:
@@ -94,10 +93,10 @@ def main():
     counter, lines = source_terms(corpus, stop)
     missing = [(t, c) for t, c in counter.most_common()
                if c >= args.min_count and t not in glossary]
-    print("terms to resolve: %d" % len(missing))
+    print("терминов к разбору: %d" % len(missing))
 
-    # the model is asked in batches, and every answer is checked against the
-    # text before it is accepted
+    # модель опрашивается батчами, и каждый ответ проверяется по тексту до
+    # того, как быть принятым
     resolved = {}
     notes = []
     batch_size = 20
@@ -115,7 +114,7 @@ def main():
                                    temperature=0.0)
         parsed = llm_client.extract_json_object(text)
         if not parsed:
-            print("  batch %d: no answer" % (start // batch_size))
+            print("  батч %d: нет ответа" % (start // batch_size))
             continue
         for item in parsed.get("terms", []):
             term = item.get("term", "")
@@ -127,7 +126,7 @@ def main():
             resolved[term] = ru
             notes.append((term, ru, item.get("why", "")))
 
-    print("resolved: %d" % len(resolved))
+    print("разобрано: %d" % len(resolved))
     for term, ru, why in sorted(notes):
         flag = "!" if why else " "
         print("  %s %-22s -> %-24s %s" % (flag, term, ru, why[:70]))
@@ -143,7 +142,7 @@ def main():
         with io.open(GLOSSARY, "w", encoding="utf-8", newline="\n") as fh:
             json.dump(ordered, fh, ensure_ascii=False, indent=2, sort_keys=True)
             fh.write("\n")
-        print("glossary: %d entries, %d added" % (len(glossary), added))
+        print("глоссарий: %d записей, %d добавлено" % (len(glossary), added))
 
 
 if __name__ == "__main__":

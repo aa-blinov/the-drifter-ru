@@ -1,9 +1,9 @@
 #!/usr/bin/env python
-"""Send keys to the running game.
+"""Отправка клавиш в запущенную игру.
 
-The game is a point-and-click, and the screen is the only way to check the
-translation. This sends the keystrokes that walk it to the place the
-translation has to be looked at.
+Игра работает как point-and-click, и экран это единственный способ проверить
+перевод. Скрипт отправляет нажатия, которые проводят игру до места, где
+перевод надо смотреть.
 
     python3 scripts/send_keys.py --keys "{ENTER}" --wait 2
     python3 scripts/send_keys.py --keys "{DOWN 3}{ENTER}"
@@ -109,7 +109,7 @@ while ($i -lt $spec.Length) {
 
 
 def game_pid(name: str = "TheDrifter.exe"):
-    """The process of the running game."""
+    """Процесс запущенной игры."""
     import subprocess
     result = subprocess.run(
         ["tasklist", "/FI", "IMAGENAME eq %s" % name, "/FO", "CSV", "/NH"],
@@ -132,7 +132,7 @@ def send(keys: str, window_title: str = "The Drifter", pid: str = ""):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--keys", required=True,
-                        help="the keys: {ENTER}, {DOWN 3}, {ESC}, and letters")
+                        help="клавиши: {ENTER}, {DOWN 3}, {ESC} и буквы")
     parser.add_argument("--window", default="The Drifter")
     parser.add_argument("--wait", type=float, default=0.0)
     args = parser.parse_args()
@@ -140,7 +140,7 @@ def main():
     if args.wait:
         time.sleep(args.wait)
     code = send(args.keys, args.window)
-    print("sent %r (exit %d)" % (args.keys, code))
+    print("отправлено %r (код %d)" % (args.keys, code))
 
 
 if __name__ == "__main__":

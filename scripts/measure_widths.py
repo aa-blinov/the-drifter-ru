@@ -1,14 +1,13 @@
 #!/usr/bin/env python
-"""Measure the width of the Russian line against the English one.
+"""Измерение ширины русской строки против английской.
 
-The game draws its text with its own fonts. A Russian line that is wider
-than its English source does not fit where the English fit, and the game
-wraps it and the wrapped part falls on what is below.
+Игра рисует текст своими шрифтами. Русская строка шире своего английского
+источника не помещается там, где помещалась английская, и игра переносит
+её, а перенесённая часть падает на то, что ниже.
 
-The width of a line is the sum of the widths of its characters in the units
-of the font; the em is the width of the letter «M» in the same units. The
-Latin comes from the game's font; the Cyrillic is the pixel font merged into
-it, which is what the installer writes into the game.
+Ширина строки это сумма ширин её символов в единицах шрифта; em это ширина
+буквы «M» в тех же единицах. Латиница берётся из шрифта игры; кириллица это
+пиксельный шрифт, влитый в него, и именно его установщик пишет в игру.
 
     python3 scripts/measure_widths.py
 """
@@ -33,12 +32,12 @@ ASSETS = os.path.join(GAME, "TheDrifter_Data", "sharedassets1.assets")
 CORPUS = os.path.join(ROOT, "corpus", "english.csv")
 TRANSLATION = os.path.join(ROOT, "translation", "Russian", "translation.csv")
 
-# The fonts the text is drawn with.
+# Шрифты, которыми рисуется текст.
 FONTS = ["ChevyRay - Pinch - EU - AA", "tecno_small", "CrawlTextBodyWide-EU"]
 
 
 def advances(font, text):
-    """The width of the text in the units of the font."""
+    """Ширина текста в единицах шрифта."""
     from fontTools.ttLib import TTFont
 
     hmtx = font["hmtx"]
@@ -53,7 +52,7 @@ def advances(font, text):
 
 
 def width_of(font, text):
-    """The width of the text, in em."""
+    """Ширина текста в em."""
     em = advances(font, "M")
     if not em:
         return 0.0
@@ -77,7 +76,7 @@ def main():
     ru_col = table[0].index("Русский")
     translation = {"%s|%s" % (r[0], r[1]): r[ru_col] for r in table[1:]}
 
-    print("| Font | Median | p90 | p99 | Max |")
+    print("| Шрифт | Медиана | p90 | p99 | Максимум |")
     print("| --- | --- | --- | --- | --- |")
     for name in FONTS:
         data = raw.get(name)

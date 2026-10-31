@@ -1,18 +1,17 @@
 #!/usr/bin/env python
-"""The font merge: the Cyrillic glyphs have to land on the pixel grid.
+"""Слияние шрифтов: кириллические глифы должны попадать на пиксельную сетку.
 
-The merge takes a font of the game and adds the Cyrillic glyphs of a pixel
-font to it. The test takes a real pixel font, strips the Cyrillic out of it
-so that it stands for a game font, merges the Cyrillic back in, and checks
-three things:
+Слияние берёт шрифт игры и добавляет к нему кириллические глифы пиксельного
+шрифта. Тест берёт настоящий пиксельный шрифт, вырезает из него кириллицу,
+чтобы он заменял шрифт игры, сливает кириллицу обратно и проверяет три вещи:
 
-  the Cyrillic glyphs are there;
-  the original glyphs are untouched;
-  every coordinate of a merged glyph is a multiple of the target's units per
-  pixel, which is what keeps it crisp instead of blurry.
+  кириллические глифы на месте;
+  исходные глифы не тронуты;
+  каждая координата слитого глифа кратна числу единиц на пиксель у цели,
+  именно это делает глиф чётким, а не размытым.
 
-The game itself is not needed: the merge works on the font data alone, and
-the metrics of a game font are the metrics of every font of that pixel size.
+Сама игра не нужна: слияние работает только с данными шрифта, а метрики
+шрифта игры совпадают с метриками любого шрифта такого пиксельного размера.
 """
 from __future__ import annotations
 
@@ -31,12 +30,12 @@ FONT_DIR = os.path.join(ROOT, "work", "fonts")
 SOURCE_10 = os.path.join(FONT_DIR, "ark-pixel-10px-proportional-latin.ttf")
 SOURCE_12 = os.path.join(FONT_DIR, "ark-pixel-12px-proportional-latin.ttf")
 
-# The metrics of a game font: 125 units per pixel at 10 px and 12 px.
+# Метрики шрифта игры: 125 единиц на пиксель при 10 px и при 12 px.
 UNITS_PER_PX = 125
 
 
 def strip_cyrillic(path):
-    """A font with the Cyrillic removed, so it stands for a game font."""
+    """Шрифт с вырезанной кириллицей, чтобы он заменял шрифт игры."""
     from fontTools import subset
     from fontTools.ttLib import TTFont
 
@@ -62,7 +61,7 @@ class FontMergeTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         if not os.path.exists(SOURCE_10) or not os.path.exists(SOURCE_12):
-            raise unittest.SkipTest("the pixel fonts are not fetched: %s" % FONT_DIR)
+            raise unittest.SkipTest("пиксельные шрифты не скачаны: %s" % FONT_DIR)
         from fontTools.ttLib import TTFont
         cls.source = TTFont(SOURCE_10)
         cls.game_font = strip_cyrillic(SOURCE_12)
@@ -78,7 +77,7 @@ class FontMergeTest(unittest.TestCase):
         for codepoint in (ord("А"), ord("я"), ord("Ё"), ord("ё"),
                           ord("«"), ord("»"), ord("—"), ord("…")):
             self.assertIn(codepoint, cmap,
-                          "the glyph for U+%04X is missing" % codepoint)
+                          "глиф для U+%04X отсутствует" % codepoint)
 
     def test_the_original_glyphs_are_untouched(self):
         from fontTools.ttLib import TTFont
@@ -86,15 +85,15 @@ class FontMergeTest(unittest.TestCase):
         after = self.merged()
         for name in before.getGlyphOrder():
             if name not in after.getGlyphOrder():
-                self.fail("the glyph %s was lost" % name)
+                self.fail("глиф %s потерян" % name)
             original = before["glyf"].glyphs[name]
             merged = after["glyf"].glyphs[name]
             self.assertEqual(getattr(original, "numberOfContours", None),
                              getattr(merged, "numberOfContours", None),
-                             "the glyph %s changed" % name)
+                             "глиф %s изменился" % name)
             self.assertEqual(getattr(original, "coordinates", None),
                              getattr(merged, "coordinates", None),
-                             "the glyph %s changed" % name)
+                             "глиф %s изменился" % name)
 
     def test_the_merged_glyphs_land_on_the_pixel_grid(self):
         merged = self.merged()
@@ -107,14 +106,14 @@ class FontMergeTest(unittest.TestCase):
                 continue
             glyph = merged["glyf"].glyphs[name]
             for x, y in getattr(glyph, "coordinates", []):
-                self.assertEqual(x % grid, 0, "x=%d is off the grid" % x)
-                self.assertEqual(y % grid, 0, "y=%d is off the grid" % y)
+                self.assertEqual(x % grid, 0, "x=%d вне сетки" % x)
+                self.assertEqual(y % grid, 0, "y=%d вне сетки" % y)
             checked += 1
         self.assertGreater(checked, 140)
 
     def test_the_pixel_size_is_measured_on_the_font(self):
-        # The font the game draws its dialogue at is a 12 px font: the em
-        # covers twelve pixels of the grid.
+        # Шрифт, которым игра рисует диалоги, это шрифт 12 px: em занимает
+        # двенадцать пикселей сетки.
         metrics = Metrics(self.game)
         self.assertEqual(metrics.pixels, 12)
         self.assertEqual(metrics.grid, 100)
@@ -125,8 +124,8 @@ class FontMergeTest(unittest.TestCase):
         self.assertGreater(len(cyrillic), 140)
 
     def test_the_merge_is_stable(self):
-        # The same font merged twice gives the same result: the merge does
-        # not depend on what happened before it.
+        # Один и тот же шрифт, слитый дважды, даёт один и тот же результат:
+        # слияние не зависит от того, что было до него.
         from fontTools.ttLib import TTFont
         once = self.merged()
         data, _added, _scale = merge(self.game_font, SOURCE_12, "metric")

@@ -1,9 +1,9 @@
 #!/usr/bin/env python
-"""Click in the game.
+"""Клик в игре.
 
-The game is a point-and-click, and its menus are walked with the mouse. The
-click is given as a point in the window of the game, so that the place does
-not depend on where the window sits on the screen.
+Игра работает как point-and-click, и её меню проходятся мышью. Клик
+задаётся точкой в окне игры, поэтому место не зависит от того, где окно
+стоит на экране.
 
     python3 scripts/click.py --at 960,515
 """
@@ -54,7 +54,7 @@ MOUSEEVENTF_LEFTUP = 0x0004
 
 
 def click(x: int, y: int) -> None:
-    """One click at a point of the screen."""
+    """Один клик в точке экрана."""
     user32.SetCursorPos(x, y)
     time.sleep(0.1)
     user32.mouse_event(MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0)
@@ -64,15 +64,15 @@ def click(x: int, y: int) -> None:
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--at", required=True, help="the point in the window: x,y")
+    parser.add_argument("--at", required=True, help="точка в окне: x,y")
     args = parser.parse_args()
 
     pid = game_pid()
     if not pid:
-        raise SystemExit("the game is not running")
+        raise SystemExit("игра не запущена")
     hwnd = game_window(pid)
     if not hwnd:
-        raise SystemExit("the window of the game was not found")
+        raise SystemExit("окно игры не найдено")
 
     user32.ShowWindow(hwnd, 9)
     user32.SetForegroundWindow(hwnd)
@@ -82,7 +82,7 @@ def main():
     user32.GetWindowRect(hwnd, ctypes.byref(rect))
     x, y = (int(v) for v in args.at.split(","))
     click(rect.left + x, rect.top + y)
-    print("clicked %d,%d in the window" % (x, y))
+    print("клик в окне: %d,%d" % (x, y))
 
 
 if __name__ == "__main__":

@@ -1,17 +1,16 @@
 #!/usr/bin/env python
-"""The build: the canonical corpus becomes the file the game reads.
+"""Сборка: канонический корпус превращается в файл, который читает игра.
 
-The game looks for translation.csv in its own directory. The header is
-fixed by the game's importer:
+Игра ищет translation.csv в своём каталоге. Заголовок задан импортёром игры:
 
     Character,ID,File,Context,English,<language name>
 
-The rows are keyed by (Character, ID) — that pair is what the game uses, so
-it is what the file carries. The English column is the reference the game
-shows next to the translation; it stays in the file.
+Строки адресуются парой (Character, ID), именно эту пару использует игра,
+поэтому её и несёт файл. Английская колонка это образец, который игра показывает
+рядом с переводом, поэтому она остаётся в файле.
 
-The file is written as UTF-8 with a BOM and CRLF, because that is what the
-game's importer expects on Windows.
+Файл записывается в UTF-8 с BOM и CRLF, потому что этого ожидает импортёр
+игры на Windows.
 
     python3 src/drru/build.py
 """
@@ -29,9 +28,9 @@ from drru import corpus  # noqa: E402
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(HERE))
-# The file the last stage wrote: the corpus after the polish pass and the
-# hand corrections. Building from an earlier stage would ship the defects
-# those two stages exist to remove.
+# Файл, который записал последний этап: корпус после полировки и ручных
+# правок. Сборка с более раннего этапа отгрузила бы те дефекты, ради
+# устранения которых эти два этапа и существуют.
 CANON_PATH = os.path.join(ROOT, "work", "corpus", "final.jsonl")
 CORPUS_CSV = os.path.join(ROOT, "corpus", "english.csv")
 OUT_DIR = os.path.join(ROOT, "translation", "Russian")
@@ -44,24 +43,24 @@ def build(canon_path: str = CANON_PATH, out_path: str = OUT_PATH):
     rows = corpus.read_jsonl(canon_path)
     source = corpus.load_corpus()
     if len(rows) != len(source):
-        raise SystemExit("the corpus has %d lines, the translation has %d"
+        raise SystemExit("в корпусе %d строк, а в переводе %d"
                          % (len(source), len(rows)))
     os.makedirs(os.path.dirname(out_path), exist_ok=True)
 
-    # The importer reads the file with Encoding.Default plus a BOM check, so
-    # the BOM is not decoration: without it the Cyrillic arrives as mojibake.
+    # Импортёр читает файл через Encoding.Default с проверкой BOM, поэтому
+    # BOM здесь не украшение: без него кириллица приходит в виде мусора.
     with io.open(out_path, "w", encoding="utf-8-sig", newline="") as fh:
         writer = csv.writer(fh, quoting=csv.QUOTE_MINIMAL, lineterminator="\r\n")
         writer.writerow(corpus.CSV_HEADER[:-1] + [LANG_NAME])
         for row, original in zip(rows, source):
-            # The key and the English column come from the corpus, so the file
-            # that ships and the corpus it was built from cannot drift apart.
+            # Ключ и английская колонка берутся из корпуса, поэтому отгружаемый
+            # файл и корпус, из которого он собран, не могут разойтись.
             writer.writerow([original["character"], original["id"],
                              original["file"], original["context"],
                              original["en"], row["ru"]])
 
     size = os.path.getsize(out_path)
-    print("build: %d rows -> %s (%.1f KB)" % (len(rows), out_path, size / 1024))
+    print("сборка: %d строк -> %s (%.1f KB)" % (len(rows), out_path, size / 1024))
     return out_path
 
 

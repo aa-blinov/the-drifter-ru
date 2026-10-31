@@ -1,14 +1,14 @@
 #!/usr/bin/env python
-"""The chronology of the game: every time the text names.
+"""Хронология игры: всё время, которое называет текст.
 
-A story has an order, and a translation that moves a date, a year or a
-sequence breaks it in a way no spelling check will see. This gathers every
-temporal reference of the source with the Russian that carries it, so the
-order can be read.
+У сюжета есть порядок, и перевод, который двигает дату, год или
+последовательность, ломает его так, что этого не видит ни одна проверка
+орфографии. Скрипт собирает все временные ссылки источника вместе с
+русским текстом, который их несёт, чтобы порядок можно было прочитать.
 
-    python3 scripts/chronology.py                 # every time reference
-    python3 scripts/chronology.py --year          # the years and the eras
-    python3 scripts/chronology.py --show "five"   # the lines that name it
+    python3 scripts/chronology.py                 # все временные ссылки
+    python3 scripts/chronology.py --year          # годы и эпохи
+    python3 scripts/chronology.py --show "five"   # строки, которые это называют
 """
 from __future__ import annotations
 
@@ -23,7 +23,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CORPUS = os.path.join(ROOT, "corpus", "english.csv")
 TRANSLATION = os.path.join(ROOT, "translation", "Russian", "translation.csv")
 
-# The words that name a time.
+# Слова, которые называют время.
 TIME = re.compile(
     r"\b("
     r"yesterday|tomorrow|tonight|today|now|then|already|still|yet|soon|"
@@ -47,9 +47,10 @@ YEAR = re.compile(r"\b(1[89]\d\d|20[0-2]\d)\b")
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--show", default="", help="the lines that name it")
+    parser.add_argument("--show", default="",
+                        help="строки, которые это называют")
     parser.add_argument("--year", action="store_true",
-                        help="the years the text names")
+                        help="годы, которые называет текст")
     args = parser.parse_args()
 
     with io.open(CORPUS, encoding="utf-8", newline="") as fh:
@@ -81,7 +82,7 @@ def main():
             print("%-6s %3d  %s" % (year, found[year], ", ".join(where[year][:6])))
         return
 
-    # every word that names a time, with the Russian that carries it
+    # каждое слово, которое называет время, вместе с русским текстом, который его несёт
     words = collections.Counter()
     lines = collections.defaultdict(list)
     for row in corpus:
@@ -90,7 +91,7 @@ def main():
             key = word.lower()
             words[key] += 1
             lines[key].append(row)
-    print("%-16s %6s" % ("word", "count"))
+    print("%-16s %6s" % ("слово", "число"))
     for word, count in words.most_common():
         print("%-16s %6d" % (word, count))
 

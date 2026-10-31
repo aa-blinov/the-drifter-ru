@@ -1,9 +1,10 @@
 #!/usr/bin/env python
-"""Compare two corpora by the words they use for the same term.
+"""Сравнение двух корпусов по словам, которыми они передают один термин.
 
-The law of the unbinding term says that a term the glossary does not hold is
-translated again in every file of the script. This measures it: for every
-term of the glossary it counts the Russian words the two corpora use.
+Закон свободного термина говорит, что термин, которого нет в глоссарии,
+переводится заново в каждом файле сценария. Скрипт это измеряет: для
+каждого термина глоссария он считает русские слова, которые используют оба
+корпуса.
 
     python3 scripts/compare_terms.py work/corpus/bulk.jsonl work/corpus/bulk_trial.jsonl
 """
@@ -19,7 +20,7 @@ import re
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 GLOSSARY = os.path.join(ROOT, "src", "voice", "glossary.json")
 
-# The terms of the game, and the Russian words each of them may be written as.
+# Термины игры и русские слова, которыми каждый из них может быть записан.
 TERMS = {
     "phase-flip": r"фазов\w+ (?:переворот\w*|переключен\w*|сдвиг\w*)|"
                   r"переключ\w* фазы|смен\w+ фазы|фазов\w+ переход\w*",
@@ -45,7 +46,7 @@ def load(path):
 
 
 def forms(corpus, pattern):
-    """The Russian words one term is written as, and the files they come from."""
+    """Русские слова, которыми записан один термин, и файлы, откуда они взяты."""
     compiled = re.compile(pattern, re.IGNORECASE)
     found = collections.Counter()
     where = collections.defaultdict(set)
@@ -67,7 +68,7 @@ def main():
     after = load(args.after)
     glossary = json.load(io.open(args.glossary, encoding="utf-8"))
 
-    print("%-18s %-28s %-28s" % ("term", "before", "after"))
+    print("%-18s %-28s %-28s" % ("термин", "до", "после"))
     print("-" * 78)
     worse = better = same = 0
     for label, pattern in sorted(TERMS.items()):
@@ -75,7 +76,7 @@ def main():
         fa, wa = forms(after, pattern)
         files_before = len(set().union(*wb.values())) if wb else 0
         files_after = len(set().union(*wa.values())) if wa else 0
-        print("%-18s %2d forms in %2d files   %2d forms in %2d files"
+        print("%-18s %2d форм в %2d файлах   %2d форм в %2d файлах"
               % (label, len(fb), files_before, len(fa), files_after))
         for word, count in fa.most_common(3):
             print("      %-26s ×%d" % (word, count))
@@ -89,7 +90,7 @@ def main():
     print("терминов стало меньше вариантов: %d, больше: %d, столько же: %d"
           % (better, worse, same))
 
-    # the glossary itself: does the corpus use the word the glossary holds?
+    # сам глоссарий: использует ли корпус слово, которое держит глоссарий?
     print()
     print("=== соответствие глоссарию ===")
     for term, ru in sorted(glossary.items()):

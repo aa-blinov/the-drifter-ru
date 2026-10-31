@@ -1,33 +1,34 @@
 #!/usr/bin/env python
-"""The Cyrillic glyphs, merged into the fonts of the game.
+"""Кириллические глифы, влитые в шрифты игры.
 
-The game draws its text with the fonts in its own assets, and none of them
-carries a Cyrillic glyph. A Russian line is therefore drawn with a font the
-game does not know, and the fallback does not look like the game.
+Игра рисует текст шрифтами из своих собственных ассетов, и ни один из них
+не несёт кириллического глифа. Поэтому русская строка рисуется шрифтом,
+которого игра не знает, и подстановка не похожа на игру.
 
-The Cyrillic is added to the game's own fonts. Two measurements decide how:
+Кириллица добавляется в собственные шрифты игры. Как именно решают два
+измерения:
 
-  the x-height — the height of the lowercase letters. The Cyrillic is scaled
-  to the x-height of the Latin in the same font, so a Russian line has the
-  same colour and the same rhythm as an English one;
+  x-height, то есть высота строчных букв. Кириллица масштабируется под
+  x-height латиницы в том же шрифте, поэтому русская строка имеет тот же
+  цвет и тот же ритм, что английская;
 
-  the baseline — the line the letters stand on. The Cyrillic is put on the
-  baseline of the Latin, so the two never sit at different heights.
+  базовая линия, то есть черта, на которой буквы стоят. Кириллица ставится
+  на базовую линию латиницы, поэтому две никогда не стоят на разной высоте.
 
-Two ways of scaling are available, and they pull in opposite directions:
+Доступны два способа масштабирования, и они тянут в разные стороны:
 
-  "metric" scales the source to the x-height of the target. The lowercase
-  of the Cyrillic is exactly as tall as the lowercase of the Latin, and the
-  line breaks where the game's own metrics say it does. The edges of the
-  glyphs do not land on the pixel grid of the game, so they are drawn a
-  little softer than the Latin.
+  "metric" масштабирует источник под x-height цели. Строчные кириллицы в
+  точности той же высоты, что строчные латиницы, и строка переносится там,
+  где велит метрика самой игры. Края глифов не попадают на пиксельную
+  сетку игры, поэтому они рисуются чуть мягче латиницы.
 
-  "grid" scales the source so that one pixel of the source is one pixel of
-  the target. The glyphs are as crisp as the Latin, but the source typeface
-  has its own proportions, and its lowercase comes out taller than the
-  lowercase of the game.
+  "grid" масштабирует источник так, чтобы один пиксель источника стал
+  одним пикселем цели. Глифы такие же чёткие, как латиница, но у
+  исходного начертания своя пропорция, и его строчные выходят выше
+  строчных игры.
 
-The source is Ark Pixel Font: a pixel font with the whole Cyrillic range.
+Источник это Ark Pixel Font: пиксельный шрифт со всем кириллическим
+диапазоном.
 """
 from __future__ import annotations
 
@@ -41,16 +42,16 @@ sys.path.insert(0, HERE)
 from font_metrics import (CYRILLIC_SOURCES, FONT_DIR, Metrics,  # noqa: E402
                           load_font)
 
-# The characters the Russian text needs beyond the Latin range.
+# Символы, которые нужны русскому тексту помимо латинского диапазона.
 EXTRA_CHARS = "«»—…№„“”‘’°"
 
 
 def source_for(target: Metrics):
-    """The pixel font the Cyrillic is taken from.
+    """Пиксельный шрифт, из которого берётся кириллица.
 
-    The source is the one whose design size is closest to the design size of
-    the target: a glyph drawn for a different size has different
-    proportions.
+    Берётся тот, у которого размер прорисовки ближе всего к размеру
+    прорисовки цели: глиф, нарисованный для другого размера, имеет другие
+    пропорции.
     """
     best = None
     for size, name in sorted(CYRILLIC_SOURCES.items()):
@@ -63,28 +64,27 @@ def source_for(target: Metrics):
             best = (distance, path, metrics)
     if best is None:
         raise SystemExit(
-            "no pixel font found in %s\n"
-            "Run scripts/fetch_fonts.py to download the pixel fonts." % FONT_DIR)
+            "в %s нет пиксельного шрифта\n"
+            "Запустите scripts/fetch_fonts.py, чтобы скачать пиксельные шрифты." % FONT_DIR)
     return best[1], best[2]
 
 
 def scale_for(target: Metrics, source: Metrics, mode: str) -> float:
-    """How much the source is scaled to fit the target."""
+    """Во сколько раз источник масштабируется под цель."""
     if mode == "grid":
-        # One pixel of the source becomes one pixel of the target.
+        # Один пиксель источника становится одним пикселем цели.
         return target.grid / float(source.grid)
     if mode == "metric":
-        # The lowercase of the source becomes as tall as the lowercase of
-        # the target.
+        # Строчные источника становятся той же высоты, что строчные цели.
         return target.x_height / float(source.x_height)
-    raise SystemExit("unknown merge mode: %s" % mode)
+    raise SystemExit("неизвестный режим слияния: %s" % mode)
 
 
 def merge(original: bytes, source_path: str, mode: str = "metric"):
-    """Add the Cyrillic glyphs of the source to one game font.
+    """Добавить кириллические глифы источника к одному шрифту игры.
 
-    Returns the new font, the number of glyphs added and the scale the glyphs
-    were drawn at.
+    Возвращает новый шрифт, число добавленных глифов и масштаб, в котором
+    глифы нарисованы.
     """
     from fontTools.pens.transformPen import TransformPen
     from fontTools.pens.ttGlyphPen import TTGlyphPen
@@ -95,12 +95,11 @@ def merge(original: bytes, source_path: str, mode: str = "metric"):
     target_metrics = Metrics(target)
     source_metrics = Metrics(source)
     if not target_metrics.x_height or not source_metrics.x_height:
-        raise SystemExit("cannot measure the x-height of one of the fonts")
+        raise SystemExit("не удалось измерить x-height одного из шрифтов")
 
     scale = scale_for(target_metrics, source_metrics, mode)
     if scale <= 0 or scale > 4:
-        raise SystemExit("the scale %.3f is out of range: the font is not a "
-                         "text font" % scale)
+        raise SystemExit("масштаб %.3f вне диапазона: шрифт не текстовый" % scale)
 
     source_cmap = source.getBestCmap()
     wanted = {codepoint for codepoint in source_cmap
@@ -138,16 +137,17 @@ def merge(original: bytes, source_path: str, mode: str = "metric"):
         order.append(glyph_name)
         existing.add(glyph_name)
 
-        # A glyph the font cannot map a character to does not exist for the
-        # renderer. Every unicode subtable of the cmap gets the new entry.
+        # Глиф, которому шрифт не может сопоставить символ, для отрисовщика не
+        # существует. Новая запись идёт в каждую подтаблицу cmap с
+        # юникодом.
         for subtable in target_cmap_table.tables:
             if subtable.isUnicode():
                 subtable.cmap[codepoint] = glyph_name
         added += 1
 
-    # The glyf table keeps its own order of the glyphs, and it has to be the
-    # same order as the font's: a font whose two orders disagree does not
-    # compile.
+    # Таблица glyf хранит свой порядок глифов, и он должен совпадать с
+    # порядком шрифта: шрифт, у которого порядки расходятся, не
+    # компилируется.
     target_glyphs.glyphOrder = order
     target.setGlyphOrder(order)
 
@@ -157,7 +157,7 @@ def merge(original: bytes, source_path: str, mode: str = "metric"):
 
 
 def bounds_of(font, names):
-    """The highest and the lowest point of a set of glyphs."""
+    """Верхняя и нижняя точка набора глифов."""
     from font_metrics import _coordinates
     top = 0
     bottom = 0

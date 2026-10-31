@@ -1,22 +1,23 @@
 #!/usr/bin/env python
-"""The SystemText of the game, read straight out of the assets.
+"""SystemText игры, прочитанный прямо из ресурсов.
 
-The game keeps its text in one MonoBehaviour inside
-TheDrifter_Data/sharedassets1.assets: PowerTools.Quest.SystemText. Every
-line of the game is one entry there, with the character who says it, the id
-the game keys it by, the source file and the source function it came from.
+Игра хранит свой текст в одном MonoBehaviour внутри
+TheDrifter_Data/sharedassets1.assets: PowerTools.Quest.SystemText. Каждая
+строка игры это одна запись там, с персонажем, который её произносит,
+идентификатором, которым игра её адресует, исходным файлом и исходной
+функцией, откуда она взята.
 
-The build of the game has no type tree for that MonoBehaviour, so the usual
-readers cannot walk it. The layout is known and fixed, so it is parsed
-here: the field order below is the one the game writes, and the parser is
-checked against the game on every run by reading the blob back and
-comparing it byte for byte. A layout that does not round-trip is a layout
-that was read wrong, and the run stops there.
+В сборке игры нет дерева типов для этого MonoBehaviour, поэтому обычные
+читатели его не обходят. Раскладка известна и фиксирована, поэтому она
+разбирается здесь: порядок полей ниже это тот, который пишет игра, а парсер
+проверяется против игры на каждом запуске, чтением блоба обратно и сравнением
+побайтово. Раскладка, которая не проходит туда и обратно, прочитана неверно,
+и запуск на этом останавливается.
 
-The game files are the developer's. This script reads a copy the user owns
-and writes only the text, never the assets.
+Файлы игры принадлежат разработчику. Этот скрипт читает копию, которой
+владеет пользователь, и пишет только текст, никогда ресурсы.
 
-    python3 src/drru/extract_corpus.py --game "<path to The Drifter>"
+    python3 src/drru/extract_corpus.py --game "<путь к The Drifter>"
 """
 from __future__ import annotations
 
@@ -27,12 +28,12 @@ import os
 import struct
 import sys
 
-# The path id of the SystemText MonoBehaviour in sharedassets1.assets.
+# Идентификатор пути MonoBehaviour SystemText в sharedassets1.assets.
 SYSTEM_TEXT_PATH_ID = 28977
 
 
 class Reader:
-    """The little binary the game writes its text in."""
+    """Маленький бинарный формат, в котором игра пишет свой текст."""
 
     def __init__(self, data: bytes):
         self.data = data
@@ -41,7 +42,7 @@ class Reader:
     def raw(self, size: int) -> bytes:
         chunk = self.data[self.offset:self.offset + size]
         if len(chunk) != size:
-            raise ValueError("read past the end of the blob")
+            raise ValueError("чтение вышло за конец блоба")
         self.offset += size
         return chunk
 
@@ -67,7 +68,7 @@ class Reader:
         return [self.string() for _ in range(count)]
 
     def file_id(self):
-        """The pointer the game keeps to a Unity object."""
+        """Указатель, который игра хранит на объект Unity."""
         return struct.unpack("<iq", self.raw(12))
 
     def floats(self):
@@ -80,7 +81,7 @@ class Reader:
 
 
 def parse_systemtext(data: bytes) -> dict:
-    """The tree of the SystemText blob."""
+    """Дерево блоба SystemText."""
     reader = Reader(data)
     tree = {
         "m_GameObject": reader.file_id(),
@@ -123,12 +124,12 @@ def parse_systemtext(data: bytes) -> dict:
 
     tree["m_voVolTweaksFile"] = reader.file_id()
     if reader.offset != len(data):
-        raise ValueError("read %d of %d bytes" % (reader.offset, len(data)))
+        raise ValueError("прочитано %d байт из %d" % (reader.offset, len(data)))
     return tree
 
 
 def serialize_systemtext(tree: dict) -> bytes:
-    """The same blob, written back."""
+    """Тот же блоб, записанный обратно."""
     out = io.BytesIO()
 
     def raw(data):
@@ -194,25 +195,25 @@ def serialize_systemtext(tree: dict) -> bytes:
 
 
 def load_systemtext(game_dir: str):
-    """The SystemText blob of the game."""
+    """Блоб SystemText игры."""
     import UnityPy
 
     assets = os.path.join(game_dir, "TheDrifter_Data", "sharedassets1.assets")
     if not os.path.exists(assets):
-        raise SystemExit("not found: %s" % assets)
+        raise SystemExit("не найдено: %s" % assets)
     env = UnityPy.load(assets)
     for obj in env.objects:
         if obj.type.name == "MonoBehaviour" and obj.path_id == SYSTEM_TEXT_PATH_ID:
             return obj.get_raw_data()
-    raise SystemExit("SystemText not found in %s" % assets)
+    raise SystemExit("SystemText не найден в %s" % assets)
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--game", required=True, help="the game's directory")
+    parser.add_argument("--game", required=True, help="каталог с игрой")
     parser.add_argument("--out", default=None)
     parser.add_argument("--no-check", action="store_true",
-                        help="skip the round-trip check of the parser")
+                        help="пропустить проверку парсера туда и обратно")
     args = parser.parse_args()
 
     root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -222,16 +223,16 @@ def main():
     tree = parse_systemtext(blob)
 
     if not args.no_check:
-        # The parser has to read the blob exactly as the game wrote it, or
-        # the corpus is a guess.
+        # Парсер должен прочитать блоб ровно так, как его писала игра, иначе
+        # корпус это догадка.
         again = serialize_systemtext(tree)
         if again != blob:
-            raise SystemExit("the parser does not round-trip: %d bytes in, "
-                             "%d bytes out" % (len(blob), len(again)))
-        print("parser: the blob round-trips (%d bytes)" % len(blob))
+            raise SystemExit("парсер не проходит туда и обратно: на входе %d байт, "
+                             "на выходе %d байт" % (len(blob), len(again)))
+        print("парсер: блоб проходит туда и обратно (%d байт)" % len(blob))
 
     languages = [(l["m_code"], l["m_description"]) for l in tree["m_languages"]]
-    print("languages: %s" % ", ".join("%s=%s" % (c, d) for c, d in languages))
+    print("языки: %s" % ", ".join("%s=%s" % (c, d) for c, d in languages))
 
     rows = []
     for entry in tree["m_strings"]:
@@ -248,7 +249,7 @@ def main():
         writer = csv.writer(fh, lineterminator="\n")
         writer.writerow(["Character", "ID", "File", "Context", "English"])
         writer.writerows(rows)
-    print("extract: %d strings -> %s" % (len(rows), out))
+    print("извлечение: %d строк -> %s" % (len(rows), out))
 
 
 if __name__ == "__main__":

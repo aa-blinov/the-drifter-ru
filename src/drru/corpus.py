@@ -1,18 +1,18 @@
 #!/usr/bin/env python
-"""The corpus: the game's English strings with the keys the game uses.
+"""Корпус: английские строки игры вместе с ключами, которыми игра их адресует.
 
-The game keys its text by (character, id): the same English line appears in
-several places, and the translation has to be the same in all of them. The
-corpus keeps those keys, the source file and the source function, because
-the context of a line — who speaks, in which room, in which function — is
-what makes a translation faithful.
+Игра адресует текст парой (character, id): одна и та же английская строка
+встречается в нескольких местах, и перевод должен быть одинаковым во всех
+них. Корпус хранит эти ключи, исходный файл и исходную функцию, потому что
+контекст строки, кто говорит, в какой комнате, в какой функции, это то, что
+делает перевод верным.
 
-Read from corpus/english.csv, which the extraction script writes:
+Читается из corpus/english.csv, который пишет скрипт извлечения:
 
-    python3 src/drru/extract_corpus.py --game "<path to The Drifter>"
+    python3 src/drru/extract_corpus.py --game "<путь к The Drifter>"
 
-Written as JSONL, one line per string, so a stage can read a slice of it
-without parsing a CSV.
+Пишется в JSONL, по одной строке на строку игры, чтобы этап мог прочитать
+её срез, не разбирая CSV.
 """
 from __future__ import annotations
 
@@ -28,25 +28,25 @@ CORPUS_CSV = os.path.join(ROOT, "corpus", "english.csv")
 WORK = os.path.join(ROOT, "work")
 CORPUS_JSONL = os.path.join(WORK, "corpus", "corpus.jsonl")
 
-# The column the game reads the translation from, and the header the game
-# expects in the CSV it imports.
+# Колонка, из которой игра читает перевод, и заголовок, который игра
+# ожидает в импортируемом CSV.
 LANG_CODE = "RU"
 CSV_HEADER = ["Character", "ID", "File", "Context", "English", "Русский"]
 
 
 def load_corpus(path: str = CORPUS_CSV):
-    """Every line of the game, in the order the game holds them."""
+    """Все строки игры в том порядке, в каком игра их держит."""
     if not os.path.exists(path):
-        raise SystemExit("corpus not found: %s" % path)
+        raise SystemExit("корпус не найден: %s" % path)
     rows = []
     with io.open(path, encoding="utf-8", newline="") as fh:
         reader = csv.reader(fh)
         header = next(reader)
         if header[:5] != ["Character", "ID", "File", "Context", "English"]:
-            raise SystemExit("unexpected corpus header: %r" % (header,))
+            raise SystemExit("неожиданный заголовок корпуса: %r" % (header,))
         for index, row in enumerate(reader):
             if len(row) < 5:
-                raise SystemExit("short row %d: %r" % (index, row))
+                raise SystemExit("короткая строка %d: %r" % (index, row))
             rows.append({
                 "index": index,
                 "character": row[0],
@@ -77,7 +77,7 @@ def read_jsonl(path: str):
 
 
 def key_of(row) -> str:
-    """The key the game uses: character plus id."""
+    """Ключ, которым игра адресует строку: персонаж плюс идентификатор."""
     return "%s|%s" % (row.get("character", ""), row.get("id", ""))
 
 
@@ -86,5 +86,5 @@ if __name__ == "__main__":
     path = write_jsonl(rows)
     characters = len({r["character"] for r in rows})
     files = len({r["file"] for r in rows})
-    print("corpus: %d lines, %d characters, %d source files -> %s"
+    print("корпус: %d строк, %d персонажей, %d исходных файлов -> %s"
           % (len(rows), characters, files, path))

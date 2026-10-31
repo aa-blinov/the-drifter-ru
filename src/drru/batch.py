@@ -1,14 +1,12 @@
 #!/usr/bin/env python
-"""Batches and the model call that fills them.
+"""Батчи и вызов модели, который их заполняет.
 
-One batch is one call to the model. The batching rule is the same in every
-stage: a batch never crosses a source file, so the lines of one dialogue
-reach the model together and the voice of a character survives the
-translation.
+Один батч это один вызов модели. Правило батчинга одинаково на всех этапах:
+батч никогда не пересекает границу исходного файла, поэтому реплики одного
+диалога попадают в модель вместе и голос персонажа переживает перевод.
 
-The prompt carries the style code and the part of the glossary the batch
-actually mentions. A prompt that carries the whole glossary is a prompt
-that carries the whole glossary 245 times.
+Промпт несёт код стиля и только те статьи глоссария, которые батч действительно
+затрагивает. Промпт со всем глоссарием это промпт со всем глоссарием 245 раз.
 """
 from __future__ import annotations
 
@@ -49,7 +47,7 @@ def load_glossary() -> dict:
 
 
 def glossary_for(texts, glossary, limit: int = 60):
-    """The glossary entries a batch actually mentions, longest first."""
+    """Статьи глоссария, которые батч действительно затрагивает, от длинных к коротким."""
     blob = " ".join(texts).lower()
     hits = []
     for en, ru in glossary.items():
@@ -70,7 +68,7 @@ def format_glossary(pairs) -> str:
 
 
 def make_batches(rows, max_chars: int = MAX_CHARS, max_items: int = MAX_ITEMS):
-    """Contiguous batches inside each source file."""
+    """Непрерывные батчи внутри каждого исходного файла."""
     batches = []
     current = []
     chars = 0
@@ -92,23 +90,23 @@ def make_batches(rows, max_chars: int = MAX_CHARS, max_items: int = MAX_ITEMS):
 
 
 def placeholders(text: str):
-    """The placeholders and the markup of a line, in order."""
+    """Плейсхолдеры и разметка строки, по порядку."""
     return re.findall(r"\{[^}]*\}|<[^>]*>|\{\w+\}", text)
 
 
 def call_batch(model: str, system: str, payload, temperature: float = 0.3,
                max_tokens: int = 8000, tag: str = "batch", attempts: int = 3,
                reasoning_effort: str = "none", prefix: str = ""):
-    """One call. Returns the list of replies, or None when the model broke the contract.
+    """Один вызов. Возвращает список ответов или None, если модель нарушила контракт.
 
-    `payload` is a list of items; the reply must be a list of the same
-    length. `prefix` is put in front of the payload in the user message, for
-    the stages that need to give the model context before the lines.
+    `payload` это список элементов, а ответ должен быть списком той же длины.
+    `prefix` ставится перед payload в пользовательском сообщении, для этапов,
+    которым нужно дать модели контекст до самих реплик.
     """
     user = prefix + json.dumps(payload, ensure_ascii=False, indent=1)
     for attempt in range(attempts):
-        # The attempt number is part of the cache key: a retry has to reach
-        # the model again, and a cached bad reply would be returned as-is.
+        # Номер попытки входит в ключ кэша: повтор должен снова дойти до модели,
+        # а плохой ответ из кэша вернулся бы как есть.
         key = "%s|%s|%s" % (tag, model, user) if attempt == 0 \
             else "%s|retry%d|%s|%s" % (tag, attempt, model, user)
         try:
@@ -116,19 +114,19 @@ def call_batch(model: str, system: str, payload, temperature: float = 0.3,
                                        temperature=temperature, cache_key=key,
                                        reasoning_effort=reasoning_effort)
         except Exception as exc:
-            log("  %s: call failed: %s" % (tag, exc))
+            log("  %s: вызов не удался: %s" % (tag, exc))
             time.sleep(2 + 4 * attempt)
             continue
         parsed = llm_client.extract_json_array(text)
         if parsed is None or len(parsed) != len(payload):
-            # A request for one line is sometimes answered with the line
-            # itself, without the JSON wrapper. That is a usable answer.
+            # Запрос одной реплики модель иногда выполняет самой репликой,
+            # без JSON-обёртки. Это пригодный ответ.
             if len(payload) == 1 and parsed is None:
                 bare = text.strip().strip('"').strip()
                 if bare and "\n" not in bare:
                     return [bare]
-            log("  %s: bad reply (%s items, expected %d), retry %d"
-                % (tag, len(parsed) if parsed else "none", len(payload), attempt + 1))
+            log("  %s: плохой ответ (%s элементов, ожидалось %d), попытка %d"
+                % (tag, len(parsed) if parsed else "нет", len(payload), attempt + 1))
             time.sleep(1 + 3 * attempt)
             continue
         return [_as_text(item) for item in parsed]
@@ -136,11 +134,11 @@ def call_batch(model: str, system: str, payload, temperature: float = 0.3,
 
 
 def _as_text(item) -> str:
-    """The text of a reply item.
+    """Текст элемента ответа.
 
-    The stages ask for an array of strings. The editorial stage sends objects
-    and sometimes gets objects back; the text of such an object is the field
-    the prompt named, and the raw object is never the answer.
+    Этапы просят массив строк. Редакторский этап отправляет объекты и иногда
+    получает объекты же; текст такого объекта это то поле, которое назвал
+    промпт, а сам объект ответом не является.
     """
     if isinstance(item, str):
         return item
@@ -155,13 +153,12 @@ def call_split(model: str, system: str, payload, temperature: float = 0.3,
                max_tokens: int = 8000, tag: str = "batch",
                reasoning_effort: str = "none", chunk: int = 12,
                prefix: str = ""):
-    """One call, and when the model breaks the contract, the same lines in
-    smaller pieces.
+    """Один вызов, а при нарушении контракта те же реплики меньшими кусками.
 
-    A batch of forty lines can come back short: the model stops early. The
-    lines that are missing are asked for again, ten at a time, because a
-    shorter batch is answered more reliably. A line that never arrives is
-    reported, not silently dropped.
+    Батч из сорока реплик может вернуться коротким: модель останавливается
+    раньше. Недостающие реплики запрашиваются заново по десять штук, потому
+    что короткий батч модель отвечает надёжнее. Реплика, которая так и не
+    пришла, попадает в отчёт, а не теряется молча.
     """
     replies = call_batch(model, system, payload, temperature=temperature,
                           max_tokens=max_tokens, tag=tag,
@@ -176,7 +173,7 @@ def call_split(model: str, system: str, payload, temperature: float = 0.3,
                                    max_tokens=max_tokens, tag="%s-part" % tag,
                                    reasoning_effort=reasoning_effort, prefix=prefix)
         if piece_replies is None:
-            log("  %s: %d lines did not come back" % (tag, len(piece)))
+            log("  %s: %d реплик не вернулись" % (tag, len(piece)))
             out.extend(["" for _ in piece])
             continue
         out.extend(piece_replies)
@@ -185,12 +182,12 @@ def call_split(model: str, system: str, payload, temperature: float = 0.3,
 
 def call_report(model: str, system: str, payload, temperature: float = 0.1,
                max_tokens: int = 4000, tag: str = "report"):
-    """One call for a stage whose reply is shorter than the request.
+    """Один вызов для этапа, у которого ответ короче запроса.
 
-    The proofreading stage asks for the doubtful lines and gets back only
-    those, so the reply is shorter than the request. The contract is
-    different: what matters is that the reply is a list of objects with an
-    id, and that the ids point at real rows.
+    Этап вычитки просит сомнительные реплики и получает только их, поэтому
+    ответ короче запроса. Контракт тут другой: важно, чтобы ответ был
+    списком объектов с идентификатором и чтобы идентификаторы указывали на
+    существующие строки.
     """
     user = json.dumps(payload, ensure_ascii=False, indent=1)
     key = "%s|%s|%s" % (tag, model, user)
@@ -199,12 +196,12 @@ def call_report(model: str, system: str, payload, temperature: float = 0.1,
             text = llm_client.call_llm(model, system, user, max_tokens=max_tokens,
                                        temperature=temperature, cache_key=key)
         except Exception as exc:
-            log("  %s: call failed: %s" % (tag, exc))
+            log("  %s: вызов не удался: %s" % (tag, exc))
             time.sleep(2 + 4 * attempt)
             continue
         parsed = llm_client.extract_json_array(text)
         if parsed is None:
-            log("  %s: no array in the reply, retry %d" % (tag, attempt + 1))
+            log("  %s: в ответе нет массива, попытка %d" % (tag, attempt + 1))
             time.sleep(1 + 3 * attempt)
             continue
         return parsed
@@ -212,7 +209,7 @@ def call_report(model: str, system: str, payload, temperature: float = 0.1,
 
 
 def run_parallel(jobs, worker: int = WORKERS):
-    """Run the jobs on a small pool. The order of the results is the order of the jobs."""
+    """Выполняет задания в небольшом пуле. Порядок результатов совпадает с порядком заданий."""
     results = [None] * len(jobs)
     index_lock = threading.Lock()
     next_index = [0]
@@ -230,10 +227,10 @@ def run_parallel(jobs, worker: int = WORKERS):
                 results[index] = job()
             except Exception as exc:
                 results[index] = exc
-                log("  job %d failed: %s" % (index, exc))
+                log("  задание %d не выполнено: %s" % (index, exc))
             done[0] += 1
             if done[0] % 10 == 0 or done[0] == len(jobs):
-                log("  %d/%d batches done" % (done[0], len(jobs)))
+                log("  %d/%d батчей готово" % (done[0], len(jobs)))
 
     threads = [threading.Thread(target=worker_loop) for _ in range(max(1, worker))]
     for thread in threads:

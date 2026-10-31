@@ -1,23 +1,22 @@
 #!/usr/bin/env python
-"""Build the glossary out of the translation that exists.
+"""Сборка глоссария из того перевода, который уже есть.
 
-The glossary is a promise: a term has one Russian word in this game. A
-glossary written by hand drifts from the text; a glossary read out of the
-text cannot, because every entry of it is a pair that the translation
-actually uses.
+Глоссарий обещает: у термина в этой игре одно русское слово. Глоссарий,
+написанный руками, расходится с текстом; глоссарий, прочитанный из текста,
+разойтись не может, потому что каждая его запись это пара, которую перевод
+действительно использует.
 
-The pair is found by alignment. A term in the English source is followed, in
-the Russian line, by the word that stands in its place: the capitalised
-Russian word next to it, or the capitalised Russian word in the same
-position. The candidates are counted, and the one that the text uses most is
-the entry.
+Пара находится выравниванием. Термин в английском источнике сопровождается
+в русской строке словом, которое стоит на его месте: с большой буквы написанным
+русским словом рядом с ним или в той же позиции. Кандидаты считаются, и в
+запись идёт тот, который текст использует чаще.
 
-    python3 scripts/build_glossary.py            # the terms that are missing
-    python3 scripts/build_glossary.py --apply    # write them into the glossary
+    python3 scripts/build_glossary.py            # термины, которых не хватает
+    python3 scripts/build_glossary.py --apply    # записать их в глоссарий
 
-A term that the translation renders in more than one way is a finding, not an
-entry: it is printed with the forms it was found in, and it is left for a
-reader to decide.
+Термин, который перевод передаёт несколькими способами, это находка, а не
+запись: он печатается с теми формами, в которых он найден, и остаётся на
+решение читателя.
 """
 from __future__ import annotations
 
@@ -37,8 +36,8 @@ GLOSSARY = os.path.join(ROOT, "src", "voice", "glossary.json")
 WORD = re.compile(r"[A-Za-z][A-Za-z'’\-]+")
 RU_WORD = re.compile(r"[А-Яа-яЁё][А-Яа-яЁё\-]*")
 
-# The words a Russian sentence opens with. They are capitalised for the
-# grammar, not because they are names.
+# Слова, с которых начинается русское предложение. Они с большой буквы по
+# правилам грамматики, а не потому что это имена.
 RU_OPENERS = {
     "Да", "Нет", "Он", "Она", "Они", "Это", "Этот", "Эта", "Эти", "Что",
     "Как", "Почему", "Зачем", "Кто", "Где", "Когда", "Куда", "Откуда",
@@ -73,7 +72,7 @@ RU_OPENERS = {
     "Это", "Вот", "Всё", "Ни", "Никак", "Куда", "Кто", "Что",
 }
 
-# The words that are not terms of the game.
+# Слова, которые не являются терминами игры.
 STOP = {
     "the", "a", "an", "and", "or", "but", "if", "then", "so", "not", "no",
     "yes", "of", "to", "in", "on", "at", "by", "for", "with", "from", "up",
@@ -129,11 +128,11 @@ STOP = {
 
 
 def terms_of(english):
-    """The terms of a line: the words that are capitalised inside it.
+    """Термины строки: слова, которые в ней написаны с большой буквы.
 
-    A word at the start of a sentence carries no information: every line
-    starts with a capital. A word in the middle of a sentence that is
-    capitalised is a name, a place, or a title of the game.
+    Слово в начале предложения ничего не несёт: каждая строка начинается с
+    заглавной. Слово в середине предложения, написанное с большой буквы, это
+    имя, место или название игры.
     """
     out = []
     for index, word in enumerate(WORD.findall(english)):
@@ -144,7 +143,7 @@ def terms_of(english):
         if word.lower() in STOP:
             continue
         if "'" in word or "’" in word:
-            # a possessive is a form of the name it follows
+            # притяжательная форма это форма имени, за которым она стоит
             continue
         out.append(word)
     return out
@@ -153,7 +152,7 @@ def terms_of(english):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--apply", action="store_true",
-                        help="write the missing terms into the glossary")
+                        help="записать недостающие термины в глоссарий")
     parser.add_argument("--min-count", type=int, default=3)
     args = parser.parse_args()
 
@@ -168,7 +167,7 @@ def main():
 
     glossary = json.load(io.open(GLOSSARY, encoding="utf-8"))
 
-    # the terms of the game, counted over the source
+    # термины игры, посчитанные по источнику
     source_terms = collections.Counter()
     lines_of = collections.defaultdict(list)
     for row in corpus:
@@ -180,9 +179,9 @@ def main():
             source_terms[term] += 1
             lines_of[term].append((row[1], russian))
 
-    # the Russian form of a term: the name of the translation that stands
-    # where the term stands. The word at the start of a Russian sentence
-    # carries no information, so the words that open a line are not names.
+    # русская форма термина: имя того перевода, которое стоит на месте
+    # термина. Слово в начале русского предложения ничего не несёт, поэтому
+    # слова, открывающие строку, именами не считаются.
     forms = collections.defaultdict(collections.Counter)
     for term, entries in lines_of.items():
         for _key, russian in entries:
@@ -211,7 +210,7 @@ def main():
             continue
         missing.append((term, count, found))
 
-    print("terms of the source without a glossary entry: %d" % len(missing))
+    print("термины источника без записи в глоссарии: %d" % len(missing))
     for term, count, found in missing:
         print("  %4d  %-22s %s" % (count, term, dict(found)))
 
@@ -219,7 +218,7 @@ def main():
         added = 0
         for term, _count, found in missing:
             if len(found) != 1:
-                print("!! %s has more than one form: %s" % (term, dict(found)))
+                print("!! %s записан несколькими формами: %s" % (term, dict(found)))
                 continue
             ru = list(found)[0]
             if ru in glossary.values():
@@ -230,7 +229,7 @@ def main():
         with io.open(GLOSSARY, "w", encoding="utf-8", newline="\n") as fh:
             json.dump(ordered, fh, ensure_ascii=False, indent=2, sort_keys=True)
             fh.write("\n")
-        print("glossary: %d entries, %d added" % (len(glossary), added))
+        print("глоссарий: %d записей, %d добавлено" % (len(glossary), added))
 
 
 if __name__ == "__main__":

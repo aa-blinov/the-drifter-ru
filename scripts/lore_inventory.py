@@ -1,13 +1,13 @@
 #!/usr/bin/env python
-"""The inventory of the lore: every name the text uses, and how it is rendered.
+"""Опись лора: все имена, которые использует текст, и то, чем они переданы.
 
-The glossary holds the terms that were decided. The text holds more: names
-that were never written down, titles, places, and the words of the world.
-This reads the corpus and writes down what is there and what it became, so
-that a drift in a name that the glossary forgot is visible.
+Глоссарий держит решённые термины. Текст держит больше: имена, которые
+никогда не записывали, титулы, места и слова мира. Скрипт читает корпус и
+записывает, что там есть и чем оно стало, чтобы разъезд в имени, которое
+глоссарий забыл, был виден.
 
-    python3 scripts/lore_inventory.py            # the inventory
-    python3 scripts/lore_inventory.py --drift    # the terms rendered two ways
+    python3 scripts/lore_inventory.py            # опись
+    python3 scripts/lore_inventory.py --drift    # термины, переданные двумя способами
 """
 from __future__ import annotations
 
@@ -25,8 +25,8 @@ TRANSLATION = os.path.join(ROOT, "translation", "Russian", "translation.csv")
 GLOSSARY = os.path.join(ROOT, "src", "voice", "glossary.json")
 
 TOKEN = re.compile(r"[A-Za-z][A-Za-z'’\-]*")
-# The words that open a sentence are capitalised for the grammar and carry
-# no information about the world.
+# Слова, открывающие предложение, с большой буквы по правилам грамматики и
+# ничего не говорят о мире.
 STOP = {
     "The", "A", "An", "And", "But", "So", "If", "I", "You", "He", "She", "It",
     "We", "They", "There", "This", "That", "These", "Those", "When", "Where",
@@ -95,7 +95,7 @@ STOP = {
 
 
 def terms_of(english: str):
-    """The capitalised words of a line, and where they stand."""
+    """Написанные с большой буквы слова строки и их места."""
     out = []
     words = TOKEN.findall(english)
     for index, word in enumerate(words):
@@ -104,7 +104,7 @@ def terms_of(english: str):
         if word in STOP:
             continue
         if word.isupper() and len(word) > 2:
-            # An acronym: a label of the interface.
+            # Аббревиатура: метка интерфейса.
             continue
         out.append(word)
     return out
@@ -113,11 +113,11 @@ def terms_of(english: str):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--show", default="",
-                        help="the lines that mention a term")
+                        help="строки, которые упоминают термин")
     parser.add_argument("--limit", type=int, default=3,
-                        help="how many mentions to show")
+                        help="сколько упоминаний показать")
     parser.add_argument("--min", type=int, default=3,
-                        help="the least number of mentions a term must have")
+                        help="наименьшее число упоминаний у термина")
 
     args = parser.parse_args()
 
@@ -129,7 +129,7 @@ def main():
     translation = {"%s|%s" % (r[0], r[1]): r[ru_col] for r in table[1:]}
     glossary = json.load(io.open(GLOSSARY, encoding="utf-8"))
 
-    # the terms of the source, and the lines that mention them
+    # термины источника и строки, которые их упоминают
     mentions = collections.defaultdict(list)
     for row in corpus:
         english = row[4]
@@ -145,21 +145,21 @@ def main():
             if wanted not in term.lower():
                 continue
             print("=" * 78)
-            print("%s — %d упоминаний, в глоссарии: %s"
-                  % (term, len(mentions[term]), glossary.get(term, "—")))
+            print("%s: %d упоминаний, в глоссарии: %s"
+                  % (term, len(mentions[term]), glossary.get(term, "нет")))
             for character, ident, english, russian in mentions[term][:args.limit]:
                 print("  EN: %s" % english[:92])
                 print("  RU: %s" % russian[:92])
         return
 
-    print("terms of the source: %d" % len(mentions))
+    print("терминов источника: %d" % len(mentions))
     print()
-    print("%-28s %6s  %s" % ("term", "count", "in the glossary"))
+    print("%-28s %6s  %s" % ("термин", "число", "в глоссарии"))
     for term in sorted(mentions, key=lambda t: -len(mentions[t])):
         if len(mentions[term]) < args.min:
             continue
         print("%-28s %6d  %s"
-              % (term, len(mentions[term]), glossary.get(term, "—")))
+              % (term, len(mentions[term]), glossary.get(term, "нет")))
 
 
 if __name__ == "__main__":

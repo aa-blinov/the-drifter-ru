@@ -1,12 +1,12 @@
 #!/usr/bin/env python
-"""Download the pixel fonts the Cyrillic glyphs are taken from.
+"""Скачивание пиксельных шрифтов, из которых берётся кириллица.
 
-Ark Pixel Font carries the whole Cyrillic range at 10 px and 12 px, which
-are the sizes the game draws its dialogue and its interface at. The font is
-under the SIL Open Font License 1.1.
+Ark Pixel Font несёт весь кириллический диапазон в 10 px и 12 px, а это
+те размеры, в которых игра рисует диалоги и интерфейс. Шрифт распространяется
+по SIL Open Font License 1.1.
 
-The files are not committed: they are a few megabytes, and they are fetched
-from the project's release page.
+Файлы не лежат в репозитории: это несколько мегабайт, и они тянутся со
+страницы релизов проекта.
 
     python3 scripts/fetch_fonts.py
 """
@@ -35,13 +35,13 @@ WANTED = {10: "ark-pixel-10px-proportional-latin.ttf",
 
 def fetch(size: int, name: str, target_dir: str):
     url = "%s/%s/%s" % (RELEASE, VERSION, name)
-    print("downloading %s" % url)
+    print("скачивание %s" % url)
     with urllib.request.urlopen(url, timeout=120) as response:
         data = response.read()
     archive = zipfile.ZipFile(io.BytesIO(data))
     wanted = WANTED[size]
     if wanted not in archive.namelist():
-        raise SystemExit("%s not in %s" % (wanted, name))
+        raise SystemExit("%s не найден в %s" % (wanted, name))
     os.makedirs(target_dir, exist_ok=True)
     with archive.open(wanted) as src, open(os.path.join(target_dir, wanted), "wb") as dst:
         shutil.copyfileobj(src, dst)
@@ -59,7 +59,7 @@ def main():
     args = parser.parse_args()
     for size, name in PACKAGES.items():
         fetch(size, name, args.dir)
-    print("\nfonts: %s" % args.dir)
+    print("\nшрифты: %s" % args.dir)
 
 
 if __name__ == "__main__":
