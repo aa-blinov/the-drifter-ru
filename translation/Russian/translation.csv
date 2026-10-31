@@ -9661,14 +9661,14 @@ Try interacting again.","Значок действия <color=#5FCDE4FF>на о�
 ,1993,General Text,Text in GuiControllerTute,No interaction,Нет взаимодействия
 ,1994,General Text,Text in GuiControllerTute,Examine,Осмотреть
 ,1999,General Text,Text in GuiControllerTute,Search,Обыскать
-,2000,General Text,Text in GuiControllerTute,"Use, Pick up, etc","Использовать, подобрать и т. д."
+,2000,General Text,Text in GuiControllerTute,"Use, Pick up, etc","Взять, поднять и т. д."
 ,2001,General Text,Text in GuiControllerTute,Talk To,Поговорить с
 ,2002,General Text,Text in GuiControllerTute,Walk (x2 to skip),Идти (x2 — пропуск)
 ,2003,General Text,Text in GuiControllerTute,Hints,Подсказки
 ,2004,General Text,Text in GuiControllerTute,Walk,Идти
 ,2005,General Text,Text in GuiControllerTute,Look Around,Осмотреться
-,2006,General Text,Text in GuiControllerTute,Look/Interact,Осмотреть/Взаимодействовать
-,2007,General Text,Text in GuiControllerTute,Look/Use Item,Осмотреть/Использовать предмет
+,2006,General Text,Text in GuiControllerTute,Look/Interact,Осмотреть/Действовать
+,2007,General Text,Text in GuiControllerTute,Look/Use Item,Осмотреть/Взять
 ,2008,General Text,Text in GuiControllerTute,Select Item,Выбрать предмет
 ,2009,General Text,Text in GuiControllerTute,Equip/Combine,Надеть/Объединить
 ,2019,General Text,Text in GuiControllerTute,Craft Items,Изготовить предметы
