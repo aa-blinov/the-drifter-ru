@@ -121,17 +121,22 @@ def install_font_license(paths):
     return target
 
 
-def install_fonts(paths, dry_run=False, mode="metric"):
+def install_fonts(paths, dry_run=False, mode="metric", source=None):
     """Вписывание кириллицы в шрифты игры."""
     if dry_run:
         print("будут правиться %d шрифтов в %s" % (len(GAME_FONTS), paths["assets"]))
         return
-    data, patched = patch_assets(paths["assets"], mode, set(GAME_FONTS))
+    expected_cyrillic = 0
+    if source:
+        from font_metrics import load_font
+        cmap = load_font(source).getBestCmap()
+        expected_cyrillic = len([c for c in cmap if 0x0400 <= c <= 0x04FF]) * len(GAME_FONTS)
+    data, patched = patch_assets(paths["assets"], mode, set(GAME_FONTS), source)
 
     staged = paths["assets"] + ".new"
     with open(staged, "wb") as fh:
         fh.write(data)
-    verify(staged, paths["assets"])
+    verify(staged, paths["assets"], expected_cyrillic)
     os.replace(staged, paths["assets"])
     print("записан %s (%d шрифтов)" % (paths["assets"], patched))
 
@@ -144,6 +149,9 @@ def main():
                         help="поставить только текст, шрифты не трогать")
     parser.add_argument("--mode", default="metric", choices=["metric", "grid"],
                         help="как кириллица масштабируется под шрифт игры")
+    parser.add_argument("--source", default=None,
+                        help="шрифт, из которого берётся кириллица (по умолчанию "
+                             "подбирается по шрифту игры)")
     args = parser.parse_args()
 
     game_dir = os.path.abspath(args.game)
@@ -157,7 +165,7 @@ def main():
         backup(paths, game_dir)
     install_translation(paths, args.dry_run)
     if not args.no_fonts:
-        install_fonts(paths, args.dry_run, args.mode)
+        install_fonts(paths, args.dry_run, args.mode, args.source)
         license_path = install_font_license(paths)
         if license_path:
             print("лицензия шрифта: %s" % license_path)

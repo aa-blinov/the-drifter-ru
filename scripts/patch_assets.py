@@ -70,7 +70,8 @@ def patch_object(data: bytes, font: bytes, new_font: bytes):
             + data[offset + len(font):])
 
 
-def patch_assets(assets_path: str, mode: str = "metric", fonts=None):
+def patch_assets(assets_path: str, mode: str = "metric", fonts=None,
+                  source: str = None):
     """Файл, в шрифтах которого есть кириллица."""
     import UnityPy
 
@@ -91,7 +92,10 @@ def patch_assets(assets_path: str, mode: str = "metric", fonts=None):
         if fonts and name not in fonts:
             continue
         target_metrics = Metrics(load_font(raw_font))
-        source_path, _source_metrics = source_for(target_metrics)
+        if source:
+            source_path = source
+        else:
+            source_path, _source_metrics = source_for(target_metrics)
         new_font, added, scale = merge(raw_font, source_path, mode)
         data = obj.get_raw_data()
         result = patch_object(data, raw_font, new_font)
@@ -130,8 +134,12 @@ def release(env) -> None:
     gc.collect()
 
 
-def verify(path: str, original_path: str) -> None:
-    """Записанный файл должен держать те же объекты, что и оригинал."""
+def verify(path: str, original_path: str, expected_cyrillic: int = 0) -> None:
+    """Записанный файл должен держать те же объекты, что и оригинал.
+
+    Число кириллических глифов сверяется с ожидаемым: сколько в источнике
+    кириллицы, столько должно оказаться в каждом из текстовых шрифтов.
+    """
     import UnityPy
 
     before_env = UnityPy.load(original_path)
@@ -160,9 +168,9 @@ def verify(path: str, original_path: str) -> None:
     if differing > len(before) // 10:
         raise SystemExit("изменилось %d объектов из %d: это не правка шрифтов"
                          % (differing, len(before)))
-    if cyrillic < 1000:
-        raise SystemExit("в записанном файле %d кириллических глифов, ожидалось больше "
-                         "тысячи" % cyrillic)
+    if expected_cyrillic and cyrillic < expected_cyrillic:
+        raise SystemExit("в записанном файле %d кириллических глифов, ожидалось не "
+                         "меньше %d" % (cyrillic, expected_cyrillic))
     print("проверено: %d объектов, %d изменено, %d кириллических глифов"
           % (len(objects), differing, cyrillic))
 
