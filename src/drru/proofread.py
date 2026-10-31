@@ -1,15 +1,15 @@
 #!/usr/bin/env python
-"""The proofread pass: every line of the translation read against its source.
+"""Проход вычитки: каждая строка перевода читается против источника.
 
-The editorial pass brings the translation to one voice. This pass looks for
-the other kind of defect: a line that says something the English does not
-say, a line that lost a fact, a line that kept a word of the source it
-should have translated, a line that was cut short.
+Редакторский проход приводит перевод к единому голосу. Этот проход ищет
+другой вид дефекта: строка, которая говорит не то, что говорит английский
+текст, строка, потерявшая факт, строка, сохранившая слово источника, которое
+следовало перевести, строка, оборванная на полуслове.
 
-It is a measurement too, not an oracle: the model is asked to name the lines
-it doubts and to say why, and every line it names is read here before it is
-changed. A line the model doubts and the source does not support is left
-alone.
+Это ещё и измерение, а не оракул: модель просят назвать строки, в которых
+она сомневается, и сказать почему, и каждую названную строку читают здесь,
+до того как она изменена. Строка, в которой модель сомневается, а источник
+этого не подтверждает, остаётся как есть.
 
     python3 src/drru/proofread.py
 """
@@ -29,11 +29,11 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(HERE))
 WORK = os.path.join(ROOT, "work", "corpus")
 
-IN_PATH = os.path.join(WORK, "final.jsonl")
+IN_PATH = os.path.join(WORK, "polish.jsonl")
 OUT_PATH = os.path.join(WORK, "proofread.jsonl")
 REPORT_PATH = os.path.join(WORK, "proofread.json")
 
-SYSTEM = """Ты — вычитчик русского перевода игры The Drifter.
+SYSTEM = """Ты вычитчик русского перевода игры The Drifter.
 
 Тебе дают английскую строку игры и её русский перевод. Найди строки, где перевод расходится с оригиналом.
 
@@ -49,7 +49,7 @@ SYSTEM = """Ты — вычитчик русского перевода игры
 
 ФОРМАТ ОТВЕТА: JSON-массив объектов, по одному на сомнительную строку:
 {"id": N, "why": "кратко по-русски, что не так", "fix": "исправленный русский текст"}
-Если сомнительных строк нет — верни пустой массив []. Не выдумывай замечания."""
+Если сомнительных строк нет, верни пустой массив []. Не выдумывай замечания."""
 
 
 def main():
@@ -119,13 +119,13 @@ def main():
     with io.open(REPORT_PATH, "w", encoding="utf-8") as fh:
         json.dump(findings, fh, ensure_ascii=False, indent=2)
 
-    print("proofread: %d lines, %d lines to read" % (len(rows), len(findings)))
+    print("вычитка: %d строк, %d строк к прочтению" % (len(rows), len(findings)))
     for finding in findings[:40]:
         print("  [%s] %s" % (finding["key"], finding["why"]))
         print("     EN: %s" % finding["en"][:110])
         print("     RU: %s" % finding["ru"][:110])
     if len(findings) > 40:
-        print("  ... %d more" % (len(findings) - 40))
+        print("  ... ещё %d" % (len(findings) - 40))
 
 
 if __name__ == "__main__":

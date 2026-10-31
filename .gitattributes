@@ -6,6 +6,11 @@
 *.cmd text eol=crlf
 *.ps1 text eol=crlf
 
+# The file the game reads is the one file that must keep CRLF: the importer
+# takes the file as it is, and without CRLF it reads one long line. The
+# repository still stores it normalised, so the diff stays readable.
+translation/Russian/translation.csv text eol=crlf
+
 # Binary assets never get line-ending treatment.
 *.png binary
 *.jpg binary

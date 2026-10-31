@@ -1,10 +1,9 @@
 name: ci
 
-# The translation is a data package, so the build is the test: the shipped
-# CSV is read the way the game reads it, and checked against the English
-# corpus it was built from. The house-style check is a separate workflow, so
-# that a failure of the standard is visibly different from a failure of the
-# data.
+# Перевод это пакет данных, поэтому сборка и есть проверка: поставляемый CSV
+# читается так же, как его читает игра, и сверяется с английским корпусом, из
+# которого он собран. Проверка внутреннего стандарта вынесена в отдельный
+# workflow, поэтому сбой стандарта видно иначе, чем сбой данных.
 
 on:
   push:
@@ -29,13 +28,13 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Test
+      - name: Тесты
         run: python3 -m unittest discover -s tests -v
 
-      - name: The checks
+      - name: Проверки
         run: python3 src/drru/qa.py
 
-      - name: The file the game reads
+      - name: Файл, который читает игра
         run: |
           python3 - <<'PY'
           import csv, hashlib, io, os

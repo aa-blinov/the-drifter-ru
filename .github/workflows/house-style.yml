@@ -1,22 +1,22 @@
 name: house style
 
-# The house standard, enforced.
+# Внутренний стандарт, который проверяется автоматически.
 #
-# The checker is not vendored into this repository. It is pulled from
-# aa-blinov/golden-repo at a pinned version, so that an improvement to the
-# standard reaches every repository that adopts it without a pull request
-# here.
+# Проверяющий скрипт не хранится в этом репозитории. Он подтягивается из
+# aa-blinov/golden-repo на зафиксированной версии, поэтому улучшение
+# стандарта доходит до каждого репозитория, который его принял, без pull
+# request здесь.
 #
-# Dependabot reads this reference as a dependency and opens the pull request
-# that bumps the pin. That is the whole update mechanism: the standard can
-# change without turning the CI of every dependent repository red, and every
-# repository says which version it follows because the version is in this
-# file.
+# Dependabot читает эту ссылку как зависимость и открывает pull request, который
+# поднимает зафиксированную версию. Это весь механизм обновления: стандарт
+# меняется, не делая CI каждого зависимого репозитория красным, и каждый
+# репозиторий показывает, какой версии следует, потому что версия указана в
+# этом файле.
 
 on:
-  # Every branch, because the default branch of a repository in this
-  # collection is not always main: most are on master, and one is on prod.
-  # A filter on main would mean the check never ran.
+  # Каждая ветка, потому что ветка по умолчанию у репозитория из этой коллекции
+  # не всегда main: большинство на master, а один на prod. Фильтр по main
+  # означал бы, что проверка не запускается никогда.
   push:
   pull_request:
   workflow_dispatch:
@@ -33,13 +33,14 @@ jobs:
     name: House style
     runs-on: ubuntu-latest
     steps:
-      # Pinned by commit, not by tag: a tag is a moving target that anyone
-      # with write access to the action can repoint. Dependabot updates the
-      # hash, and the comment is what a reader needs to know which version.
+      # Зафиксировано по коммиту, а не по тегу: тег это движущаяся цель, которую
+      # может перенаправить любой, у кого есть права на запись в action.
+      # Dependabot обновляет хеш, а комментарий нужен читателю, чтобы знать
+      # версию.
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
-          # The checkout credential is not needed after the clone, and leaving
-          # it in the git config is how it ends up inside an uploaded artefact.
+          # Учётные данные checkout не нужны после клонирования, и именно
+          # остаточные данные в git config попадают внутрь выгруженного артефакта.
           persist-credentials: false
 
       - uses: aa-blinov/golden-repo/.github/actions/house-style@v1.0.11

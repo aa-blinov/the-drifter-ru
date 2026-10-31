@@ -1,17 +1,18 @@
 #!/usr/bin/env python
-"""The typography pass: the rules that are mechanical.
+"""Проход типографики: правила, которые можно применить механически.
 
-These are the rules of the style guide that a script can apply without
-understanding the line:
+Это те правила стилевого руководства, которые скрипт применяет, не понимая
+смысла строки:
 
-  - the ellipsis is one character, «…», not three dots;
-  - a straight double quote is a pair of «ёлочки»;
-  - the em dash has no space before it and one space after it;
-  - «так же» is two words; «также» is one.
+  - многоточие это один символ, «…», а не три точки;
+  - прямая двойная кавычка это пара «ёлочек»;
+  - перед длинным тире «—» нет пробела, после него один;
+  - «так же» это два слова, «также» одно.
 
-The pass is deterministic and runs over every line, so a line the model got
-right is not touched and a line it got wrong is fixed the same way every
-time. It runs before the QA stage, so the QA stage checks the result.
+Проход детерминирован и проходит по каждой строке, поэтому строка, которую
+модель сделала правильно, не трогается, а строка, которую она сделала не так,
+исправляется одинаково при каждом запуске. Проход идёт до этапа контроля
+качества, поэтому контроль качества проверяет его результат.
 
     python3 src/drru/typography.py
 """
@@ -30,37 +31,37 @@ from drru import corpus  # noqa: E402
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(HERE))
 WORK = os.path.join(ROOT, "work", "corpus")
-IN_PATH = os.path.join(WORK, "edit.jsonl")
+IN_PATH = os.path.join(WORK, "canon.jsonl")
 OUT_PATH = os.path.join(WORK, "typo.jsonl")
 
 ELLIPSIS = re.compile(r"\.\.\.(?!\.)")
 DASH = re.compile(r"\s+—\s*")
 QUOTE = re.compile(r'"([^"\n]*)"')
 ANY_QUOTE = re.compile(r"[\"«»“”]")
-# A single quote is a quote when it opens and closes a phrase, not when it
-# is an apostrophe: `That's` is not a quoted word.
+# Одиночная кавычка это кавычка, когда она открывает и закрывает фразу, а не
+# когда это апостроф: `That's` не цитата.
 SINGLE_QUOTED = re.compile(r"(?:^|[\s(\[])'[^']+'(?=[\s.,!?;:)\]]|$)")
 
 
 def is_quoted(english: str) -> bool:
-    """True when the source line carries a quotation of its own."""
+    """Истина, когда исходная строка сама несёт цитату."""
     if ANY_QUOTE.search(english):
         return True
     return bool(SINGLE_QUOTED.search(english))
 
 
 def unwrap(text: str, english: str) -> str:
-    """Take the guillemets off a line that is wrapped in them entirely.
+    """Снимает «ёлочки» со строки, обёрнутой в них целиком.
 
-    The game shows a spoken line as it is, without quotation marks. A line
-    the editorial pass wrapped from end to end reads as a written quotation,
-    which it is not: the English original carries no quotes either.
+    Игра показывает произнесённую реплику как есть, без кавычек. Строка,
+    которую редакторский проход обернул от края до края, читается как
+    письменная цитата, а это не так: в английском оригинале кавычек тоже нет.
     """
     stripped = text.strip()
     if not (stripped.startswith("«") and stripped.endswith("»")):
         return text
     if is_quoted(english):
-        # The source quotes it, so the Russian quotes it too.
+        # Источник цитирует, значит и по-русски цитата.
         return text
     inner = stripped[1:-1].strip()
     if inner.count("«") != inner.count("»"):
@@ -69,7 +70,7 @@ def unwrap(text: str, english: str) -> str:
 
 
 def normalise(text: str, english: str = "") -> str:
-    """The typography of one line."""
+    """Типографика одной строки."""
     out = ELLIPSIS.sub("…", text)
     out = DASH.sub(" — ", out)
     out = re.sub(r"\s+—(?=\S)", " — ", out)
@@ -77,8 +78,8 @@ def normalise(text: str, english: str = "") -> str:
     out = re.sub(r"\s+»", "»", out)
     out = re.sub(r"\s+([,.;:!?])", r"\1", out)
 
-    # A straight quote is a pair of guillemets. The game has no straight
-    # quotes in the Russian text, and a lone one is a typo either way.
+    # Прямая кавычка это пара «ёлочек». В русском тексте игры прямых кавычек
+    # нет, а одиночная в любом случае опечатка.
     def to_guillemet(match):
         inner = match.group(1)
         return "«%s»" % inner
@@ -106,7 +107,7 @@ def main():
     with open(args.out, "w", encoding="utf-8", newline="\n") as fh:
         for row in rows:
             fh.write(json.dumps(row, ensure_ascii=False) + "\n")
-    print("typography: %d lines, %d changed -> %s" % (len(rows), changed, args.out))
+    print("типографика: %d строк, изменено %d -> %s" % (len(rows), changed, args.out))
 
 
 if __name__ == "__main__":

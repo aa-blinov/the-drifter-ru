@@ -1,15 +1,15 @@
 #!/usr/bin/env python
-"""The translation stage: English corpus in, Russian corpus out.
+"""Этап перевода: английский корпус на входе, русский корпус на выходе.
 
-Two passes over the corpus, in this order:
+Два прохода по корпусу, в таком порядке:
 
-  1. the bulk pass, which translates;
-  2. the editorial pass, which brings the translation to one voice.
+  1. проход перевода, который переводит;
+  2. редакторский проход, который приводит перевод к единому голосу.
 
-The editorial pass reads the bulk output and the English source of the same
-batch, so it can tell a calque from a deliberate choice. It is also given
-the tail of the previous batch, so the voice established in one batch
-propagates into the next instead of each batch deciding on its own.
+Редакторский проход читает выход прохода перевода и английский источник
+того же батча, поэтому он отличает кальку от осознанного выбора. Ему также
+дают хвост предыдущего батча, и голос, заданный в одном батче, переходит в
+следующий, вместо того чтобы каждый батч решал за себя.
 
     python3 src/drru/translate.py --stage bulk
     python3 src/drru/translate.py --stage editorial
@@ -32,46 +32,49 @@ WORK = os.path.join(ROOT, "work", "corpus")
 
 BULK_PATH = os.path.join(WORK, "bulk.jsonl")
 EDIT_PATH = os.path.join(WORK, "edit.jsonl")
+POLISH_PATH = os.path.join(WORK, "polish.jsonl")
+PROOFREAD_PATH = os.path.join(WORK, "proofread.jsonl")
+FINAL_PATH = os.path.join(WORK, "final.jsonl")
 MANUAL_PATH = os.path.join(ROOT, "src", "voice", "manual_fixes.json")
 
-BULK_SYSTEM = """Ты — переводчик игры The Drifter на русский.
+BULK_SYSTEM = """Ты переводчик игры The Drifter на русский.
 
 ЖЁСТКИЕ ПРАВИЛА:
-1. Вход — JSON-массив английских строк. Выход — JSON-массив русских строк РОВНО той же длины и в том же порядке. Больше ничего: ни нумерации, ни комментариев, ни markdown-обёрток.
+1. Вход это JSON-массив английских строк. Выход это JSON-массив русских строк РОВНО той же длины и в том же порядке. Больше ничего: ни нумерации, ни комментариев, ни markdown-обёрток.
 2. Плейсхолдеры {0} переноси как есть, без изменений. Ничего не выдумывай: не добавляй имён, фактов, пояснений и оценочных слов, которых нет в оригинале.
-3. Тон: нуар, сухо, устало, с чёрным юмором. Повествование от первого лица («я»). Реплики — живая разговорная речь, характер говорящего сохраняется.
-4. Маты переводятся по силе: «shit» — « дерьмо » или « чёрт », а не « фигня ».
-5. Одно и то же слово переводится одним и тем же способом по всему тексту. Один английский текст — один русский вариант.
-6. Кавычки-ёлочки «», тире «—» без пробела перед ним, многоточие «…» одним символом.
+3. Тон: нуар, сухо, устало, с чёрным юмором. Повествование от первого лица («я»). Реплики звучат как живая разговорная речь, характер говорящего сохраняется.
+4. Маты переводятся по силе: «shit» переводится как « дерьмо » или « чёрт », а не « фигня ».
+5. Одно и то же слово переводится одним и тем же способом по всему тексту. На один английский текст приходится один русский вариант.
+6. Кавычки-ёлочки «», тире «—»: в скобочной конструкции с пробела с обеих сторон, в разрыве фразы без пробела, тире примыкает к слову, многоточие «…» одним символом.
 7. Никаких английских слов в переводе, кроме имён и терминов из глоссария.
 """
 
-EDITORIAL_SYSTEM = """Ты — литературный редактор русского перевода игры The Drifter.
+EDITORIAL_SYSTEM = """Ты литературный редактор русского перевода игры The Drifter.
 
 Для каждой строки:
 - сохрани смысл, объём, характер говорящего, плейсхолдеры и разметку;
 - приведи строку к голосу, описанному ниже;
-- если строка уже в голосе — верни её без изменений;
+- если строка уже в голосе, верни её без изменений;
 - не переводи заново то, что уже хорошо переведено.
 
 ТОН: нуар, сухо, устало, цинично. Переводчик не шутит и не подмигивает: ирония держится на словах. Никакого пафоса, никакого панибратства, никакого сленга, которого нет в оригинале. Маты по силе, но не по количеству.
 
 ПОВЕСТВОВАНИЕ (строки персонажа Narr и строки без говорящего): от первого лица, «я». Прошедшее время для того, что уже случилось, настоящее для того, что происходит сейчас. Короткая фраза, потом длинная. Две соседние строки не начинаются одинаково. Точность важнее красоты. Никаких вводных оборотов.
 
-ПРЯМАЯ РЕЧЬ: говорит живой человек. Реплики игрока короткие и обрывистые. Прямая речь внутри реплики — в «ёлочках».
+ПРЯМАЯ РЕЧЬ: говорит живой человек. Реплики игрока короткие и обрывистые. Прямая речь внутри реплики берётся в «ёлочки».
 
-ЕДИНЫЕ СЛОВА: имена, названия мест, клички и игровые термины — строго по глоссарию. Слово из глоссария не заменяй синонимом. Собственные имена транслитерируй: Mick — Мик, Roth — Рот, Hara — Хара, Klein — Кляйн.
+ЕДИНЫЕ СЛОВА: имена, названия мест, клички и игровые термины взяты строго по глоссарию. Слово из глоссария не заменяй синонимом. Собственные имена транслитерируй: Mick: Мик, Roth: Рот, Hara: Хара, Klein: Кляйн.
 
-ЗАПРЕЩЕНО: кальки («принять меры», «сделать решение», «быть в состоянии»), канцелярит («данный», «осуществлять», «являться»), дословная зеркальность. Шутка в оригинале остаётся шуткой, угроза — угрозой. Смысл не добавлять и не убирать.
+ЗАПРЕЩЕНО: кальки («принять меры», «сделать решение», «быть в состоянии»), канцелярит («данный», «осуществлять», «являться»), дословная зеркальность. Шутка в оригинале остаётся шуткой, угроза остаётся угрозой. Смысл не добавлять и не убирать.
 
-ПУНКТУАЦИЯ: «ёлочки», тире «—» без пробела, многоточие «…» одним символом, точка перед закрывающей «ёлочкой». Прямых кавычек быть не должно.
+ПУНКТУАЦИЯ: «ёлочки», тире «—»: в скобочной конструкции с пробела с обеих сторон, в разрыве фразы без пробела, тире примыкает к слову, многоточие «…» одним символом, точка перед закрывающей «ёлочкой». Прямых кавычек быть не должно.
 
-ФОРМАТ ОТВЕТА: вход — JSON-массив объектов {"id": N, "en": "...", "ru": "..."}. Выход — JSON-массив строк РОВНО той же длины и порядка: отредактированный русский текст.
+ФОРМАТ ОТВЕТА: вход это JSON-массив объектов {"id": N, "en": "...", "ru": "..."}. Выход это JSON-массив строк РОВНО той же длины и порядка: отредактированный русский текст.
 """
 
 
 def _tail(batches, index, count=4):
-    """The end of the previous batch, so the voice carries over."""
+    """Конец предыдущего батча, чтобы голос переходил дальше."""
     if index == 0:
         return ""
     previous = batches[index - 1]
@@ -87,7 +90,7 @@ def stage_bulk(model: str, out_path: str = None):
     voice = batch.load_voice()
     glossary = batch.load_glossary()
     batches = batch.make_batches(rows)
-    batch.log("bulk: %d lines, %d batches" % (len(rows), len(batches)))
+    batch.log("перевод: %d строк, %d батчей" % (len(rows), len(batches)))
 
     def make_job(index, rows_in_batch):
         def job():
@@ -116,13 +119,13 @@ def stage_bulk(model: str, out_path: str = None):
             continue
         out.extend(result)
     if failed:
-        batch.log("bulk: %d batches failed" % failed)
+        batch.log("перевод: не выполнено батчей %d" % failed)
     path = out_path or BULK_PATH
     os.makedirs(os.path.dirname(path) or WORK, exist_ok=True)
     with open(path, "w", encoding="utf-8", newline="\n") as fh:
         for row in out:
             fh.write(json.dumps(row, ensure_ascii=False) + "\n")
-    batch.log("bulk: wrote %d lines -> %s" % (len(out), path))
+    batch.log("перевод: записано %d строк -> %s" % (len(out), path))
     return out
 
 
@@ -130,7 +133,7 @@ def stage_editorial(model: str):
     rows = corpus.read_jsonl(BULK_PATH)
     glossary = batch.load_glossary()
     batches = batch.make_batches(rows)
-    batch.log("editorial: %d lines, %d batches" % (len(rows), len(batches)))
+    batch.log("редактура: %d строк, %d батчей" % (len(rows), len(batches)))
 
     def make_job(index, rows_in_batch):
         def job():
@@ -162,24 +165,24 @@ def stage_editorial(model: str):
             continue
         out.extend(result)
     if failed:
-        batch.log("editorial: %d batches failed" % failed)
+        batch.log("редактура: не выполнено батчей %d" % failed)
     os.makedirs(WORK, exist_ok=True)
     with open(EDIT_PATH, "w", encoding="utf-8", newline="\n") as fh:
         for row in out:
             fh.write(json.dumps(row, ensure_ascii=False) + "\n")
-    batch.log("editorial: wrote %d lines -> %s" % (len(out), EDIT_PATH))
+    batch.log("редактура: записано %d строк -> %s" % (len(out), EDIT_PATH))
     return out
 
 
 def stage_manual(source: str = None, out: str = None):
-    """The hand corrections, applied over the stage that came before.
+    """Ручные правки, применённые поверх предыдущего этапа.
 
-    A correction lives in two places: in the CSV that ships, and in
-    src/voice/manual_fixes.json. The second place is what survives the next
-    run of the pipeline.
+    Правка живёт в двух местах: в отгружаемом CSV и в
+    src/voice/manual_fixes.json. Второе место переживает следующий запуск
+    пайплайна.
     """
-    source = source or EDIT_PATH
-    out = out or source
+    source = source or PROOFREAD_PATH
+    out = out or FINAL_PATH
     if not os.path.exists(MANUAL_PATH):
         return []
     with open(MANUAL_PATH, encoding="utf-8") as fh:
@@ -194,7 +197,7 @@ def stage_manual(source: str = None, out: str = None):
     with open(out, "w", encoding="utf-8", newline="\n") as fh:
         for row in rows:
             fh.write(json.dumps(row, ensure_ascii=False) + "\n")
-    batch.log("manual: applied %d fixes -> %s" % (applied, out))
+    batch.log("ручные правки: применено %d -> %s" % (applied, out))
     return rows
 
 
@@ -203,12 +206,12 @@ def main():
     parser.add_argument("--stage", default="all",
                         choices=["bulk", "editorial", "manual", "all"])
     parser.add_argument("--source", default=None,
-                        help="the file the manual fixes are applied to")
+                        help="файл, к которому применяются ручные правки")
     parser.add_argument("--out", default=None,
-                        help="where the stage writes: the bulk corpus or the "
-                             "manual fixes. A bulk run with --out leaves the "
-                             "working corpus alone — a trial run does not "
-                             "overwrite what ships")
+                        help="куда пишет этап: корпус перевода или ручные "
+                             "правки. Запуск перевода с --out не трогает "
+                             "рабочий корпус, пробный запуск не затирает то, "
+                             "что отгружается")
     parser.add_argument("--model", default=os.environ.get("DRRU_MODEL", "minimax-m3"))
     args = parser.parse_args()
 

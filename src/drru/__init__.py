@@ -1,1 +1,1 @@
-"""The pipeline of the Russian localization of The Drifter."""
+"""Пайплайн русской локализации The Drifter."""
