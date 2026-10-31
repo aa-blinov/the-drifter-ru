@@ -147,7 +147,7 @@ def main():
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--no-fonts", action="store_true",
                         help="поставить только текст, шрифты не трогать")
-    parser.add_argument("--mode", default="metric", choices=["metric", "grid"],
+    parser.add_argument("--mode", default="metric", choices=["metric", "grid", "cap"],
                         help="как кириллица масштабируется под шрифт игры")
     parser.add_argument("--source", default=None,
                         help="шрифт, из которого берётся кириллица (по умолчанию "

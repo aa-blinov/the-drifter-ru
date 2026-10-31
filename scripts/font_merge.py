@@ -87,6 +87,11 @@ def scale_for(target: Metrics, source: Metrics, mode: str) -> float:
     if mode == "metric":
         # Строчные источника становятся той же высоты, что строчные цели.
         return target.x_height / float(source.x_height)
+    if mode == "cap":
+        # Заглавные источника становятся той же высоты, что заглавные цели.
+        # У игры капитель ниже относительно строчных, чем у Ark Pixel, и
+        # именно по ней русский текст кажется чужим.
+        return target.cap / float(source.cap)
     raise SystemExit("неизвестный режим слияния: %s" % mode)
 
 
