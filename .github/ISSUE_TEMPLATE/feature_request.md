@@ -1,27 +1,28 @@
 ---
-name: Feature request
-about: Suggest something the project should do
+name: Запрос на новую возможность
+about: Предложите, что проект должен делать
 title: ''
 labels: enhancement
 assignees: ''
 ---
 
-**The problem**
+**Проблема**
 
-<!-- What is hard or impossible today. Describe the situation, not the
-     solution — a solution that solves the wrong problem is still a
-     reasonable proposal, but it is easier to judge the problem on its own. -->
+<!-- Что сегодня сложно или невозможно. Опишите ситуацию, а не решение:
+     решение не той задачи остаётся разумным предложением, но саму задачу
+     оценить проще. -->
 
-**What you would like to happen**
+**Как вы хотите, чтобы получилось**
 
-<!-- The outcome, described so that someone could tell whether it happened. -->
+<!-- Итог, описанный так, чтобы было понятно, получилось ли это. -->
 
-**How you would use it**
+**Как вы это будете использовать**
 
-<!-- The actual workflow. This is what decides whether the feature is worth
-     building, and it is the part most often left out. -->
+<!-- Реальный сценарий работы. Именно он решает, стоит ли реализовывать
+     возможность, и именно его чаще всего опускают. -->
 
-**Alternatives you have used**
+**Какие альтернативы вы использовали**
 
-<!-- A script, a different tool, a workaround. These often show that the
-     need is real, and they set the bar for what the feature has to beat. -->
+<!-- Скрипт, другой инструмент, обходной путь. Часто они показывают, что
+     потребность настоящая, и задают планку, которую возможность должна
+     превзойти. -->

@@ -1,67 +1,65 @@
-# Contributing
+# Участие в проекте
 
-Thanks for looking at the-drifter-ru.
+Спасибо, что смотрите the-drifter-ru.
 
-## Before you open a pull request
+## До того, как открыть pull request
 
-- **Open an issue first** for anything larger than a fix. A design that is
-  discussed in an issue costs less than a design that is discovered to be
-  wrong after it is built.
-- **One concern per pull request.** A fix and a refactor are two pull
-  requests.
-- **Match the existing code.** Read a file in full before changing it, and
-  follow the conventions you find there rather than the ones you would
-  choose.
+- **Сначала откройте issue** для всего, что крупнее правки. Дизайн,
+  обсуждённый в issue, обходится дешевле, чем дизайн, оказавшийся неверным
+  после того, как его собрали.
+- **Один вопрос на pull request.** Правка и рефакторинг это два pull request.
+- **Держитесь существующего кода.** Прочитайте файл целиком перед изменением и
+  следуйте соглашениям, которые найдёте там, а не тем, которые выбрали бы сами.
 
-## Changing a line of the translation
+## Правка строки перевода
 
-1. Find the English source in `corpus/english.csv` and check its repeats. The
-   same English line appears in several places, and all of them must carry the
-   same Russian.
-2. Fix the line in `translation/Russian/translation.csv`.
-3. Put the same wording in `src/voice/manual_fixes.json`, keyed by
-   `Character|ID`. Without that, the next run of the pipeline will put the old
-   wording back. The stage that applies them is
+1. Найдите английский источник в `corpus/english.csv` и проверьте его
+   повторы. Одна и та же английская строка встречается в нескольких местах, и
+   во всех них должен стоять один и тот же русский текст.
+2. Исправьте строку в `translation/Russian/translation.csv`.
+3. Впишите ту же формулировку в `src/voice/manual_fixes.json` с ключом
+   `Character|ID`. Без этого следующий прогон пайплайна вернёт прежнюю
+   формулировку. Этап, который применяет эти правки:
    `python src/drru/translate.py --stage manual`.
-4. Keep the placeholders. Fifteen lines carry a `{0}`; a dropped placeholder is
-   a broken line in the game, not a typo.
-5. Run the checks:
+4. Сохраняйте плейсхолдеры. Пятнадцать строк несут `{0}`; потерянный
+   плейсхолдер это сломанная строка в игре, а не опечатка.
+5. Запустите проверки:
 
    ```bash
    python3 -m unittest discover -s tests -v
    python3 src/drru/qa.py
    ```
 
-6. Add an entry to `CHANGELOG.md` if the change is visible to a player.
+6. Добавьте запись в `CHANGELOG.md`, если изменение видно игроку.
 
-## Changing the pipeline
+## Изменение пайплайна
 
-- The stages do not import each other. Each reads a file and writes a file;
-  the intermediate files under `work/` are the record of what each one did.
-- Every model call is cached by the hash of model, system and user. A change
-  to a prompt invalidates the cache of that stage and nothing else.
-- `minimax-m3` with reasoning on spends 186 seconds on a batch of forty lines
-  and 4.6 seconds with it off. The client sets `reasoning: {"effort": "none"}`; a
-  stage that needs the model to think asks for it explicitly.
-- A batch never crosses a source file. That is what keeps the dialogue of one
-  scene together.
+- Этапы не импортируют друг друга. Каждый читает файл и пишет файл;
+  промежуточные файлы в `work/` это запись о том, что сделал каждый этап.
+- Каждый вызов модели кэшируется по хэшу модели, системного и пользовательского
+  запроса. Изменение промпта сбрасывает кэш только этого этапа.
+- `minimax-m3` с включённым рассуждением тратит 186 секунд на батч из сорока
+  строк и 4.6 секунды без него. Клиент задаёт `reasoning: {"effort": "none"}`;
+  этап, которому нужно, чтобы модель подумала, просит об этом явно.
+- Батч никогда не пересекает исходный файл. Именно это держит диалоги одной
+  сцены вместе.
 
-## House rules for the pull request
+## Домашние правила для pull request
 
-- `README.md` still describes what the project actually does. If your change
-  alters the behaviour, the README changes in the same pull request.
-- `CHANGELOG.md` has an entry, if the change is visible to a user.
-- `docs/style-guide.md` still describes the voice. If your change alters the
-  voice, the style guide and the glossary change with it.
-- No dependency without a reason written down next to it.
-- The game's files are the developer's. Nothing from a copy of the game is
-  committed, and the installer backs up everything it touches.
+- `README.md` по-прежнему описывает то, что проект делает на самом деле. Если
+  ваша правка меняет поведение, README меняется в том же pull request.
+- В `CHANGELOG.md` есть запись, если изменение видно пользователю.
+- `docs/style-guide.md` по-прежнему описывает голос. Если ваша правка меняет
+  голос, руководство по стилю и глоссарий меняются вместе с ним.
+- Никаких зависимостей без записанной рядом причины.
+- Файлы игры принадлежат разработчику. Ничто из копии игры не попадает в
+  коммиты, а установщик делает резервные копии всего, к чему прикасается.
 
-## The code
+## Код
 
-- Python 3.10 or newer. The pipeline uses only the standard library; the
-  installer needs UnityPy and fonttools.
-- Comments explain *why*, never *what*.
-- No emoji, in any file.
-- There is no formatter and no linter. Follow the style of the neighbouring
-  code and run the tests before you open the pull request.
+- Python 3.10 или новее. Пайплайн использует только стандартную библиотеку;
+  установщику нужны UnityPy и fonttools.
+- Комментарии объясняют *почему*, а не *что*.
+- Никаких эмодзи ни в одном файле.
+- Форматтера и линтера в проекте нет. Держитесь стиля соседнего кода и
+  запускайте тесты до того, как откроете pull request.

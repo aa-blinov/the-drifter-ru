@@ -1,22 +1,22 @@
-# Documentation
+# Документация
 
-| Document | What it covers |
+| Документ | Что описывает |
 | --- | --- |
-| [architecture.md](architecture.md) | How the translation is put together, and why each stage exists. |
-| [style-guide.md](style-guide.md) | The voice the editor works from. The contract for any hand correction. |
-| [glossary.md](glossary.md) | The frozen terms, and the rules that keep one term from having two words. |
-| [layout.md](layout.md) | What is known about the width of a Russian line, and what is not measured. |
-| [release-process.md](release-process.md) | Versioning, release checks, tags and publishing. |
-| [../README.md](../README.md) | The front door: what it does and how to install it. |
-| [../AGENTS.md](../AGENTS.md) | The commands, the layout of the repository, and the traps. |
+| [architecture.md](architecture.md) | Как устроен перевод и зачем нужен каждый этап. |
+| [style-guide.md](style-guide.md) | Голос, по которому работает редактор. Договор для любой ручной правки. |
+| [glossary.md](glossary.md) | Зафиксированные термины и правила, которые не дают одному термину получить два слова. |
+| [layout.md](layout.md) | Что известно о ширине русской строки и что не измерено. |
+| [release-process.md](release-process.md) | Версионирование, проверки релиза, теги и публикация. |
+| [../README.md](../README.md) | Входная дверь: что делает проект и как его установить. |
+| [../AGENTS.md](../AGENTS.md) | Команды, устройство репозитория и подводные камни. |
 
-## Reading order
+## Порядок чтения
 
-New here: [../README.md](../README.md), then
+Новичок: [../README.md](../README.md), затем
 [architecture.md](architecture.md).
 
-Changing a line: [style-guide.md](style-guide.md) for the voice, then
-[glossary.md](glossary.md) for the wording of the term you are touching.
+Правка строки: голос берётся из [style-guide.md](style-guide.md), форма термина
+из [glossary.md](glossary.md).
 
-Working on the code: [architecture.md](architecture.md), then
-[../AGENTS.md](../AGENTS.md) for the traps.
+Работа с кодом: [architecture.md](architecture.md), потом [../AGENTS.md](../AGENTS.md),
+где подводные камни.

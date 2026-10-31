@@ -3,84 +3,84 @@ name: the-drifter-ru-translation
 description: Translate, revise, proofread, or QA the Russian text of The Drifter against its English source, the glossary, the literary voice, and the game's own fonts and importer. Use for dialogue, item descriptions, interface strings, terminology, and layout questions in this repository.
 ---
 
-# Russian localization for The Drifter
+# Русская локализация The Drifter
 
-Use this profile for Russian localization of The Drifter. For the reusable
-method — from glossary through editorial passes to runtime validation — also
-follow [the game localization pipeline](../game-localization-pipeline/SKILL.md).
-This profile supplies this game's facts, commands and traps; it does not
-authorize unrelated changes, model calls, installation into a game directory,
-commits or releases.
+Этот профиль нужен для русской локализации The Drifter. За общим методом, от
+глоссария и редакторских проходов до проверки в игре, иди в
+[пайплайн локализации игр](../game-localization-pipeline/SKILL.md).
+Профиль даёт факты по этой игре, её команды и её ловушки. Он не даёт права на
+посторонние правки, вызовы модели, установку в каталог игры, коммиты и релизы.
 
-## Before changing text
+## Перед правкой текста
 
-1. Read the repository `AGENTS.md` and `docs/style-guide.md`.
-2. Read `docs/glossary.md` and `src/voice/glossary.json`. The glossary is
-   frozen: a term is not renamed in one place to make a sentence read better.
-3. Locate the exact English source in `corpus/english.csv` and check its
-   repeats. One English line, one Russian line, in every place it occurs.
-4. Follow the requested scope. For a review, report the findings before
-   editing unless the user asked for fixes. Do not rewrite unrelated strings.
+1. Прочитай `AGENTS.md` и `docs/style-guide.md` в репозитории.
+2. Прочитай `docs/glossary.md` и `src/voice/glossary.json`. Глоссарий
+   заморожен: термин не переименовывается в одном месте ради того, чтобы
+   предложение читалось складнее.
+3. Найди точную английскую исходную строку в `corpus/english.csv` и проверь
+   её повторы. Одна английская строка, одна русская строка в каждом месте, где
+   она встречается.
+4. Соблюдай запрошенный объём. При вычитке сначала отчитайся о находках и
+   только потом правь, если пользователь не просил исправлений. Не переписывай
+   посторонние строки.
 
-## Translation and review
+## Перевод и вычитка
 
-- Keep the noir voice: sober, tired, cynical, with the humour of the
-  original. The narrator speaks in the first person.
-- Keep the terms of the glossary. A glossary word is not replaced by a
-  synonym.
-- Keep the placeholders. Fifteen lines carry a `{0}`; a dropped placeholder
-  is a broken line in the game.
-- Do not invent lore. When the scene does not settle a question, the
-  translation does not settle it either.
-- The game is the primary source of its own lore. Where a published account
-  of the game disagrees with it — the encyclopaedia, a review — the game is
-  right and the translation follows the game. What was checked and what was
-  fixed is written down in `docs/lore.md`.
-- A term that the glossary does not hold is translated again in every file
-  of the script, and every file invents its own word for it: the `phase-flip`
-  of the game was written five ways in fifteen files, because the batches do
-  not cross the files of the script and the term was not in the glossary when
-  the bulk pass ran. Before the next translation run, every term of the world
-  has to be in `src/voice/glossary.json` — including the ones the text has
-  not used yet.
-- Leave in Latin what the game's world is in: `Mulindji`, `Herr Doktor`,
-  `MedCon`, `Quantum Cognition`, `Trinity Biotech`, `Wunyerra`.
-- Persist every hand correction in both `translation/Russian/translation.csv`
-  and `src/voice/manual_fixes.json`, then run the manual stage. A correction
-  that lives only in the CSV is undone by the next run of the pipeline.
+- Держи нуарный голос: сдержанный, усталый, циничный, с юмором оригинала.
+  Рассказчик говорит от первого лица.
+- Держи термины глоссария. Слово из глоссария не заменяется синонимом.
+- Держи плейсхолдеры. В пятнадцати строках стоит `{0}`; потерянный плейсхолдер
+  это сломанная строка в игре.
+- Не выдумывай лор. Если сцена не закрывает вопрос, перевод его тоже не
+  закрывает.
+- Игра есть первый источник собственного лора. Если опубликованный рассказ об
+  игре с ней расходится, будь то энциклопедическая статья или рецензия, верна
+  игра, и перевод следует за игрой. Что проверено и что исправлено, записано в
+  `docs/lore.md`.
+- Термин, которого нет в глоссарии, переводится заново в каждом файле
+  сценария, и каждый файл придумывает для него своё слово: `phase-flip` в игре
+  был записан пятью способами в пятнадцати файлах, потому что батчи не
+  переходят между файлами сценария, а термина не было в глоссарии, когда шёл
+  массовый проход. До следующего прогона перевода каждый термин мира должен
+  быть в `src/voice/glossary.json`, включая те, которых текст ещё не
+  использовал.
+- Оставляй латиницей то, у чего нет русского эквивалента: `MedCon`. Слова мира
+  игры переведены по глоссарию: `Mulindji` это «Мулинджи», `Herr Doktor` это
+  «Герр Доктор», `Quantum Cognition` это «Квантовое познание».
+- Заноси каждую ручную правку и в `translation/Russian/translation.csv`, и в
+  `src/voice/manual_fixes.json`, после чего запускай ручную стадию. Правка,
+  которая живёт только в CSV, отменяется следующим прогоном пайплайна.
 
-## The file the game reads
+## Файл, который читает игра
 
-- The header is fixed: `Character,ID,File,Context,English,Русский`.
-- The file is UTF-8 **with a BOM** and uses CRLF. The game's importer reads
-  it as `Encoding.Default` with a BOM check; without the BOM the Cyrillic
-  arrives as mojibake.
-- The key of a line is the pair `(Character, ID)`, not the English string and
-  not the line number.
-- The name in the last column of the header is the name the game shows in
+- Шапка фиксирована: `Character,ID,File,Context,English,Русский`.
+- Файл в UTF-8 **с BOM** и с переводами строк CRLF. Импортёр игры читает его
+  как `Encoding.Default` с проверкой BOM; без BOM кириллица приходит кракозябрами.
+- Ключ строки это пара `(Character, ID)`, а не английская строка и не номер
+  строки.
+- Имя в последнем столбце шапки это то имя, которое игра показывает в
   Options → Language.
 
-## The fonts
+## Шрифты
 
-The game draws its text with seven fonts in its own assets, and none of them
-carries a Cyrillic glyph: without the patch a Russian line is drawn with a
-system font and looks foreign next to the English.
+Игра рисует текст семью шрифтами из своих ресурсов, и ни один из них не
+содержит кириллического глифа: без патча русская строка рисуется системным
+шрифтом и выглядит чужой рядом с английской.
 
-`scripts/patch_assets.py` merges the glyphs of Ark Pixel Font into those
-seven fonts and scales them to the x-height of the Latin in the same font, so
-a Russian line has the same weight and stands on the same baseline. The
-assets are patched byte by byte: Unity's reader for that file loses the data
-of the objects it did not parse, and the file comes back 1.3 MB instead of
-30 MB, which is a game that does not start.
+`scripts/patch_assets.py` вливает глифы Ark Pixel Font в эти семь шрифтов и
+масштабирует их по высоте строчных латинских букв в том же шрифте, так что
+русская строка получает ту же толщину и стоит на той же базовой линии. Ресурсы
+патчатся побайтно: читатель Unity для этого файла теряет данные тех объектов,
+которые не разобрал, и файл возвращается весом 1,3 МБ вместо 30 МБ, то есть
+игра не запускается.
 
-The other thirteen fonts of the game are for titles and icons. The Cyrillic
-does not belong in them: a font without lowercase letters has no x-height to
-match, and the scale that follows from it produces a font the game cannot
-read.
+Остальные тринадцать шрифтов игры нужны для заголовков и значков. Кириллица
+им не нужна: у шрифта без строчных букв нет высоты строчных, и масштаб,
+который из неё следует, даёт шрифт, который игра не читает.
 
-## Verification and reporting
+## Проверка и отчёт
 
-Run the tests and the checks after edits:
+После правок запускай тесты и проверки:
 
 ```bash
 python3 -m unittest discover -s tests -v
@@ -91,40 +91,41 @@ python3 scripts/lore_inventory.py
 python3 scripts/scan_ai_patterns.py
 ```
 
-The lore and the chronology are checked apart:
+Лор и хронология проверяются отдельно:
 
 ```bash
-python3 scripts/chronology.py --year      # the years the text names
+python3 scripts/chronology.py --year      # годы, которые называет текст
 python3 scripts/chronology.py --show "five"
 ```
 
-A name that the glossary does not hold is a name that can drift: the
-inventory shows which ones. A date that moved is a story that moved: the
-chronology shows every time reference, and what carries it in Russian.
+Имя, которого нет в глоссарии, это имя, которое может разъехаться: инвентарь
+показывает, какие именно. Передвинувшаяся дата это передвинувшаяся история:
+хронология показывает каждое упоминание времени и то, чем оно несёт его по-русски.
 
-The proofreading stage reads every line against its English source:
+Стадия вычитки читает каждую строку рядом с её английским источником:
 
 ```bash
 python3 src/drru/proofread.py
 ```
 
-It names the lines it doubts. Read every finding before it is changed: the
-model is a detector, and a line it doubts and the source does not support is
-left alone. The findings that are real go into `translation/Russian/translation.csv`
-and into `src/voice/manual_fixes.json`, and the manual stage applies them.
+Она называет строки, в которых сомневается. Читай каждую находку до правки:
+модель работает детектором, и строка, в которой она сомневается, а источник
+подтверждения не даёт, остаётся как есть. Находки, которые настоящие,
+попадают в `translation/Russian/translation.csv` и в
+`src/voice/manual_fixes.json`, а ручная стадия их применяет.
 
-The game itself is the last check. `scripts/screenshot.py` takes the window
-of the running game, `scripts/click.py` clicks in it and `scripts/send_keys.py`
-types in it:
+Последняя проверка это сама игра. `scripts/screenshot.py` снимает окно
+запущенной игры, `scripts/click.py` кликает в нём, а `scripts/send_keys.py`
+печатает в нём:
 
 ```bash
 python3 scripts/install.py --game "<path to The Drifter>"
 python3 scripts/screenshot.py --out work/shots/scene.png
 ```
 
-Report the keys and files changed, the checks run, and the limits separately.
-Never say that the translation is verified in the game when only the source
-text was checked.
+Отчитывайся отдельно про изменённые ключи и файлы, про выполненные проверки и
+про пределы проверки. Никогда не говори, что перевод проверен в игре, если
+проверен только исходный текст.
 
-For the commands, the file format and the traps, read
-[the project workflow reference](references/project-workflow.md).
+За команды, формат файла и ловушки иди в
+[справку по рабочему процессу](references/project-workflow.md).

@@ -1,46 +1,46 @@
 ---
-name: Bug report
-about: Something does not work as documented
+name: Сообщение об ошибке
+about: Что-то работает не так, как описано
 title: ''
 labels: bug
 assignees: ''
 ---
 
-**What happens**
+**Что происходит**
 
-<!-- The observed behaviour, in one or two sentences. -->
+<!-- Наблюдаемое поведение, в одно-два предложения. -->
 
-**What you expected**
+**Что вы ожидали**
 
-<!-- The documented behaviour, with a link to the section of the README or
-     the docs that states it. If the behaviour was never documented, say so —
-     that is a different kind of bug and worth knowing about. -->
+<!-- Поведение по документации, со ссылкой на раздел README или документации,
+     где оно описано. Если поведение никогда не было описано, скажите об
+     этом: это другой вид ошибки, и о нём стоит знать. -->
 
-**Steps to reproduce**
+**Шаги для воспроизведения**
 
 1.
 2.
 3.
 
-**Environment**
+**Окружение**
 
-<!-- Everything needed to reproduce it: version, operating system, and
-     anything else the behaviour might depend on. If the answer is "it
-     depends", paste the output of the command that shows the versions. -->
-
-```
-paste output here
-```
-
-**Logs**
-
-<!-- Only the lines that matter. Delete the rest — a long log buries the
-     line that explains the failure. -->
+<!-- Всё, что нужно для воспроизведения: версия, операционная система и всё
+     остальное, от чего может зависеть поведение. Если ответ «зависит»,
+     вставьте вывод команды, которая показывает версии. -->
 
 ```
-paste relevant log lines here
+вставьте вывод здесь
 ```
 
-**Anything else**
+**Логи**
 
-<!-- Screenshots, a recording, a link to a related issue. -->
+<!-- Только значимые строки. Остальное удалите: длинный лог прячет строку,
+     которая объясняет сбой. -->
+
+```
+вставьте сюда нужные строки лога
+```
+
+**Что-то ещё**
+
+<!-- Скриншоты, запись экрана, ссылка на связанную задачу. -->

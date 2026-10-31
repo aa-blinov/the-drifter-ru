@@ -1,64 +1,66 @@
-# Code of Conduct
+# Кодекс поведения
 
-## Our pledge
+## Наши обязательства
 
-We pledge to make participation in this project a harassment-free experience
-for everyone, regardless of age, body size, visible or invisible disability,
-ethnicity, sex characteristics, gender identity and expression, level of
-experience, education, socio-economic status, nationality, personal
-appearance, race, religion, or sexual identity and orientation.
+Мы обязуемся сделать участие в этом проекте свободным от травли для всех,
+независимо от возраста, телосложения, видимой или невидимой инвалидности,
+этнической принадлежности, половых признаков, гендерной идентичности и её
+проявления, уровня опыта, образования, социально-экономического положения,
+национальности, внешности, расы, религии, сексуальной идентичности и
+ориентации.
 
-We pledge to act and interact in ways that contribute to an open, welcoming,
-diverse, inclusive and healthy community.
+Мы обязуемся действовать и общаться так, чтобы поддерживать открытое,
+приветливое, разнообразное, инклюзивное и здоровое сообщество.
 
-## Our standards
+## Наши стандарты
 
-Behaviour that contributes to a positive environment:
+Поведение, которое вносит вклад в благоприятную среду:
 
-- Being respectful of differing opinions, viewpoints and experiences.
-- Giving and gracefully accepting constructive feedback.
-- Accepting responsibility, apologising to those affected by our mistakes,
-  and learning from the experience.
-- Focusing on what is best for the community as a whole.
-- Writing code and reviews that assume good faith.
+- Уважение к отличающимся мнениям, точкам зрения и опыту.
+- Готовность давать конструктивную обратную связь и так же её принимать.
+- Принятие ответственности, извинения перед теми, кого задели наши ошибки, и
+  извлечение уроков из опыта.
+- Ориентация на то, что лучше для сообщества в целом.
+- Написание кода и рецензий в предположении добрых намерений.
 
-Behaviour that is not acceptable:
+Поведение, которое недопустимо:
 
-- Sexualised language or imagery, and sexual attention or advances of any kind.
-- Trolling, insulting or derogatory comments, and personal or political
-  attacks.
-- Public or private harassment.
-- Publishing another person's private information, such as a physical or
-  email address, without their explicit permission.
-- Other conduct which could reasonably be considered inappropriate in a
-  professional setting.
+- Сексуализированный язык или образы, сексуальное внимание или домогательства
+  любого рода.
+- Троллинг, оскорбительные или уничижительные комментарии, личные или
+  политические нападки.
+- Публичная или частная травля.
+- Публикация частной информации о другом человеке, например физического или
+  почтовой адреса, без его явного разрешения.
+- Иное поведение, которое можно разумно считать неуместным в профессиональной
+  среде.
 
-## Scope
+## Область действия
 
-This Code of Conduct applies within all community spaces, and also applies
-when an individual is officially representing the community in public spaces.
+Этот Кодекс поведения действует во всех пространствах сообщества, а также
+когда человек официально представляет сообщество в публичных пространствах.
 
-## Enforcement
+## Применение
 
-Instances of abusive, harassing, or otherwise unacceptable behaviour may be
-reported to the maintainer at the address listed in the repository's
-[SECURITY.md](SECURITY.md). All complaints will be reviewed and investigated
-promptly and fairly.
+Случаи оскорбительного, преследующего или иным образом недопустимого поведения
+сообщаются мейнтейнеру по адресу, указанному в
+[SECURITY.md](SECURITY.md) репозитория. Все жалобы рассматриваются и
+расследуются оперативно и справедливо.
 
-The maintainer is responsible for clarifying and enforcing these standards and
-will take appropriate and fair corrective action in response to any behaviour
-they deem inappropriate, threatening, offensive, or harmful. They have the
-right and responsibility to remove, edit or reject comments, commits, code,
-issues, and other contributions that are not aligned with this Code of Conduct.
+Мейнтейнер отвечает за разъяснение и применение этих стандартов и примет
+уместные и справедливые меры в ответ на любое поведение, которое он сочтёт
+неуместным, угрожающим, оскорбительным или вредным. Он имеет право и обязанность
+удалять, изменять или отклонять комментарии, коммиты, код, задачи и другие
+вклады, не соответствующие этому Кодексу поведения.
 
-Maintainers who do not follow or enforce this Code of Conduct in good faith
-may face temporary or permanent repercussions as determined by other
-members of the community.
+Мейнтейнеры, которые не соблюдают и не применяют этот Кодекс поведения в
+добром смысле, могут понести временные или постоянные последствия по решению
+других участников сообщества.
 
-## Attribution
+## Атрибуция
 
-This Code of Conduct is adapted from the [Contributor Covenant][homepage],
-version 2.1, available at
+Этот Кодекс поведения адаптирован из [Contributor Covenant][homepage],
+версия 2.1, доступного по адресу
 <https://www.contributor-covenant.org/version/2/1/code_of_conduct.html>.
 
 [homepage]: https://www.contributor-covenant.org

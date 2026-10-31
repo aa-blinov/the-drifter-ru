@@ -1,40 +1,40 @@
-# Security Policy
+# Политика безопасности
 
-## Supported versions
+## Поддерживаемые версии
 
-| Version | Supported |
+| Версия | Поддерживается |
 | --- | --- |
-| 0.1.x | Yes |
+| 0.1.x | Да |
 
-## Reporting a vulnerability
+## Как сообщить об уязвимости
 
-Report it privately through GitHub's
-[private vulnerability reporting](https://github.com/aa-blinov/the-drifter-ru/security/advisories/new),
-or to the address in the repository owner's profile.
+Сообщайте приватно через GitHub
+[private vulnerability reporting](https://github.com/aa-blinov/the-drifter-ru/security/advisories/new)
+или на адрес в профиле владельца репозитория.
 
-Please include:
+Пожалуйста, укажите:
 
-- what the problem is, and which file or command is involved,
-- how to reproduce it,
-- the impact you expect.
+- в чём проблема и какой файл или команда затронуты,
+- как её воспроизвести,
+- какого последствия вы ожидаете.
 
-You should get an acknowledgement within a few days. If the report is valid,
-a fix and a release follow; if it is not, you will be told why.
+Подтверждение вы получите в течение нескольких дней. Если отчёт действителен,
+за ним следуют исправление и релиз; если нет, вам объяснят почему.
 
-## What counts as a vulnerability
+## Что считается уязвимостью
 
-The security surface of this project is:
+Поверхность безопасности этого проекта:
 
-- **the network interface, and the files it reads**
-- **the dependency tree**
+- **сетевой интерфейс и читаемые им файлы**
+- **дерево зависимостей**
 
-A bug that makes the project misbehave in a way a user can trigger is a bug,
-and is welcome as an issue. A bug that lets someone who should not have
-access reach data they should not see is a vulnerability, and should be
-reported privately.
+Ошибка, из-за которой проект ведёт себя неверно и которую может вызвать
+пользователь, это ошибка, и о ней стоит открыть issue. Ошибка, которая даёт
+доступ к данным тем, кому он не положен, это уязвимость, и о ней нужно
+сообщать приватно.
 
-## What is not a vulnerability
+## Что не считается уязвимостью
 
-- A missing hardening that has no exploit path.
-- A finding that depends on an already-compromised machine.
-- A denial of service against your own instance.
+- Отсутствующее усиление защиты, у которого нет пути эксплуатации.
+- Находка, которая зависит от уже скомпрометированной машины.
+- Отказ в обслуживании собственного экземпляра.

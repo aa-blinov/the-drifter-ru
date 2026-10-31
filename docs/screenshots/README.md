@@ -1,18 +1,16 @@
-# Screenshots
+# Снимки экрана
 
-Screenshots of the game in Russian belong here.
+Снимки экрана игры на русском лежат здесь.
 
-There are none yet: this repository was written on a machine without a copy of
-the game, so nothing could be photographed in it. The folder is empty on
-purpose rather than filled with placeholders.
+Их пока нет: репозиторий писался на машине без копии игры, поэтому снять
+в ней было нечего. Папка пустая намеренно, а не набитая заглушками.
 
-When a copy of the game is available, the pictures to take are the ones that
-show what the translation looks like:
+Когда копия игры будет под рукой, снимать нужно то, что показывает, как
+выглядит перевод:
 
-- the main menu, with the Russian language selected;
-- a dialogue scene, to show the pixel font with the Cyrillic glyphs;
-- the character screen, to show the lore panel and the width of a Russian
-  line.
+- главное меню с выбранным русским языком;
+- диалог, чтобы показать пиксельный шрифт с кириллическими глифами;
+- экран персонажа, чтобы показать панель лора и ширину русской строки.
 
-Each screenshot goes with the resolution, the font settings and the build of
-the game it was taken from.
+К каждому снимку прилагаются разрешение, настройки шрифта и сборка игры, из
+которой он сделан.

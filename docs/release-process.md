@@ -1,44 +1,63 @@
-# Release process
+# Процесс релиза
 
-The repository uses semantic versions. The release artifact is one file,
-`translation/Russian/translation.csv`, plus the scripts that install it.
+Репозиторий использует семантические версии. Артефакт релиза это один файл,
+`translation/Russian/translation.csv`, плюс скрипты, которые его устанавливают.
 
-## Choose a version
+## Выбор версии
 
-- **Patch** (`0.1.1`): proofreading, terminology and documentation fixes that
-  do not change the format of the file or the way it is installed.
-- **Minor** (`0.2.0`): a substantial new pass over the text, or a new tool
-  that stays compatible with the existing installation.
-- **Major** (`1.0.0`): a change that breaks the format of the file or the
-  instructions for installing it.
+- **Patch** (`0.1.1`): правки вычитки, терминологии и документации, которые
+  не меняют формат файла и способ его установки.
+- **Minor** (`0.2.0`): существенный новый проход по тексту или новый
+  инструмент, совместимый с прежней установкой.
+- **Major** (`1.0.0`): изменение, которое ломает формат файла или инструкции
+  по его установке.
 
-## Publish
+## Публикация
 
-1. Merge the reviewed pull request to `main` after `Check and test` and
-   `House style` pass.
-2. Move the release entries from `Unreleased` to a dated version section in
+1. Влейте проверенный pull request в `main` после того, как `Check and test`
+   и `House style` прошли.
+2. Перенесите записи релиза из `Unreleased` в раздел версии с датой в
    `CHANGELOG.md`.
-3. Push an annotated tag named `vX.Y.Z` at the release commit. The release
-   workflow runs the tests, packages `translation/Russian/translation.csv` and
-   publishes it.
-4. Verify that the workflow succeeded and that the release has the expected
-   archive before announcing it.
+3. Отправьте аннотированный тег с именем `vX.Y.Z` на коммите релиза. Workflow
+   релиза запускает тесты, собирает `translation/Russian/translation.csv` и
+   публикует его.
+4. Убедитесь, что workflow завершился успешно и что в релизе ожидаемый архив,
+   и только потом объявляйте о нём.
 
-Do not reuse a published tag. If a release build fails, fix the cause in a
-new commit and use a new version; do not move the tag.
+Не переиспользуйте опубликованный тег. Если сборка релиза падает, исправьте
+причину в новом коммите и возьмите новую версию; тег не двигайте.
 
-## What is in the release
+## Что входит в релиз
 
-- `translation/Russian/translation.csv` — the file the game reads.
-- `scripts/install.py` and `scripts/fetch_fonts.py` — the installation.
-- `docs/` — the style guide, the glossary, the layout record.
+- `translation/Russian/translation.csv`: файл, который читает игра.
+- `scripts/install.py` и `scripts/fetch_fonts.py`: установка.
+- `docs/`: руководство по стилю, глоссарий, запись о разметке.
 
-The game itself is not in the release, and neither are the pixel fonts: the
-fonts are fetched from their own project, under their own licence.
+Сама игра в релиз не входит, как и пиксельные шрифты: шрифты тянутся из
+собственного проекта под собственной лицензией.
 
-## The version of the game
+## Что уходит издателю
 
-The translation is built against the English corpus of a specific build of the
-game. A game update that adds or changes lines leaves the new lines in
-English. When the game updates, re-extract the corpus, translate what is new,
-and record the build in `CHANGELOG.md`.
+Архив релиза (`the-drifter-ru-vX.Y.Z.zip`) несёт:
+
+- `translation/Russian/translation.csv`: файл, который читает игра;
+- `scripts/install.py` и `scripts/fetch_fonts.py`: установка;
+- `LICENSE`: лицензия перевода и кода;
+- `docs/style-guide.md`, `docs/glossary.md`, `docs/proofreading.md`,
+  `docs/lore.md`, `docs/layout.md`: голос, термины и записи проверок.
+
+От разработчика издателю нужна копия игры: установщик работает с папкой, в
+которой лежит `TheDrifter.exe`, и всё, к чему прикасается, кладёт в
+`_ru_backup`.
+
+Если издательство берёт не перевод с установщиком, а пропатченную сборку,
+рядом с файлом шрифтов должна лежать лицензия Ark Pixel (SIL Open Font
+License 1.1): установщик копирует её сам в `TheDrifter_Data`. Текст лицензии
+берётся из `work/fonts/OFL.txt`, его качает `scripts/fetch_fonts.py`.
+
+## Версия игры
+
+Перевод собран против английского корпуса конкретной сборки игры. Обновление
+игры, которое добавляет или меняет строки, оставляет новые строки на
+английском. Когда игра обновится, извлеките корпус заново, переведите новое и
+запишите сборку в `CHANGELOG.md`.

@@ -1,23 +1,23 @@
-## What this changes
+## Что меняется
 
-<!-- One paragraph, or one sentence if the change is small. The reader should
-     be able to tell what is different without opening the diff. -->
+<!-- Один абзац или одно предложение, если изменение небольшое. Читатель должен
+     понять, что именно изменилось, не открывая diff. -->
 
-## Why
+## Зачем
 
-<!-- The reason, not the mechanism. If a rule in the house style is being
-     broken here, say which one and why it had to be broken — a deliberate
-     exception is fine, an unnoticed one is not. -->
+<!-- Причина, а не механизм. Если здесь нарушается правило внутреннего
+     стандарта, укажите какое и почему пришлось его нарушить: сознательное
+     исключение допустимо, незамеченное нет. -->
 
-## How to check it
+## Как проверить
 
-<!-- The command a reviewer runs to verify this. If there is no such command,
-     say so; that is worth knowing too. -->
+<!-- Команда, которую выполняет проверяющий. Если такой команды нет, так и
+     напишите: это тоже полезно знать. -->
 
-## Checklist
+## Чек-лист
 
-- [ ] `scripts/housecheck.py --strict .` passes.
-- [ ] Tests pass, and new behaviour comes with a test.
-- [ ] `README.md` still describes what the project actually does.
-- [ ] `CHANGELOG.md` has an entry, if the change is visible to a user.
-- [ ] No new dependency without a reason written down next to it.
+- [ ] `scripts/housecheck.py --strict .` проходит.
+- [ ] Тесты проходят, новое поведение покрыто тестом.
+- [ ] `README.md` по-прежнему описывает то, что проект действительно делает.
+- [ ] В `CHANGELOG.md` есть запись, если изменение видно пользователю.
+- [ ] Ни одна новая зависимость не добавлена без записанной рядом причины.

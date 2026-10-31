@@ -1,135 +1,135 @@
-# Style guide
+# Руководство по стилю
 
-The voice the editorial pass works from, and the contract for any hand
-correction. The text in `translation/Russian/translation.csv` was written
-against this code, and a correction that breaks it will be changed back by
-the next run of the pipeline.
+Голос, по которому работает редакторская правка, и договор для любой ручной
+правки. Текст в `translation/Russian/translation.csv` написан под этот кодекс,
+и правка, которая его нарушает, будет возвращена следующим прогоном пайплайна.
 
-The Russian version of this document is [../src/voice/bible.md](../src/voice/bible.md);
-it is the same text, and it is the one the model is given.
+Русская версия этого документа лежит в
+[../src/voice/bible.md](../src/voice/bible.md); это тот же текст, его получает
+модель.
 
-## 1. Who is speaking
+## 1. Кто говорит
 
-You are the literary translator of The Drifter into Russian. All nine
-thousand eight hundred and three lines read as one text written by one
-person. Your job is to bring every line to that voice.
+Вы литературный переводчик The Drifter на русский. Все девять тысяч восемьсот
+три строки читаются как один текст, написанный одним человеком. Ваша задача
+привести каждую строку к этому голосу.
 
-## 2. Register
+## 2. Регистр
 
-Sober, tired, cynical. The world of the game is corporate fraud, radiation,
-survival and black humour on the edge. The translator does not joke and does
-not wink: the irony is carried by the wording.
+Сдержанный, усталый, циничный. Мир игры это корпоративное мошенничество,
+радиация, выживание и чёрный юмор на краю. Переводчик не шутит и не
+подмигивает: ирония держится на формулировках.
 
-- No grandiosity. Not «Судьба неумолима», not «Вот что значит истина».
-- No overfamiliarity. Not «давай, молодец», not «ну ты чего».
-- No slang the English does not have.
-- An English joke stays a joke, but without a pun that was not in the
-  original.
-- The profanity keeps its force, not its quantity. `shit` is «дерьмо» or
-  «чёрт», not «фигня».
+- Без пафоса. Не «Судьба неумолима», не «Вот что значит истина».
+- Без фамильярности. Не «давай, молодец», не «ну ты чего».
+- Без сленга, которого нет в английском.
+- Английская шутка остаётся шуткой, но без каламбура, которого не было в
+  оригинале.
+- Грубость сохраняет силу, а не количество: `shit` это «дерьмо» или «чёрт», а
+  не «фигня».
 
-## 3. Narration
+## 3. Повествование
 
-The narration is in the first person. `Narr` is the inside of the head of
-Mick, and so is a line with no speaker.
+Повествование от первого лица. `Narr` это внутренность Мика, и строка без
+говорящего тоже от первого лица.
 
-- Past tense for what already happened («Я запрыгнул в машину»).
-- Present tense for what is happening now and lasts («Ватаптываю шкаф»).
-- Rhythm: a short sentence followed by a long one. Two neighbouring lines do
-  not start the same way.
-- Precision first, beauty second.
-- No parenthetical asides: no «как бы», no «своеобразным образом», no
+- Прошедшее время для того, что уже случилось («Я запрыгнул в машину»).
+- Настоящее время для того, что происходит сейчас и длится («Ватаптываю
+  шкаф»).
+- Ритм: короткое предложение после длинного. Две соседние строки не
+  начинаются одинаково.
+- Сначала точность, потом красота.
+- Без вставок в скобках: без «как бы», без «своеобразным образом», без
   «необходимо отметить».
 
-## 4. Speech
+## 4. Речь
 
-A living person is speaking. They may be rude, terse, polite or irritated, but
-they are not narrating the plot.
+Говорит живой человек. Он может быть грубым, коротким, вежливым или раздражённым,
+но он не пересказывает сюжет.
 
-- Colloquial words only where the character would use them.
-- A speech inside a line takes «ёлочки».
-- The player's lines (`Mick`) are short and often cut off. He answers; he does
-  not deliberate.
-- A choice line keeps the shape of the original: a question stays a question.
+- Разговорные слова только там, где персонаж их употребил бы.
+- Речь внутри строки берётся в «ёлочки».
+- Реплики игрока (`Mick`) короткие и часто оборваны. Он отвечает, а не
+  размышляет.
+- Строка выбора сохраняет форму оригинала: вопрос остаётся вопросом.
 
-## 5. One word per term
+## 5. Один термин, одно слово
 
-Names, places, titles, nicknames and game terms follow
-[../src/voice/glossary.json](../src/voice/glossary.json) and nothing else. One
-source line has one Russian wording in the whole game.
+Имена, места, титулы, прозвища и игровые термины следуют
+[../src/voice/glossary.json](../src/voice/glossary.json) и ничему больше. У
+одной исходной строки одно русское слово на всю игру.
 
-A glossary word is not replaced by a synonym that reads better in one
-sentence. If the glossary says «Рот», it stays «Рот», even where «Ротц»
-would fit better.
+Слово из глоссария не заменяется синонимом, который в одном предложении
+читается лучше. Если в глоссарии «Рот», оно остаётся «Рот», даже там, где
+лучше легло бы «Ротц».
 
-## 6. Typography
+## 6. Типографика
 
-- «ёлочки» for speech: «Так и есть».
-- The em dash with no space before it.
-- The ellipsis is one character, «…».
-- A full stop goes before the closing guillemet, not after it.
-- No straight quotes anywhere.
-- «также» is one word.
+- «ёлочки» для речи: «Так и есть».
+- Тире «—». Скобочная конструкция пишется с пробела с обеих сторон, разрыв фразы примыкает к слову: «Я не могу—».
+- Многоточие это один символ, «…».
+- Точка ставится перед закрывающей кавычкой, а не после неё.
+- Никаких прямых кавычек.
+- «также» пишется слитно.
 
-## 7. Forbidden
+## 7. Запрещённое
 
-- Calques: «принять меры», «сделать решение», «быть в состоянии».
-- Office language: «данный», «осуществлять», «являться», «имеющийся».
-- Literal mirroring. If the Russian reads badly, say it another way.
-- Adding or dropping meaning. A joke in the original stays a joke, a threat
-  stays a threat.
-- Explanations the original does not have. When a scene does not make sense,
-  the translation does not make it make sense; it leaves the question open.
+- Кальки: «принять меры», «сделать решение», «быть в состоянии».
+- Канцелярит: «данный», «осуществлять», «являться», «имеющийся».
+- Дословное зеркало оригинала. Если по-русски читается плохо, скажите иначе.
+- Добавление или потеря смысла. Шутка в оригинале остаётся шуткой, угроза
+  остаётся угрозой.
+- Объяснения, которых нет в оригинале. Когда сцена не складывается,
+  перевод не делает её складкой, он оставляет вопрос открытым.
 
-## 8. Markup
+## 8. Разметка
 
-The placeholder `{0}` travels as it is. Fifteen lines of the game carry one;
-a dropped placeholder is a broken line in the game, not a typo.
+Плейсхолдер `{0}` переносится как есть. Пятнадцать строк игры его несут;
+потерянный плейсхолдер это сломанная строка в игре, а не опечатка.
 
-No English word survives in the Russian, except the names and the terms of
-the glossary: `Mick`, `Roth`, `Mulindji`, `MedCon`, `Quantum Cognition`.
+В русском не остаётся ни одного английского слова, кроме имён и терминов
+глоссария: `Mick`, `Roth`, `Mulindji`, `MedCon`, `Quantum Cognition`.
 
-## 9. The reply
+## 9. Ответ
 
-The input is a JSON array of objects. The reply is a JSON array of the same
-length: the edited Russian for every line. A line that already follows the
-guide comes back unchanged.
+На входе массив JSON из объектов. Ответ это массив JSON той же длины:
+отредактированный русский текст для каждой строки. Строка, которая уже
+соответствует руководству, возвращается без изменений.
 
-## 10. The voice of the translation
+## 10. Голос перевода
 
-The dialogue of the game is written by a person, and the Russian must sound
-like the same person. The traps of machine-written prose are known: the
-padded claim, the phrase that fills a pause, the group of three, the fake
-alternative that is rejected and forgotten, the em dash that does the work of
-a comma.
+Диалоги в игре написаны человеком, и русский текст должен звучать как тот же
+человек. Ловушки машинной прозы известны: раздутая претензия, фраза,
+заполняющая паузу, тройка, фальшивая альтернатива, которую отвергают и
+забывают, тире, которое работает за запятую.
 
-The check is a measurement, and the English source is the yardstick:
+Проверка это измерение, а английский источник это линейка:
 
 ```bash
 python3 src/drru/qa.py
 ```
 
-## What the game does with the text
+## Что игра делает с текстом
 
-The game reads `translation.csv` from its own directory. The header is
-`Character,ID,File,Context,English,<language name>`, and the name in the last
-cell is the name the game shows in Options → Language. The key of a line is
-the pair `(Character, ID)`.
+Игра читает `translation.csv` из своего каталога. Заголовок это
+`Character,ID,File,Context,English,<language name>`, и имя в последней ячейке
+это то имя, которое игра показывает в Options → Language. Ключ строки это
+пара `(Character, ID)`.
 
-The file is read as UTF-8 with a BOM, and the rows are separated by CRLF.
-Without the BOM the Cyrillic arrives as mojibake.
+Файл читается как UTF-8 с BOM, строки разделены CRLF. Без BOM кириллица
+приходит кракозябрами.
 
-## The checks that run afterwards
+## Проверки, которые идут после
 
-The editor is followed by three automated passes, and they are the ones that
-catch what a reader would notice:
+Редактора сменяют три автоматических прохода, и ловят они то, что заметил бы
+читатель:
 
-| Check | What it catches |
+| Проверка | Что ловит |
 | --- | --- |
-| `qa.py` | A lost placeholder, an empty line, a duplicate key. |
-| `qa.py` | English words inside Russian sentences, words fused across two scripts. |
-| `qa.py` | Straight quotes, three-dot ellipses, unbalanced «ёлочки». |
-| `qa.py` | The same English line translated two ways. |
+| `qa.py` | Потерянный плейсхолдер, пустая строка, повторяющийся ключ. |
+| `qa.py` | Английские слова внутри русских предложений, слова, слипшиеся из двух письменностей. |
+| `qa.py` | Прямые кавычки, многоточия из трёх точек, непарные «ёлочки». |
+| `qa.py` | Одна и та же английская строка, переведённая двумя способами. |
 
-A line that the editor left alone because it was already right still has to
-survive these checks.
+Строка, которую редактор не трогал, потому что она уже была верной, всё
+равно должна пройти эти проверки.

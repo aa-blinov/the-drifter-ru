@@ -3,270 +3,275 @@ name: game-localization-pipeline
 description: Plan, translate, edit, and validate a video game's localization as a coherent whole. Use when starting or continuing a game translation, building a glossary, translating large dialogue corpora, reconciling lore and terminology, or checking UI fit in the running game.
 ---
 
-# Game localization pipeline
+# Пайплайн локализации игр
 
-Use this reusable workflow to localize a game from source extraction through
-in-game validation. First inspect the project instructions, source format,
-existing translation, and game-specific skill. Treat the game profile as
-authoritative for commands and technical constraints; this skill supplies the
-sequence and quality gates. Never assume another game's file structure or
-behavior.
+Этот переиспользуемый рабочий процесс ведёт локализацию игры от извлечения
+исходника до проверки внутри игры. Сначала изучи инструкции проекта, формат
+исходника, существующий перевод и скилл конкретной игры. Считай профиль игры
+авторитетным в части команд и технических ограничений; этот скилл даёт
+последовательность шагов и контрольные точки. Никогда не переноси структуру
+файлов или поведение другой игры без проверки.
 
-## Working principles
+## Рабочие принципы
 
-- Translate from the original source with enough surrounding context to
-  understand speaker, scene, mechanics, and narrative function.
-- Do not invent lore to bridge a gap. Separate confirmed facts from
-  interpretation, and ask for context or research primary sources when the
-  distinction affects the translation.
-- Keep a versioned glossary and style guide as working artifacts. A decision
-  that exists only in chat will drift.
-- Distinguish linguistic quality from technical validity and runtime display.
-  Passing one does not prove the others.
-- Preserve source keys, row order, variables, tags, formatting, and intentional
-  blank behavior required by the game's loader.
-- Record unresolved questions and validation limits. Do not call a release
-  complete when key screens or checks remain unverified.
+- Переводи по исходнику с таким объёмом окружающего контекста, чтобы понять
+  говорящего, сцену, механику и роль реплики в повествовании.
+- Не выдумывай лор, чтобы закрыть пробел. Отделяй подтверждённые факты от
+  трактовки и проси контекст или изучай первоисточники, когда это различие
+  влияет на перевод.
+- Держи глоссарий и справочник стиля под контролем версий, как рабочие
+  артефакты. Решение, которое живёт только в чате, разъедется.
+- Различай языковое качество, техническую корректность и вид на экране. Прохождение
+  одной проверки не доказывает остальные.
+- Сохраняй ключи исходника, порядок строк, переменные, теги, форматирование и
+  намеренное поведение пустых ячеек, если этого требует загрузчик игры.
+- Записывай нерешённые вопросы и пределы проверки. Не называй релиз готовым,
+  если важные экраны или проверки остались непроверенными.
 
-## Phase 0: map the project
+## Этап 0: карта проекта
 
-Before translating, inspect repository guidance and identify:
+До перевода изучи указания репозитория и выясни:
 
-1. The authoritative source language and source files, keys/IDs, encoding,
-   line endings, and import/export route.
-2. Translation target files and how the game selects a language.
-3. Existing translations, terminology, voice rules, lore references, and prior
-   review decisions.
-4. Build, test, install, reload, screenshot, and packaging steps. Find out
-   whether the game must restart to read changed text.
-5. Runtime constraints: fonts and glyph coverage, text boxes, screen
-   resolutions, markup, plural/gender rules, variables, and fallback
-   behavior.
-6. Which checks are automated, which require the game running, and which
-   depend on a particular machine or paid model endpoint.
+1. Авторитетный язык исходника и исходные файлы, ключи и идентификаторы,
+   кодировку, переводы строк, маршрут импорта и экспорта.
+2. Файлы перевода и то, как игра выбирает язык.
+3. Существующие переводы, терминологию, правила голоса, отсылки к лору и
+   прошлые решения по вычитке.
+4. Шаги сборки, тестов, установки, перезагрузки, снимков экрана и упаковки.
+   Выясни, нужно ли перезапускать игру, чтобы она прочитала изменённый текст.
+5. Ограничения времени выполнения: шрифты и покрытие глифов, текстовые поля,
+   разрешения экрана, разметка, правила множественного числа и рода, переменные и
+   поведение при отказе.
+6. Какие проверки автоматические, какие требуют запущенной игры, а какие
+   зависят от конкретной машины или платного модельного эндпоинта.
 
-Write down the actual workflow and hazards in project documentation. Do not
-run a costly full translation pipeline just to inspect it. Do not change game
-settings, install files, or launch a model pipeline until the scope requires
-it.
+Запиши реальный рабочий процесс и опасности в документации проекта. Не
+запускай дорогой полный прогон перевода ради того, чтобы его посмотреть. Не
+меняй настройки игры, не устанавливай файлы и не запускай модельный пайплайн,
+пока этого не потребует объём работ.
 
-## Phase 1: prepare context and terminology
+## Этап 1: контекст и терминология
 
-1. Build an inventory of source strings with stable IDs and useful metadata:
-   file, speaker, scene, neighboring lines, character limits, tags,
-   variables, and translator notes.
-2. Read the game's own narrative and mechanics sources. Review existing
-   translations and canonical names before proposing equivalents.
-3. Create a glossary before the bulk pass. Include source term, target term,
-   part of speech or inflection policy, meaning in this game, context, rejected
-   variants, and confidence/source.
-4. Resolve high-impact terms first: character and place names, factions,
-   classes, stats, recurring jokes, mechanics, and lore concepts. Keep a
-   question list for ambiguous cases instead of silently guessing.
-5. Write a short style guide: register, point of view, tense, dialogue
-   punctuation, character voices, humor, profanity, capitalization, and what
-   not to localize.
-6. Add a small reviewed sample to test the glossary and style guide. Revise
-   them before scaling if the sample sounds inconsistent.
+1. Собери опись исходных строк с устойчивыми идентификаторами и полезными
+   метаданными: файл, говорящий, сцена, соседние строки, ограничения по
+   длине, теги, переменные и заметки переводчика.
+2. Прочитай собственные источники повествования и механик игры. Изучи
+   существующие переводы и канонические имена, прежде чем предлагать
+   эквиваленты.
+3. Создай глоссарий до массового прохода. Включи исходный термин, целевой
+   термин, часть речи или правило словоизменения, значение в этой игре,
+   контекст, отклонённые варианты и уверенность с источником.
+4. Сначала реши термины с большим весом: имена персонажей и мест, фракции,
+   классы, характеристики, повторяющиеся шутки, механики и понятия лора.
+   Держи список вопросов по неоднозначным случаям вместо молчаливой догадки.
+5. Напиши короткий справочник стиля: регистр, точка зрения, время, пунктуация
+   в диалогах, голоса персонажей, юмор, грубая лексика, капитализация и то,
+   что не локализуется.
+6. Добавь небольшую вычитанную выборку, чтобы проверить глоссарий и
+   справочник стиля. Перед масштабированием пересмотри их, если выборка звучит
+   несогласованно.
 
-## Phase 2: bulk translation
+## Этап 2: массовый перевод
 
-- Translate in context-preserving batches. Keep dialogue scenes and speaker
-  identity together where possible; include a few neighboring lines when
-  batch boundaries would hide a joke or referent.
-- Supply the relevant glossary subset and style rules with each batch. Keep
-  stable source IDs and require one output for every input.
-- Keep source markup and placeholders intact. Validate output structure before
-  accepting a batch.
-- Cache model output by source, prompt, and glossary/style version where
-  possible. Track skipped, failed, retried, and manually overridden rows.
-- Do not treat machine output as final prose. Mark uncertainty and leave
-  evidence for the editor.
+- Переводи пакетами, которые сохраняют контекст. Держи диалоговые сцены и
+  личность говорящего вместе, где это возможно; добавляй несколько соседних
+  строк, когда граница пакета скрыла бы шутку или отсылку.
+- К каждому пакету давай нужный срез глоссария и правила стиля. Сохраняй
+  устойчивые идентификаторы исходника и требуй один выход на каждый вход.
+- Держи разметку исходника и плейсхолдеры нетронутыми. Проверяй структуру
+  выхода до приёма пакета.
+- Кэшируй выход модели по исходнику, промпту и версии глоссария и справочника
+  стиля, где это возможно. Учитывай пропущенные, упавшие, повторённые и
+  вручную переопределённые строки.
+- Не считай машинный выход готовой прозой. Отмечай неуверенность и оставляй
+  редактору доказательства.
 
-## Phase 3: editorial passes
+## Этап 3: редакторские проходы
 
-Make deliberate passes rather than asking one edit to solve every problem:
+Делай осознанные проходы вместо одной правки, которая должна решить все
+проблемы:
 
-1. **Meaning and mechanics:** compare every changed line with the source.
-   Correct omissions, false friends, broken instructions, wrong referents, and
-   mismatched game rules.
-2. **Literary voice:** remove calques and awkward syntax; preserve intent,
-   pacing, speaker voice, emotional force, and humor. Keep a joke a joke, but
-   do not invent a new joke to compensate for a lost pun.
-3. **Narrative continuity and lore:** read related entries and scenes
-   together. Reconcile names, chronology, factions, concepts, and character
-   knowledge. Do not make the target text more certain than the source.
-   Record unresolved source ambiguities.
-4. **Terminology and repetition:** compare every term to the glossary and
-   every repeated source string to its other translations. Canonicalize
-   identical source lines when the game uses them as the same phrase; preserve
-   differences when context changes meaning.
-5. **Language and typography:** check grammar, agreement, declension,
-   punctuation, quotes, spelling, unwanted source-language residue, and
-   consistency of forms. Keep character voice exceptions intentional.
-6. **Markup and data integrity:** compare tags, placeholders, row counts, IDs,
-   CSV columns, encoding, and source alignment. Do not erase a line by
-   leaving a cell empty unless the loader's fallback behavior has been
-   confirmed.
+1. **Смысл и механика:** сравни каждую изменённую строку с исходником.
+   Исправь пропуски, ложные друзья, сломанные инструкции, неверные отсылки и
+   расхождения с правилами игры.
+2. **Литературный голос:** убери кальки и неуклюжей синтаксис; сохрани
+   замысел, темп, голос говорящего, эмоциональную силу и юмор. Шутка остаётся
+   шуткой, но не придумывай новую шутку взамен утраченной игры слов.
+3. **Повествовательная связность и лор:** читай связанные записи и сцены
+   вместе. Согласуй имена, хронологию, фракции, понятия и знание персонажей.
+   Не делай целевой текст увереннее исходника. Записывай нерешённые
+   неоднозначности исходника.
+4. **Терминология и повторы:** сверь каждый термин с глоссарием, а каждую
+   повторяющуюся исходную строку с её другими переводами. Канонизируй
+   одинаковые исходные строки, когда игра использует их как одну и ту же
+   фразу; сохраняй различия, когда контекст меняет смысл.
+5. **Язык и типографика:** проверь грамматику, согласование, склонение,
+   пунктуацию, кавычки, орфографию, нежелательные остатки языка исходника и
+   единообразие форм. Исключения из голоса персонажа оставляй намеренными.
+6. **Разметка и целостность данных:** сравни теги, плейсхолдеры, число строк,
+   идентификаторы, столбцы CSV, кодировку и выравнивание по исходнику. Не
+   стирай строку, оставив ячейку пустой, если поведение при отказе у загрузчика
+   не подтверждено.
 
-Use human review for lore-sensitive, humorous, emotionally important, and
-mechanically consequential lines. Log durable corrections in the source of
-truth used by the pipeline, not only in generated output.
+Для строк, чувствительных к лору, юмору, эмоциям и механикам, нужен человек.
+Заноси устойчивые правки в тот источник истины, который читает пайплайн, а не
+только в сгенерированный выход.
 
-## Phase 4: automated QA
+## Этап 4: автоматическая проверка
 
-Choose checks that match the format and add regression coverage for
-recurring mistakes:
+Выбирай проверки под формат и добавляй регрессионное покрытие для повторяющихся
+ошибок:
 
-- source/target key coverage, duplicate IDs, row order, and unexpected blanks;
-- tag, placeholder, escape, plural, gender, and format-string parity;
-- glossary violations and inconsistent repeated strings;
-- mixed scripts or accidental untranslated fragments, including a stray
-  alphabet in the middle of a translated line;
-- quotes, punctuation, encoding, forbidden control characters, and line
-  endings;
-- character limits and approximate width using the actual game font when
-  available;
-- build/import/export checks and the repository's style or content checks.
+- покрытие ключей исходника и перевода, дубли идентификаторов, порядок строк и
+  неожиданные пустые ячейки;
+- совпадение тегов, плейсхолдеров, экранирования, множественного числа, рода и
+  строк формата;
+- нарушения глоссария и несогласованные повторяющиеся строки;
+- смешанные алфавиты и случайные непереведённые куски, в том числе чужой
+  алфавит в середине переведённой строки;
+- кавычки, пунктуация, кодировка, запрещённые управляющие символы и переводы
+  строк;
+- ограничения по длине и примерная ширина по реальному игровому шрифту, если
+  он доступен;
+- проверки сборки, импорта и экспорта, а также стилистические и содержательные
+  проверки репозитория.
 
-Inspect failures in context. A checker may flag a valid source-matching phrase
-or a deliberate exception; document the reason rather than weakening the
-checker wholesale. Keep automated checks repeatable in CI whenever they do
-not require the game itself.
+Разбирай сбои вместе с окружающим текстом. Проверка может поднять валидную
+фразу, совпадающую с источником, или намеренное исключение; описывай причину,
+а не ослабляй проверку целиком. Держи автоматические проверки повторяемыми в CI
+везде, где они не требуют самой игры.
 
-## Phase 5: runtime and visual validation
+## Этап 5: проверка в игре и визуально
 
-1. Install the candidate into a known test copy or use the documented
-   development loader. Confirm the target path before any installer that
-   replaces files.
-2. Reload the language the way this game requires. Confirm the running game
-   is using the edited build, correct language, intended font, and intended
-   settings.
-3. Visit representative screens, then every screen affected by
-   layout-sensitive edits. Include long strings, dialogue choices, names,
-   loading hints, codex panels, menus, and edge cases such as empty values or
-   variables.
-4. Check for clipping, wrapping, overlap, unreadable glyphs, bad line
-   breaks, missing variables, tags rendered literally, fallback to source
-   text, and text obscured by controls or artwork.
-5. Capture evidence with resolution, font, language, build/revision, and
-   screen context. If multiple game instances or stale screenshots are
-   possible, verify the window and recapture.
-6. Fix the cause at the narrowest layer: wording/line break first, per-string
-   size/layout rule where supported, global font/settings only when
-   justified. A global font-size change invalidates prior measurements and
-   expands the visual regression scope.
-7. Repeat the reload and visual check after each final edit. A width
-   estimate is useful evidence but not a visual pass.
+1. Установи сборку в заведомо известную тестовую копию или используй
+   задокументированный загрузчик для разработки. Подтверди целевой путь до
+   любого установщика, который заменяет файлы.
+2. Перезагрузи язык так, как это требует игра. Убедись, что запущенная игра
+   использует изменённую сборку, нужный язык, нужный шрифт и нужные настройки.
+3. Обойди типовые экраны, а затем все экраны, затронутые правками, чувствительными
+   к вёрстке. Включи длинные строки, варианты ответа, имена, подсказки загрузки,
+   панели кодекса, меню и крайние случаи вроде пустых значений и переменных.
+4. Проверь обрезание, перенос, наложение, нечитаемые глифы, плохие разрывы
+   строк, пропавшие переменные, теги, выведенные буквами, откат к исходному
+   тексту и текст, перекрытый элементами интерфейса или графикой.
+5. Снимай доказательства с разрешением, шрифтом, языком, сборкой или ревизией и
+   контекстом экрана. Если возможны несколько экземпляров игры или устаревшие
+   снимки, проверь окно и сними заново.
+6. Устраняй причину на самом узком слое: сначала формулировка и разрыв строки,
+   затем правило размера или вёрстки для отдельной строки, если оно
+   поддерживается, и только потом глобальные шрифты и настройки, когда для того
+   есть основания. Глобальная смена размера шрифта обесценивает прежние
+   измерения и расширяет область визуальной регрессии.
+7. После каждой финальной правки повторяй перезагрузку и визуальную проверку.
+   Оценка ширины полезна как доказательство, но визуальной проверкой не
+   заменяет.
 
-## Phase 6: proofread against the source
+## Этап 6: вычитка против источника
 
-A pattern scanner finds the shapes of machine writing; it does not find a
-line that says something the source does not say. After the editorial passes,
-read every line of the translation against its source and ask one question:
-does this Russian say what the English says?
+Сканер паттернов находит формы машинного письма; он не находит строку, которая
+говорит не то, что говорит источник. После редакторских проходов прочитай
+каждую строку перевода рядом с её источником и задай себе один вопрос: это
+русское говорит то же, что английское?
 
-1. Report every line where the translation changes the sense, drops a fact,
-   keeps an untranslated word, is cut short, or carries a stray alphabet.
-2. Read every reported line before acting on it: the model is a detector, not
-   an authority, and a line it doubts may be correct.
-3. Change only what the source proves is wrong, and record the correction in
-   the durable source of truth, so the next run of the pipeline keeps it.
-4. Keep the source of every change traceable: the key, the reason, and the
-   text before and after.
+1. Отчитайся о каждой строке, где перевод меняет смысл, теряет факт, оставляет
+   непереведённое слово, обрывается или несёт чужой алфавит.
+2. Прочитай каждую найденную строку до правки: модель работает детектором, а не
+   судьёй, и строка, в которой она сомневается, может быть верной.
+3. Меняй только то, что источник доказывает как неверное, и записывай правку в
+   устойчивый источник истины, чтобы следующий прогон пайплайна её сохранил.
+4. Держи каждое изменение прослеживаемым: ключ, причина и текст до и после.
 
-## Phase 6b: make the glossary hold
+## Этап 6b: глоссарий должен держать
 
-A glossary is a promise: a term has one Russian form. The promise is kept by
-checking the text, not by reading the list.
+Глоссарий это обещание: у термина одна русская форма. Обещание держит проверка
+текста, а не чтение списка.
 
-1. Find the terms of the source that the glossary does not cover. A term is
-   a word that is capitalised inside a sentence — a name, a place, a title of
-   the game. A word at the start of a sentence carries no information.
-2. Read the lines where a term occurs and write down the Russian word the
-   translation actually uses. The glossary follows the text; the text does not
-   follow the glossary.
-3. Check the glossary against the translation: a term whose lines use two
-   Russian words is a defect — the player reads one person under two names.
-   The case endings are not a defect: «Рот», «Рота» и «Ротом» — одно слово.
-4. When a term is missing from the glossary, add it before it drifts. A word
-   that appears in the text but not in the glossary is a word that will drift.
+1. Найди термины исходника, которых глоссарий не покрывает. Термин это слово,
+   которое стоит с заглавной буквы внутри предложения: имя, место, название
+   игры. Слово в начале предложения сведений не даёт.
+2. Прочитай строки, где встречается термин, и запиши русское слово, которое
+   перевод на самом деле использует. Глоссарий следует за текстом; текст за
+   глоссарием не идёт.
+3. Сверь глоссарий с переводом: термин, у которого в строках два русских слова,
+   это дефект, игрок читает одного человека под двумя именами. Падежные формы
+   дефектом не считаются: «Рот», «Рота» и «Ротом» это одно слово.
+4. Если термина нет в глоссарии, добавь его до того, как он разъедется. Слово,
+   которое есть в тексте, но нет в глоссарии, разъедется.
 
-### Why a term drifts: the law of the unbinding term
+### Почему термин разъезжается: закон непривязанного термина
 
-A term that the glossary does not hold is translated again in every file of
-the script, and each file invents its own word for it. The number of
-variants of a term is the number of script files that mention it.
+Термин, которого не держит глоссарий, переводится заново в каждом файле
+сценария, и каждый файл придумывает своё слово. Число вариантов термина равно
+числу файлов сценария, где он встречается.
 
-This is not a matter of care. It follows from how the work is divided:
+Это не вопрос старания. Это следует из того, как разделён труд:
 
-- Batches do not cross the files of the script, so the lines of one scene
-  reach the model together and the model chooses one word for the term —
-  for that file.
-- The glossary is written before the text is translated, from what is
-  already known. The key terms of the game are not in it yet, because the
-  translation is what brings them into being.
-- The stages that follow work line by line. The editorial pass rewrites the
-  sentences, the typography the marks, the canonicalisation the repeats,
-  the polish the defects QA found. None of them compares a term across
-  lines, and none of them can.
-- The tail of the previous batch carries the intonation of the voice, not
-  the word of a term.
+- Батчи не переходят между файлами сценария, поэтому строки одной сцены
+  попадают к модели вместе, и модель выбирает одно слово для термина. Для
+  этого файла.
+- Глоссарий пишется до перевода текста, по тому, что уже известно. Основных
+  терминов игры в нём ещё нет, потому что перевод это вводит в существование.
+- Последующие стадии идут построчно. Редакторский проход переписывает
+  предложения, типографика знаки, канонизация повторы, полировка дефекты,
+  найденные проверкой. Ни одна из них не сверяет термин между строками, и ни
+  одна не может.
+- Хвост предыдущего батча несёт интонацию голоса, а не слово термина.
 
-So a check on one line cannot find it: the line may be perfectly good and
-the term in it may be the fourth variant. Only a check over the whole
-corpus sees it.
+Значит, проверка одной строки термин не найдёт: строка может быть хорошей, а
+термин в ней может быть четвёртым вариантом. Термин видно только при проверке
+по всему корпусу.
 
-Two rules follow, and they are worth more than any amount of proofreading:
+Из этого следуют два правила, и они дороже любой вычитки:
 
-1. **Fill the glossary before the translation, not after.** Every term of the
-   world that the text will use has to be written down first, even if the
-   Russian for it is not yet known — the form is decided after, but the
-   term is claimed before.
-2. **Unify the terminology with a pass over the whole corpus.** Gather
-   the terms of the source, find the ones the text renders two ways, and
-   decide once for each.
+1. **Заполняй глоссарий до перевода, а не после.** Каждый термин мира, который
+   текст будет использовать, должен быть записан заранее, даже если русское
+   слово для него ещё неизвестно: форма решается позже, но термин занимается
+   раньше.
+2. **Унифицируй терминологию проходом по всему корпусу.** Собери термины
+   исходника, найди те, которые текст передаёт двумя способами, и реши один раз
+   для каждого.
 
-An unbound term does not only drift; it invents. `секретарку` and `муфтрон`
-are not typos: they are what a model writes when nothing binds the word.
+Непривязанный термин разъезжается и заодно изобретает. `секретарку` и
+`муфтрон` не опечатки: модель пишет так, когда ничто не привязывает
+слово.
 
-The law can be checked. Translate the same corpus again with the glossary
-filled in, and count the words the two corpora use for the same term:
+Закон проверяется. Переведи тот же корпус заново с заполненным глоссарием и
+посчитай слова, которые два корпуса используют для одного термина:
 
     python3 -m src.drru.translate --stage bulk --out work/corpus/bulk_trial.jsonl
     python3 scripts/compare_terms.py work/corpus/bulk.jsonl work/corpus/bulk_trial.jsonl
 
-In the game this law was measured on, twenty-four words for ten terms became
-ten. The binding is strong but not absolute — one line in a hundred still
-slips — so the check over the corpus is needed in any case.
+В игре, на которой закон измеряли, двадцать четыре слова на десять терминов
+стали десятью. Связь сильна, но не абсолютна: одна строка из сотни всё же
+проскальзывает, поэтому проверка по корпусу нужна в любом случае.
 
-## Phase 6c: check the lore against the story
+## Этап 6c: проверить лор по истории
 
-A translation changes facts as easily as it changes sentences. A kinship, a
-diagnosis, a title, the name of a project — each of these is a claim about
-the world, and a mistranslation of one is not a wording problem.
+Перевод меняет факты так же легко, как предложения. Родство, диагноз, титул,
+название проекта: каждое из них утверждение о мире, и ошибка в переводе одного
+из них выходит за рамки формулировки.
 
-1. Write down the facts the story asserts: who is whose relative, who
-   founded what, what illness, what year, what the thing is called.
-2. Check each of them against the published account of the game — the
-   encyclopaedia entry, the reviews, the official site — and against the
-   text itself.
-3. Where the published account and the game disagree, the game is right.
-   It is the primary source; the publications retell it and get it wrong.
-4. Where the translation disagrees with the game, the translation is wrong.
-   Fix it and record it the way any other correction is recorded.
-5. Record the result: what matched, what did not, and where the outside
-   sources are wrong. The next translator will meet the same sources.
+1. Запиши факты, которые утверждает история: кто чей родственник, кто что
+   основал, какая болезнь, какой год, как называется предмет.
+2. Сверь каждый из них с опубликованным рассказом об игре, со статьёй
+   энциклопедии, с рецензиями, с официальным сайтом, и с самим текстом.
+3. Там, где опубликованный рассказ расходится с игрой, верна игра. Игра есть
+   первый источник; публикации пересказывают её и ошибаются.
+4. Там, где перевод расходится с игрой, перевод неверен. Исправь и запиши это
+   так же, как любую другую правку.
+5. Запиши результат: что совпало, что не совпало и где внешние источники
+   ошибаются. Следующий переводчик встретит те же источники.
 
-## Phase 7: preserve and hand off
+## Этап 7: сохранить и передать
 
-- Keep manual corrections in the pipeline's durable override source and
-  update generated translation files through the documented process.
-- Record terminology decisions in the glossary, voice decisions in the style
-  guide, measured UI fixes in the layout record, and player-visible changes in
-  the changelog.
-- Report changed IDs/files, checks and commands run, runtime screens
-  inspected, known exceptions, and remaining risks.
-- Follow the repository's contribution and release rules. Do not commit,
-  push, publish, overwrite a player's save, or send messages unless the user
-  or project instructions authorize that action.
+- Держи ручные правки в устойчивом источнике переопределений пайплайна и
+  обновляй сгенерированные файлы перевода через задокументированный процесс.
+- Записывай решения по терминологии в глоссарий, решения по голосу в справочник
+  стиля, измеренные правки интерфейса в журнал вёрстки, а видимые игроку
+  изменения в CHANGELOG.md.
+- Отчитайся об изменённых идентификаторах и файлах, о выполненных проверках и
+  командах, о просмотренных экранах игры, об известных исключениях и об
+  остаточных рисках.
+- Соблюдай правила вклада и выпуска репозитория. Не коммить, не пушь, не
+  публикуй, не перезаписывай сохранение игрока и не отправляй сообщений, если
+  пользователь или инструкции проекта этого не разрешают.
