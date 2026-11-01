@@ -166,7 +166,7 @@ PLAY_DIR = os.path.join(ROOT, "work", "fonts")
 
 
 def install_fonts(paths, dry_run=False, mode="grid", source=None, bold=0,
-                  narrow=1.0, game_dir=None, size=1.0):
+                  narrow=1.0, game_dir=None, size=1.0, pixel_ui=False):
     """Вписывание кириллицы в шрифты игры.
 
     Источник собирается под профиль каждого шрифта: у игры у шрифтов разные
@@ -189,7 +189,7 @@ def install_fonts(paths, dry_run=False, mode="grid", source=None, bold=0,
     source_path = base_assets(paths, game_dir) if game_dir else paths["assets"]
     data, patched, expected = patch_assets(source_path, mode,
                                           set(GAME_FONTS), source, bold, narrow,
-                                          size)
+                                          size, pixel_ui)
 
     staged = paths["assets"] + ".new"
     with open(staged, "wb") as fh:
@@ -223,6 +223,9 @@ def main():
     parser.add_argument("--bold", type=int, default=0,
                         help="насколько утолщить кириллицу, в единицах "
                              "шрифта игры: 25 — как в игре, 50 — заметно")
+    parser.add_argument("--pixel-ui", action="store_true",
+                        help="меню и подписи реплик рисуются пиксельным "
+                             "шрифтом вместо гладкого CarroisGothic")
     parser.add_argument("--source", default=None,
                         help="шрифт, из которого берётся кириллица, вместо "
                              "собранного под профиль цели")
@@ -240,7 +243,7 @@ def main():
     install_translation(paths, args.dry_run)
     if not args.no_fonts:
         install_fonts(paths, args.dry_run, args.mode, args.source, args.bold,
-                      args.narrow, game_dir, args.size)
+                      args.narrow, game_dir, args.size, args.pixel_ui)
         license_paths = [] if args.dry_run else install_font_license(paths)
         if license_paths:
             for license_path in license_paths:

@@ -86,9 +86,14 @@ def patch_object(data: bytes, font: bytes, new_font: bytes):
             + padding + data[offset + len(font) + old_pad:])
 
 
+# Гладкие шрифты интерфейса: меню и подписи реплик. С --pixel-ui они
+# заменяются пиксельным шрифтом целиком, а не получают гладкую кириллицу.
+UI_PIXEL_FONTS = {"CarroisGothic-Regular-HD", "CarroisGothic-Regular"}
+
+
 def patch_assets(assets_path: str, mode: str = "grid", fonts=None,
                  source: str = None, bold: int = 0, narrow: float = 1.0,
-                 size: float = 1.0):
+                 size: float = 1.0, pixel_ui: bool = False):
     """Файл, в шрифтах которого есть кириллица."""
     import UnityPy
 
@@ -112,6 +117,20 @@ def patch_assets(assets_path: str, mode: str = "grid", fonts=None,
             continue
         found.add(name)
         target_metrics = Metrics(load_font(raw_font))
+        if pixel_ui and name in UI_PIXEL_FONTS:
+            import make_ui_pixel_font
+            new_font = make_ui_pixel_font.build(raw_font, PLAY_DIR)
+            result = patch_object(obj.get_raw_data(), raw_font, new_font)
+            if result is None:
+                print("!! не найдены байты шрифта %s" % name)
+                continue
+            obj.set_raw_data(result)
+            cmap = load_font(new_font).getBestCmap()
+            expected[name] = len([c for c in cmap if 0x0400 <= c <= 0x04FF])
+            print("заменён %-26s пиксельным шрифтом, %d знаков"
+                  % (name, len(cmap)))
+            patched += 1
+            continue
         if source:
             # Чужой источник подгоняется под цель выбранным способом.
             source_path = source

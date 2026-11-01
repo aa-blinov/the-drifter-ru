@@ -1,5 +1,5 @@
 ﻿Character,ID,File,Context,English,Русский
-,100000,Room- Title,OnEnterRoom,Force HD Font (Y/N),Принудительно включить HD-шрифт (Y/N)
+,100000,Room- Title,OnEnterRoom,Force HD Font (Y/N),Y
 Narr,0,Room- Title,NewGame,I'd jumped the car back in Breaker's Cut,Я запрыгнул обратно в машину в Брейкерс-Кат
 Narr,1,Room- Title,NewGame,Told myself I'd never come back...,"Я говорил себе, что никогда не вернусь…"
 Narr,2,Room- Title,NewGame,"But well, shit... Here I am","Ну, чёрт… Вот и я здесь"
