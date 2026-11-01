@@ -21,7 +21,7 @@ touches.
 
 ## Quick start
 
-Download the [v1.0.0 install pack](https://github.com/aa-blinov/the-drifter-ru/releases/download/v1.0.0/the-drifter-ru-v1.0.0.zip),
+Download the [v1.0.1 install pack](https://github.com/aa-blinov/the-drifter-ru/releases/download/v1.0.1/the-drifter-ru-v1.0.1.zip),
 extract it anywhere, close the game and run `install.bat`. It needs
 [Python 3.9 or newer](https://www.python.org/downloads/) on the `PATH` and finds
 the game in your Steam libraries by itself.
