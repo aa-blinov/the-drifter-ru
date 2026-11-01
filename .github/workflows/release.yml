@@ -37,10 +37,8 @@ jobs:
       - name: Собрать пакет
         run: |
           mkdir -p dist
-          cp translation/Russian/translation.csv dist/
-          cp scripts/install.py scripts/fetch_fonts.py dist/
-          cp LICENSE docs/style-guide.md docs/glossary.md dist/
-          cp docs/proofreading.md docs/lore.md docs/layout.md dist/
+          cp -R translation scripts docs dist/
+          cp requirements.txt LICENSE dist/
           cd dist && zip -r "../the-drifter-ru-v${VERSION}.zip" .
 
       - name: Опубликовать
