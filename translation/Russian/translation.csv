@@ -206,7 +206,7 @@ Narr,93,Room- Bridge,Try phone on car before using charger,Should still be in my
 ,48,Room- Bridge,Fill car with petrol,Empty jerrycan,Пустая канистра
 Narr,94,Room- Bridge,Fill car with petrol,Metallic smell of old petrol stings my nostrils as it glugs into the tank,"Металлический запах старого бензина бьёт в ноздри, когда тот плещется в бак"
 Narr,95,Room- Bridge,Use empty can on car,The can's empty now. Should be enough in the tank though,Канистра теперь пуста. Но в баке должно хватить
-Narr,96,Room- Bridge,StartChapter2,"Consciousness creeps slowly back, and with it the freezing cold","Сознание медленно возвращается, а вместе с ним— ледяной холод"
+Narr,96,Room- Bridge,StartChapter2,"Consciousness creeps slowly back, and with it the freezing cold","Сознание медленно возвращается, а вместе с ним — ледяной холод"
 Narr,97,Room- Bridge,StartChapter2,My hands are numb. Unresponsive lumps that wipe muck from my eyes,Мои руки онемели. Непослушные комки размазывают грязь с глаз
 Narr,98,Room- Bridge,StartChapter2,I look out at the dark water,Я смотрю на тёмную воду
 Narr,99,Room- Bridge,StartChapter2,Was all that really under there?,Всё это было внизу?
@@ -1675,7 +1675,7 @@ Mick,285,Room- CemeteryFuneral,OnInteractCharacterDetective,What do you want?,Ч
 Narr,743,Room- CemeteryFuneral,OnInteractCharacterDetective,"He returns my whisper, breath hot on my neck","Он шепчет в ответ, и его горячее дыхание касается моей шеи"
 Detective,44,Room- CemeteryFuneral,OnInteractCharacterDetective,"Here to take you in, boss","Пришёл забрать тебя, босс"
 Detective,45,Room- CemeteryFuneral,OnInteractCharacterDetective,Understand it's your mother in there,"Ты же понимаешь, что внутри твоя мать"
-Narr,744,Room- CemeteryFuneral,OnInteractCharacterDetective,He gestures towards the urn,Он показывает на урну
+Narr,744,Room- CemeteryFuneral,OnInteractCharacterDetective,He gestures towards the urn,Указывает на урну
 Detective,46,Room- CemeteryFuneral,OnInteractCharacterDetective,"You do right by her, then come quiet","Отнесись к ней как следует, а потом иди тихо"
 Narr,745,Room- CemeteryFuneral,OnInteractCharacterDetective,He wants me alone. Shit. Gotta make my move,Он хочет остаться со мной наедине. Чёрт. Надо действовать
 Narr,746,Room- CemeteryFuneral,OnInteractCharacterDetective,He'd shoot before I could grab the gun,"Он выстрелит раньше, чем я успею схватить пистолет"
@@ -1834,7 +1834,7 @@ Narr,817,Room- Crypt,OnUseInvPropCoffinStuck,Great clods of earth rain down as i
 Narr,818,Room- Crypt,OnUseInvPropCoffinStuck,The coffin's made a decent ramp up the mudslide,Гроб послужил трапом вверх по оползню
 Narr,819,Room- Crypt,OnUseInvPropCoffinStuck,Good thing too. Ceiling won't hold much longer,"Хорошо, что так. Потолок скоро не выдержит"
 Narr,820,Room- Crypt,OnInteractPropCoffinClosed,I scrabble up the rotting wood,Я карабкаюсь по гнилому дереву
-Narr,821,Room- Crypt,OnInteractPropCoffinClosed,"I catch a breath of fresh air, should be able to pull myself out from here","Я ловлю глоток свежего воздуха — похоже, смогу выбраться отсюда"
+Narr,821,Room- Crypt,OnInteractPropCoffinClosed,"I catch a breath of fresh air, should be able to pull myself out from here","Ловлю глоток свежего воздуха — похоже, смогу выбраться отсюда"
 CopB,0,Room- Crypt,OnInteractPropCoffinClosed,Hey! Over here!,Эй! Сюда!
 Narr,822,Room- Crypt,OnInteractPropCoffinClosed,I duck down as a flashlight flickers across the opening,"Я пригибаюсь, когда луч фонаря скользит по проёму"
 CopB,1,Room- Crypt,OnInteractPropCoffinClosed,"Careful, the ground's soft","Осторожно, земля мягкая"
@@ -4460,7 +4460,7 @@ Narr,1579,Room- LabKitchen,OnUseInvHotspotScanner,But I doubt it,Но в это�
 Narr,1580,Room- LabKitchen,OnUseInvHotspotScanner,Chewing nicotine gum would make the scanner think I need even more veggies!,"Если начать жевать никотиновую жвачку, сканер решит, что мне нужно ещё больше овощей!"
 Mick,849,Room- LabKitchen,OnInteractPropPhoto,I know this photo...,Я знаю эту фотографию…
 Reporter,68,Room- LabKitchen,OnInteractPropPhoto,Trinity's Founders. Swiped it from Roth's room. I've been trying to get some background on them for my article,Основатели Тринити. Я стащил её из комнаты Рота. Пытаюсь собрать о них материал для своей статьи.
-Mick,850,Room- LabKitchen,OnInteractPropPhoto,"Well, the one on the right is Maxwell Holden","Ну, тот, что справа,—Максвелл Холден."
+Mick,850,Room- LabKitchen,OnInteractPropPhoto,"Well, the one on the right is Maxwell Holden","Ну, тот, что справа, — Максвелл Холден."
 Reporter,69,Room- LabKitchen,OnInteractPropPhoto,"The Bucket Butcher, I know","Мясник в ведре, я его знаю."
 Reporter,70,Room- LabKitchen,OnInteractPropPhoto,I was going to go meet him... Good thing Trinity picked me up first,"Я собирался пойти на встречу с ним… Хорошо, что Тринити подобрала меня раньше."
 Mick,851,Room- LabKitchen,OnInteractPropPhoto,You know this photo isn't complete...,"Ты знаешь, что эта фотография неполная…"
@@ -4471,12 +4471,12 @@ Reporter,71,Room- LabKitchen,OnInteractPropPhoto,Heard there was a third founder
 Mick,854,Room- LabKitchen,OnInteractPropPhoto,None,Нет.
 Reporter,72,Room- LabKitchen,OnInteractPropPhoto,Damn. I can't seem to find anything about her,Чёрт. Никак не могу найти о ней хоть что-нибудь.
 Reporter,73,Room- LabKitchen,OnInteractPropPhoto,Show that around for me. See if you can dig anything up,"Покажи это кому-нибудь. Поищи, не удастся ли что-нибудь выяснить."
-Narr,1582,Room- LabKitchen,OnUseInvHotspotCoffeeMachine,I throw the beans into the grinder,Я бросаю зёрна в кофемолку.
+Narr,1582,Room- LabKitchen,OnUseInvHotspotCoffeeMachine,I throw the beans into the grinder,Бросаю зёрна в кофемолку.
 Reporter,74,Room- LabKitchen,OnUseInvHotspotCoffeeMachine,Make sure you close the-,Только не забудь закрыть—
 ,769,Room- LabKitchen,OnUseInvHotspotCoffeeMachine,Finely ground coffee coats the machine and the counter,Мелко смолотый кофе покрыл машину и столешницу.
 Mick,855,Room- LabKitchen,OnUseInvHotspotCoffeeMachine,Gah!,Га!
 Narr,1583,Room- LabKitchen,OnUseInvHotspotCoffeeMachine,I stab at the button as the machine spits a cloud of fine grounds all over the counter,"Я тычу в кнопку, и машина обсыпает всю столешницу облаком мелкого кофе"
-Narr,1584,Room- LabKitchen,OnUseInvHotspotCoffeeMachine,I scoop up some of the finer grounds,Я сгребаю немного самого мелкого кофе
+Narr,1584,Room- LabKitchen,OnUseInvHotspotCoffeeMachine,I scoop up some of the finer grounds,Сгребаю немного самого мелкого кофе
 ,770,Room- LabKitchen,OnUseInvHotspotCoffeeMachine,Better leave the coffee machine alone before I make more of a mess,"Лучше оставить кофемашину в покое, а то я устрою ещё больший беспорядок"
 Mick,856,Room- LabKitchen,OnUseInvCharacterReporter,"Hey, I'll swap you for some vegetable soup","Эй, я отдам тебе немного овощного супа за это"
 Reporter,75,Room- LabKitchen,OnUseInvCharacterReporter,Not a chance,Ни за что
@@ -4507,7 +4507,7 @@ Reporter,86,Room- LabKitchen,Talk reporter about mask when first found it,Alrigh
 Mick,867,Room- LabKitchen,Talk reporter about mask when first found it,Nothing yet,Пока ничего
 Mick,868,Room- LabKitchen,Show founder photo to reporter when know she's Roth's wife,I found the rest of that photo,Я нашла оставшуюся часть той фотографии
 Reporter,87,Room- LabKitchen,Show founder photo to reporter when know she's Roth's wife,With the third founder?,С третьей соучредительницей?
-Mick,869,Room- LabKitchen,Show founder photo to reporter when know she's Roth's wife,Her name's on the back- Sophia Roth,На обороте её имя—София Рот
+Mick,869,Room- LabKitchen,Show founder photo to reporter when know she's Roth's wife,Her name's on the back- Sophia Roth,На обороте её имя — София Рот
 Reporter,88,Room- LabKitchen,Show founder photo to reporter when know she's Roth's wife,Then she's...,"Значит, она…"
 Mick,870,Room- LabKitchen,Show founder photo to reporter when know she's Roth's wife,Roth's wife,Жена Рота
 Reporter,89,Room- LabKitchen,Show founder photo to reporter when know she's Roth's wife,This is great!,Вот это отлично!
@@ -6603,7 +6603,7 @@ Mick,1372,Character- Annie,Show sister founder photo (before you know her identi
 Annie,232,Character- Annie,Show sister founder photo (before you know her identity),Unless... it's over a bottle of schnapps,"Если только… речь не пойдёт о том, что они болтали за бутылкой шнапса"
 Narr,2067,Character- Annie,Show sister founder photo (before you know her identity),She winks conspiratorially,"Я вижу, как она подмигивает, будто сообщает что-то тайком"
 Annie,233,Character- Annie,Show sister founder photo (before you know her identity),"Apparently, this woman had a bit of a thing going with Maxwell Holden","Говорят, у этой женщины был роман с Максвеллом Холденом"
-Annie,234,Character- Annie,Show sister founder photo (before you know her identity),"But something happened, a lab accident... she left after that",Но потом что-то случилось—авария в лаборатории… после этого она ушла
+Annie,234,Character- Annie,Show sister founder photo (before you know her identity),"But something happened, a lab accident... she left after that",Но потом что-то случилось — авария в лаборатории… после этого она ушла
 Mick,1373,Character- Annie,Show sister photo again,Anything else you know about this third founder?,Что-нибудь ещё знаешь о третьей соучредительнице?
 Annie,235,Character- Annie,Show sister photo again,"Just what I said, I think she had a thing with Holden, left after an accident","Только то, что я уже сказал. Думаю, у неё был роман с Холденом, и после аварии она ушла"
 Annie,236,Character- Annie,Show sister photo again,Shame there's not more to it...,"Жаль, что тут нечего больше рассказать…"
@@ -6921,7 +6921,7 @@ Narr,2138,Item- Downpipe,OnUseInvInventory,"I manage to feed the cord through th
 ,1221,Item- VacBag,Item Description,A spare vacuum cleaner bag. Made of some paper/polyester hybrid,Запасной мешок для пылесоса. Сделан из какого-то гибрида бумаги и полиэстера
 ,1222,Item- Jack,Item Description,"Steel car jack. Pumping the lever forces it open, lifting whatever's on top","Стальной домкрат. Качание рычага открывает его и поднимает всё, что сверху."
 ,1223,Item- Hook,Item Description,A hefty iron meat hook with a cruel tip. It's welded to the end of the winch chain to form a makeshift hoist,Тяжёлый железный крюк для мяса с жестоким остриём. Он приварен к концу цепи лебёдки и служит самодельным подъёмником.
-,1224,Item- Tag,Item Description,"The tag was from a cat-collar, a simple flat disk stamped 'Muffin'",Бирка была с кошачьего ошейника—простой плоский диск с оттиском «Муффин»
+,1224,Item- Tag,Item Description,"The tag was from a cat-collar, a simple flat disk stamped 'Muffin'",Бирка была с кошачьего ошейника — простой плоский диск с оттиском «Муффин»
 ,1225,Item- WireCutters,Item Description,"The wire-cutters are old, but functional","Кусачки для проводов старые, но рабочие"
 ,1226,Item- Cable,Item Description,A short length of sturdy power-cord,Короткий отрезок прочного шнура питания
 ,1227,Item- Ice,Item Description,The dry ice burns my fingers,Сухой лёд обжигает пальцы

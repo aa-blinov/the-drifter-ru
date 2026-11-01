@@ -38,13 +38,19 @@
 
 ## Что уходит издателю
 
-Архив релиза (`the-drifter-ru-vX.Y.Z.zip`) несёт:
+Архив релиза (`the-drifter-ru-vX.Y.Z.zip`) сохраняет структуру репозитория,
+чтобы установщик нашёл перевод и свои модули:
 
 - `translation/Russian/translation.csv`: файл, который читает игра;
-- `scripts/install.py` и `scripts/fetch_fonts.py`: установка;
+- `scripts/`: установщик и его модули, а также загрузчик шрифтов;
+- `requirements.txt`: зависимости установщика;
 - `LICENSE`: лицензия перевода и кода;
-- `docs/style-guide.md`, `docs/glossary.md`, `docs/proofreading.md`,
-  `docs/lore.md`, `docs/layout.md`: голос, термины и записи проверок.
+- `docs/`: голос, термины и записи проверок.
+
+После распаковки установите зависимости командой
+`python3 -m pip install -r requirements.txt`, скачайте шрифты командой
+`python3 scripts/fetch_fonts.py` и запустите установщик из корня распакованного
+архива.
 
 От разработчика издателю нужна копия игры: установщик работает с папкой, в
 которой лежит `TheDrifter.exe`, и всё, к чему прикасается, кладёт в
