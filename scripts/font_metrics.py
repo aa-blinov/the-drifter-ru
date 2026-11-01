@@ -20,14 +20,6 @@ from math import gcd
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 FONT_DIR = os.path.join(ROOT, "work", "fonts")
 
-# Источник кириллических глифов: пиксельный шрифт со всем кириллическим
-# диапазоном. Файл выбирается по размеру прорисовки целевого шрифта.
-CYRILLIC_SOURCES = {
-    10: "ark-pixel-10px-proportional-latin.ttf",
-    12: "ark-pixel-12px-proportional-latin.ttf",
-    16: "ark-pixel-16px-proportional-latin.ttf",
-}
-
 
 def _coordinates(font, name):
     """Контурные точки одного глифа."""
@@ -44,10 +36,16 @@ def pixel_grid(font) -> int:
     """Размер одного пикселя шрифта в единицах шрифта.
 
     У пиксельного шрифта нет координаты вне своей сетки, поэтому наибольший
-    общий делитель координат его глифов и есть размер одного пикселя.
+    общий делитель координат его букв и есть размер одного пикселя.
+
+    Глиф `.notdef` в расчёт не входит: он рисуется прямоугольником
+    произвольного размера и к рисунку шрифта не относится. С ним делитель
+    получается единицей, и сетка шрифта не определяется вовсе.
     """
     grid = 0
     for name in font.getGlyphOrder():
+        if name == ".notdef":
+            continue
         for x, y in _coordinates(font, name):
             grid = gcd(grid, abs(int(x)))
             grid = gcd(grid, abs(int(y)))
@@ -69,6 +67,16 @@ def height_of(font, char) -> int:
 
 def baseline_of(font, char="H"):
     """Координата y базовой линии в единицах шрифта."""
+    return bottom_of(font, char)
+
+
+def bottom_of(font, char):
+    """Нижняя точка буквы в единицах шрифта.
+
+    У круглых букв она лежит ниже базовой линии: буква `о` чуть выходит
+    за неё. Для латиницы и кириллицы это должны быть одни и те же числа,
+    иначе русские буквы сядут на строку ниже английских.
+    """
     codepoint = ord(char)
     cmap = font.getBestCmap()
     if codepoint not in cmap:
@@ -77,6 +85,25 @@ def baseline_of(font, char="H"):
     if not points:
         return 0
     return min(p[1] for p in points)
+
+
+# Латинские буквы, которые уходят под базовую линию. Их вынос задаёт
+# глубину выноса шрифта: кириллическая `р` должна провисать так же.
+DESCENDERS = "pgyqj"
+
+
+def descender_depth(font) -> int:
+    """Насколько шрифт уходит под базовую линию.
+
+    Это глубина выноса латиницы. У шрифта, где выносов нет вовсе, глубина
+    нулевая, и кириллица выноса не получает: у неё хвост есть только у
+    `ц` и `щ`, и без него они не отличить от `ш`.
+    """
+    cmap = font.getBestCmap()
+    base = bottom_of(font, "x")
+    depths = [base - bottom_of(font, char) for char in DESCENDERS
+              if ord(char) in cmap]
+    return max(depths) if depths else 0
 
 
 class Metrics:
@@ -98,6 +125,22 @@ class Metrics:
     def describe(self, label=""):
         return ("%s upem %d, %.1f px em, cap %d, x-height %d"
                 % (label, self.upem, self.pixels, self.cap, self.x_height))
+
+
+def unicase_of(font) -> bool:
+    """Однорегистровый ли шрифт.
+
+    В однорегистровом шрифте строчная буква нарисована той же формой, что и
+    заглавная: `A` и `a` у него это один и тот же контур. Кириллица в таком
+    шрифте должна быть нарисована так же, иначе русские строчные выглядели бы
+    иначе, чем английские в одной строке.
+    """
+    cmap = font.getBestCmap()
+    upper = cmap.get(ord("A"))
+    lower = cmap.get(ord("a"))
+    if upper is None or lower is None:
+        return False
+    return _coordinates(font, upper) == _coordinates(font, lower)
 
 
 def load_font(data):

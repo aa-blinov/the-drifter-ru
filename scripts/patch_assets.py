@@ -30,8 +30,16 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 
-from font_merge import merge, source_for  # noqa: E402
+from font_merge import merge  # noqa: E402
 from font_metrics import Metrics, load_font  # noqa: E402
+import font_source  # noqa: E402
+
+# Каталог с гарнитурами, из которых собирается кириллица, и каталог, куда
+# кладутся собранные источники. Источник нужен свой для каждого профиля
+# шрифта, поэтому он и собирается, и хранится отдельно от шрифтов игры.
+PLAY_DIR = os.path.join(os.path.dirname(os.path.dirname(
+    os.path.abspath(__file__))), "work", "fonts")
+SOURCE_CACHE = os.path.join(PLAY_DIR, "cyr")
 
 
 def font_objects(env):
@@ -70,8 +78,8 @@ def patch_object(data: bytes, font: bytes, new_font: bytes):
             + data[offset + len(font):])
 
 
-def patch_assets(assets_path: str, mode: str = "metric", fonts=None,
-                  source: str = None, bold: int = 0):
+def patch_assets(assets_path: str, mode: str = "grid", fonts=None,
+                  source: str = None, bold: int = 0, narrow: float = 1.0):
     """Файл, в шрифтах которого есть кириллица."""
     import UnityPy
 
@@ -88,33 +96,60 @@ def patch_assets(assets_path: str, mode: str = "metric", fonts=None,
             pass
 
     patched = 0
+    expected = {}
+    found = set()
     for obj, name, raw_font in font_objects(env):
         if fonts and name not in fonts:
             continue
+        found.add(name)
         target_metrics = Metrics(load_font(raw_font))
         if source:
+            # Чужой источник подгоняется под цель выбранным способом.
             source_path = source
+            merge_mode = mode
         else:
-            source_path, _source_metrics = source_for(target_metrics)
-        new_font, added, scale = merge(raw_font, source_path, mode, bold)
+            # Источник собирается под профиль этого шрифта: его сетка,
+            # высота строчных и высота заглавных совпадают с целевыми, и
+            # кириллица встаёт на сетку латиницы без перерисовки. У гладкого
+            # шрифта сетки нет, и там источник собирается из контуров.
+            source_path = font_source.source_for(raw_font, PLAY_DIR,
+                                                 SOURCE_CACHE)
+            merge_mode = "same"
+        new_font, added, scale = merge(raw_font, source_path, merge_mode, bold,
+                                       narrow)
         data = obj.get_raw_data()
         result = patch_object(data, raw_font, new_font)
         if result is None:
             print("!! не найдены байты шрифта %s" % name)
             continue
         obj.set_raw_data(result)
-        print("поправлен %-28s +%d глифов, x-height масштаб %.3f (%s)"
+        print("правлен %-28s +%d глифов, масштаб %.3f (%s)"
               % (name, added, scale, target_metrics.describe()))
         patched += 1
+        # Ожидаемое число считается по источнику: кириллицы в нём столько,
+        # сколько должно оказаться в шрифте игры. Глифы, уже лежавшие в
+        # цели, в счёт не идут.
+        source_cmap = load_font(source_path).getBestCmap()
+        target_cmap = load_font(raw_font).getBestCmap()
+        expected[name] = len([c for c in source_cmap
+                               if 0x0400 <= c <= 0x04FF
+                               and c not in target_cmap])
 
     if not patched:
         raise SystemExit("ни один шрифт не поправлен")
+
+    # Шрифт из списка правки, которого в ассетах нет, это молчаливая
+    # поломка: строка перевода уйдёт в системный шрифт, и игра это не
+    # покажет.
+    missing = sorted(set(fonts or ()) - found)
+    if missing:
+        raise SystemExit("в ассетах нет шрифтов: %s" % ", ".join(missing))
 
     data = env.file.save()
 
     # Ридер держит файл открытым, а Windows не заменяет открытый файл.
     release(env)
-    return data, patched
+    return data, patched, expected
 
 
 def release(env) -> None:
@@ -134,11 +169,11 @@ def release(env) -> None:
     gc.collect()
 
 
-def verify(path: str, original_path: str, expected_cyrillic: int = 0) -> None:
+def verify(path: str, original_path: str, expected: dict = None) -> None:
     """Записанный файл должен держать те же объекты, что и оригинал.
 
-    Число кириллических глифов сверяется с ожидаемым: сколько в источнике
-    кириллицы, столько должно оказаться в каждом из текстовых шрифтов.
+    Число кириллических глифов сверяется с ожидаемым у каждого шрифта
+    отдельно: у семи текстовых шрифтов игры кириллица должна лечь целиком.
     """
     import UnityPy
 
@@ -168,16 +203,34 @@ def verify(path: str, original_path: str, expected_cyrillic: int = 0) -> None:
     if differing > len(before) // 10:
         raise SystemExit("изменилось %d объектов из %d: это не правка шрифтов"
                          % (differing, len(before)))
-    if expected_cyrillic and cyrillic < expected_cyrillic:
-        raise SystemExit("в записанном файле %d кириллических глифов, ожидалось не "
-                         "меньше %d" % (cyrillic, expected_cyrillic))
     print("проверено: %d объектов, %d изменено, %d кириллических глифов"
           % (len(objects), differing, cyrillic))
+
+    if expected:
+        check_cyrillic(path, expected)
 
     # Ридер держит файл открытым, а Windows не заменяет открытый файл.
     for env in (before_env, after_env):
         release(env)
     del before_env, after_env
+
+
+def check_cyrillic(path: str, expected: dict) -> None:
+    """У каждого правленого шрифта кириллица должна лечь целиком."""
+    import UnityPy
+
+    env = UnityPy.load(path)
+    counts = {}
+    for obj, name, raw in font_objects(env):
+        if name in expected:
+            counts[name] = len([c for c in load_font(raw).getBestCmap()
+                                if 0x0400 <= c <= 0x04FF])
+    for name, minimum in expected.items():
+        found = counts.get(name, 0)
+        if found < minimum:
+            raise SystemExit("в шрифте %s %d кириллических глифов, ожидалось "
+                             "не меньше %d" % (name, found, minimum))
+    release(env)
 
 
 def count_cyrillic(obj) -> int:
@@ -206,19 +259,20 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--assets", required=True)
     parser.add_argument("--out", required=True)
-    parser.add_argument("--mode", default="metric", choices=["metric", "grid"])
+    parser.add_argument("--mode", default="grid", choices=["metric", "grid", "cap"],
+                        help="как кириллица масштабируется под шрифт игры")
     parser.add_argument("--fonts", default="",
                         help="имена шрифтов через запятую, которые нужно править")
     args = parser.parse_args()
 
     wanted = {name.strip() for name in args.fonts.split(",") if name.strip()}
-    data, patched = patch_assets(args.assets, args.mode, wanted or None)
+    data, patched, expected = patch_assets(args.assets, args.mode, wanted or None)
 
     with open(args.out, "wb") as fh:
         fh.write(data)
     print("записан %s (%d байт, было %d)"
           % (args.out, len(data), os.path.getsize(args.assets)))
-    verify(args.out, args.assets)
+    verify(args.out, args.assets, expected)
 
 
 if __name__ == "__main__":

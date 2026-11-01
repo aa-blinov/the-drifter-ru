@@ -9,9 +9,10 @@
 
   Шрифты. Игра рисует текст шрифтами из своих собственных ассетов, и ни
   один из них не несёт кириллического глифа. Кириллица вписывается в
-  шрифты, которыми рисуется текст, и масштабируется под x-height латиницы
-  в том же шрифте, поэтому русская строка имеет тот же цвет, что
-  английская.
+  шрифты, которыми рисуется текст, и подгоняется под профиль каждого из
+  них: кириллица встаёт на базовую линию латиницы ровно, имеет ту же
+  высоту строчных и заглавных и тот же вынос, поэтому русская строка
+  выглядит как строка игры.
 
 Файл ассетов правится байт за байтом и никогда не пересобирается: ридер
 Unity теряет данные объектов, которые не разобрал, а файл, потерявший 29
@@ -38,6 +39,7 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 
+from font_metrics import load_font  # noqa: E402
 from patch_assets import patch_assets, verify  # noqa: E402
 
 ROOT = os.path.dirname(HERE)
@@ -48,10 +50,10 @@ BACKUP_DIR = "_ru_backup"
 # лежала рядом с файлом.
 FONT_LICENSE = os.path.join(ROOT, "work", "fonts", "OFL.txt")
 
-# Шрифты, которыми игра рисует текст. Остальные шрифты игры идут на
-# заголовки и значки, и кириллица им не нужна: у шрифта без строчных
-# букв нет x-height, под который можно подстроиться, и масштаб, который
-# из этого получится, даёт шрифт, который игра не читает.
+# Шрифты, которыми игра рисует перевод. Это те, что стоят у надписей со
+# строками перевода: у пиксельных шрифтов кириллица ложится на их сетку,
+# у гладких собирается из контуров под их высоты. Остальные шрифты игры
+# идут на заголовки и значки, где перевода нет.
 GAME_FONTS = [
     "ChevyRay - Pinch - EU",
     "ChevyRay - Pinch - EU - AA",
@@ -60,6 +62,9 @@ GAME_FONTS = [
     "tecno",
     "tecno_small",
     "embalm",
+    "Army of Darkness Regular",
+    "CarroisGothic-Regular-HD",
+    "CarroisGothic-Regular",
 ]
 
 
@@ -108,36 +113,78 @@ def backup(paths, game_dir):
     return backup_dir
 
 
+def base_assets(paths, game_dir):
+    """Файл, от которого идёт правка.
+
+    Правка идёт от оригинала, а не от уже пропатченного файла: вписанная
+    кириллица с чужой сеткой разрушает пиксельную сетку шрифта, и по
+    пропатченному файлу профиль шрифта уже не определить. Копия оригинала
+    лежит в каталоге `_ru_backup`.
+    """
+    backup_dir = os.path.join(game_dir, BACKUP_DIR)
+    target = os.path.join(backup_dir, os.path.basename(paths["assets"]))
+    if os.path.exists(target) and not count_cyrillic_in(target):
+        return target
+    return paths["assets"]
+
+
+def count_cyrillic_in(assets_path):
+    """Есть ли в файле кириллица: признак того, что он уже пропатчен."""
+    import UnityPy
+    from patch_assets import font_objects
+
+    env = UnityPy.load(assets_path)
+    total = 0
+    for _obj, _name, raw in font_objects(env):
+        cmap = load_font(raw).getBestCmap()
+        total += len([c for c in cmap if 0x0400 <= c <= 0x04FF])
+    return total
+
+
 def install_font_license(paths):
     """Копирование лицензии шрифта рядом с игрой.
 
-    Шрифт игры после патча несёт кириллицу Ark Pixel, а та распространяется
-    по SIL Open Font License 1.1: лицензия должна идти вместе с файлом.
+    Шрифт игры после патча несёт кириллицу, нарисованную из гарнитуры Play,
+    а та распространяется по SIL Open Font License 1.1: лицензия должна идти
+    вместе с файлом.
     """
     if not os.path.exists(FONT_LICENSE):
         return None
-    target = os.path.join(paths["data"], "ArkPixelFont-OFL.txt")
+    target = os.path.join(paths["data"], "PlayFont-OFL.txt")
     shutil.copy2(FONT_LICENSE, target)
     return target
 
 
-def install_fonts(paths, dry_run=False, mode="metric", source=None, bold=0):
-    """Вписывание кириллицы в шрифты игры."""
+PLAY_DIR = os.path.join(ROOT, "work", "fonts")
+
+
+def install_fonts(paths, dry_run=False, mode="grid", source=None, bold=0,
+                  narrow=1.0, game_dir=None):
+    """Вписывание кириллицы в шрифты игры.
+
+    Источник собирается под профиль каждого шрифта: у игры у шрифтов разные
+    сетки, высоты строчных и заглавных, и кириллица, нарисованная под один
+    из них, в другом легла бы мимо сетки.
+    """
+    if source is None:
+        for name in ("Play-Regular.ttf", "Play-Bold.ttf"):
+            if not os.path.exists(os.path.join(PLAY_DIR, name)):
+                raise SystemExit(
+                    "нет гарнитуры %s в %s\n"
+                    "Запустите scripts/fetch_fonts.py, чтобы скачать шрифты."
+                    % (name, PLAY_DIR))
     if dry_run:
-        print("будут правиться %d шрифтов в %s" % (len(GAME_FONTS), paths["assets"]))
+        print("будут правиться %d шрифтов в %s"
+              % (len(GAME_FONTS), paths["assets"]))
         return
-    expected_cyrillic = 0
-    if source:
-        from font_metrics import load_font
-        cmap = load_font(source).getBestCmap()
-        expected_cyrillic = len([c for c in cmap if 0x0400 <= c <= 0x04FF]) * len(GAME_FONTS)
-    data, patched = patch_assets(paths["assets"], mode, set(GAME_FONTS), source,
-                                bold)
+    source_path = base_assets(paths, game_dir) if game_dir else paths["assets"]
+    data, patched, expected = patch_assets(source_path, mode,
+                                          set(GAME_FONTS), source, bold, narrow)
 
     staged = paths["assets"] + ".new"
     with open(staged, "wb") as fh:
         fh.write(data)
-    verify(staged, paths["assets"], expected_cyrillic)
+    verify(staged, paths["assets"], expected)
     os.replace(staged, paths["assets"])
     print("записан %s (%d шрифтов)" % (paths["assets"], patched))
 
@@ -148,16 +195,22 @@ def main():
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--no-fonts", action="store_true",
                         help="поставить только текст, шрифты не трогать")
-    parser.add_argument("--mode", default="cap", choices=["metric", "grid", "cap"],
-                        help="как кириллица масштабируется под шрифт игры: "
-                             "cap — по высоте заглавных (по умолчанию), "
-                             "metric — по высоте строчных, grid — по сетке")
+    parser.add_argument("--mode", default="grid", choices=["metric", "grid", "cap"],
+                        help="как кириллица масштабируется под шрифт игры, "
+                             "когда источник задан явно: grid — по "
+                             "пиксельной сетке, metric — по высоте строчных, "
+                             "cap — по высоте заглавных. По умолчанию "
+                             "источник собирается под профиль шрифта, и "
+                             "масштаб равен единице")
+    parser.add_argument("--narrow", type=float, default=1.0,
+                        help="сжатие кириллицы по горизонтали: 0.85 — "
+                             "заметно уже, 0.95 — чуть-чуть")
     parser.add_argument("--bold", type=int, default=0,
                         help="насколько утолщить кириллицу, в единицах "
                              "шрифта игры: 25 — как в игре, 50 — заметно")
     parser.add_argument("--source", default=None,
-                        help="шрифт, из которого берётся кириллица (по умолчанию "
-                             "подбирается по шрифту игры)")
+                        help="шрифт, из которого берётся кириллица, вместо "
+                             "собранного под профиль цели")
     args = parser.parse_args()
 
     game_dir = os.path.abspath(args.game)
@@ -171,7 +224,8 @@ def main():
         backup(paths, game_dir)
     install_translation(paths, args.dry_run)
     if not args.no_fonts:
-        install_fonts(paths, args.dry_run, args.mode, args.source, args.bold)
+        install_fonts(paths, args.dry_run, args.mode, args.source, args.bold,
+                      args.narrow, game_dir)
         license_path = install_font_license(paths)
         if license_path:
             print("лицензия шрифта: %s" % license_path)

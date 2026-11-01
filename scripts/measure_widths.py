@@ -23,12 +23,17 @@ ROOT = os.path.dirname(HERE)
 sys.path.insert(0, HERE)
 sys.path.insert(0, os.path.join(ROOT, "src"))
 
-from font_merge import merge, source_for  # noqa: E402
+from font_merge import merge  # noqa: E402
 from font_metrics import Metrics, load_font  # noqa: E402
+import font_source  # noqa: E402
 
 GAME = os.environ.get("DR_GAME_DIR",
                       r"S:\SteamLibrary\steamapps\common\The Drifter")
-ASSETS = os.path.join(GAME, "TheDrifter_Data", "sharedassets1.assets")
+# Меряется исходный ассет, а не пропатченный: у пропатченного шрифта
+# кириллица уже вписана и сетка изменилась, и такой шрифт годится только
+# для чтения, а не для измерения.
+ASSETS = os.environ.get(
+    "DR_ASSETS", os.path.join(ROOT, "work", "pristine.assets"))
 CORPUS = os.path.join(ROOT, "corpus", "english.csv")
 TRANSLATION = os.path.join(ROOT, "translation", "Russian", "translation.csv")
 
@@ -85,8 +90,10 @@ def main():
             continue
         original = load_font(data)
         metrics = Metrics(original)
-        source, _source_metrics = source_for(metrics)
-        merged_bytes, _added, _scale = merge(data, source, mode="metric")
+        source = font_source.source_for(
+            data, os.path.join(ROOT, "work", "fonts"),
+            os.path.join(ROOT, "work", "fonts", "cyr"))
+        merged_bytes, _added, _scale = merge(data, source, mode="same")
         merged = load_font(merged_bytes)
 
         ratios = []
