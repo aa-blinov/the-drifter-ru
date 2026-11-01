@@ -50,7 +50,7 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 
-from font_metrics import Metrics, load_font  # noqa: E402
+from font_metrics import Metrics, bottom_of, load_font  # noqa: E402
 from font_source import EXTRA_CHARS  # noqa: E402
 
 
@@ -80,7 +80,7 @@ def scale_for(target: Metrics, source: Metrics, mode: str) -> float:
 
 
 def merge(original: bytes, source_path: str, mode: str = "metric", bold: int = 0,
-          narrow: float = 1.0):
+          narrow: float = 1.0, size: float = 1.0):
     """Добавить кириллические глифы источника к одному шрифту игры.
 
     Возвращает новый шрифт, число добавленных глифов и масштаб, в котором
@@ -95,6 +95,10 @@ def merge(original: bytes, source_path: str, mode: str = "metric", bold: int = 0
     `narrow` — сжатие по горизонтали. Буква становится уже, и на той же
     ширине в ней больше краски, поэтому она читается плотнее; текст при этом
     короче.
+
+    `size` — размер кириллицы против латиницы. Меньше единицы кириллица
+    чуть ниже латинских букв: она стоит на той же базовой линии, но сама
+    немного меньше, и русская строка читается спокойнее.
     """
     from fontTools.pens.transformPen import TransformPen
     from fontTools.pens.ttGlyphPen import TTGlyphPen
@@ -110,6 +114,9 @@ def merge(original: bytes, source_path: str, mode: str = "metric", bold: int = 0
     scale = scale_for(target_metrics, source_metrics, mode)
     if scale <= 0 or scale > 4:
         raise SystemExit("масштаб %.3f вне диапазона: шрифт не текстовый" % scale)
+    # Базовая линия цели: от неё кириллица уменьшается, и буквы остаются
+    # на строке.
+    baseline = bottom_of(target, "x")
 
     source_cmap = source.getBestCmap()
     wanted = {codepoint for codepoint in source_cmap
@@ -140,8 +147,13 @@ def merge(original: bytes, source_path: str, mode: str = "metric", bold: int = 0
         if bold:
             offsets += [(bold, 0), (-bold, 0), (0, bold), (0, -bold)]
         pen = TTGlyphPen(None)
+        # Кириллица уменьшается от базовой линии: она остаётся на строке, но
+        # становится чуть ниже латинских букв рядом.
+        y_scale = scale * size
         for dx, dy in offsets:
-            transform = TransformPen(pen, (scale * narrow, 0, 0, scale, dx, dy))
+            y_shift = dy + baseline * (1 - y_scale)
+            transform = TransformPen(pen, (scale * narrow, 0, 0, y_scale,
+                                          dx, y_shift))
             source_glyphs[source_name].draw(transform)
         target_glyphs.glyphs[glyph_name] = pen.glyph()
 

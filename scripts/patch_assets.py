@@ -74,12 +74,21 @@ def patch_object(data: bytes, font: bytes, new_font: bytes):
     offset, length_at = find_font_data(data, font)
     if offset is None:
         return None
+    # После данных шрифта в объекте Unity идёт выравнивание до четырёх
+    # байт, и его длина зависит от длины данных. Новый шрифт другой длины,
+    # и без правки выравнивания следующее поле читается со сдвигом, а
+    # объект не разбирается вовсе.
+    old_pad = (-len(font)) % 4
+    new_pad = (-len(new_font)) % 4
+    padding = (data[offset + len(font):offset + len(font) + old_pad]
+               + b"\x00" * 4)[:new_pad]
     return (data[:length_at] + struct.pack("<i", len(new_font)) + new_font
-            + data[offset + len(font):])
+            + padding + data[offset + len(font) + old_pad:])
 
 
 def patch_assets(assets_path: str, mode: str = "grid", fonts=None,
-                  source: str = None, bold: int = 0, narrow: float = 1.0):
+                 source: str = None, bold: int = 0, narrow: float = 1.0,
+                 size: float = 1.0):
     """Файл, в шрифтах которого есть кириллица."""
     import UnityPy
 
@@ -116,7 +125,7 @@ def patch_assets(assets_path: str, mode: str = "grid", fonts=None,
                                                  SOURCE_CACHE)
             merge_mode = "same"
         new_font, added, scale = merge(raw_font, source_path, merge_mode, bold,
-                                       narrow)
+                                       narrow, size)
         data = obj.get_raw_data()
         result = patch_object(data, raw_font, new_font)
         if result is None:

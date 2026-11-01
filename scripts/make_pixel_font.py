@@ -97,7 +97,9 @@ def profile_of(data: bytes) -> Profile:
     if grid <= 1:
         raise SystemExit("у шрифта не определяется пиксельная сетка")
     upem = font["head"].unitsPerEm
-    design_px = max(1, upem // grid)
+    # Кегль сетки это em, делённый на пиксель: у шрифта с округлёнными
+    # координатами деление нацело не сойдётся.
+    design_px = max(1, round(upem / grid))
     x_px = round(height_of(font, "x") / grid)
     cap_px = round(height_of(font, "H") / grid)
     stem_px = stem_of_font(data, design_px)

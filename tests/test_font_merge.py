@@ -31,8 +31,9 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "scripts"))
 
 from font_merge import merge  # noqa: E402
-from font_metrics import (Metrics, bottom_of, descender_depth, load_font,  # noqa: E402
-                          unicase_of, _coordinates)
+from font_metrics import (Metrics, bottom_of, descender_depth,  # noqa: E402
+                          grid_is_exact, load_font, pixel_grid, unicase_of,
+                          _coordinates)
 import font_source  # noqa: E402
 
 FONT_DIR = os.path.join(ROOT, "work", "fonts")
@@ -156,16 +157,46 @@ class FontMergeTest(unittest.TestCase):
         _name, _raw, _data, _added, scale = self.merged()
         self.assertAlmostEqual(scale, 1.0, places=6)
 
+    def test_the_cyrillic_can_be_made_smaller(self):
+        """Уменьшенная кириллица ниже латинских букв, но на той же строке.
+
+        Размер задаётся в установщике: кириллица остаётся на базовой линии,
+        но сама ниже латинских букв, и русская строка читается спокойнее.
+        """
+        size = font_source.DEFAULT_SIZE
+        for name, raw in self.targets():
+            source = font_source.source_for(raw, FONT_DIR, CACHE)
+            data, _added, _scale = merge(raw, source, "same", size=size)
+            original = load_font(raw)
+            merged = load_font(data)
+            latin = original.getBestCmap()
+            expected = glyph_height(original, latin[ord("x")])
+            found = glyph_height(merged, "ru0445")
+            self.assertLessEqual(
+                abs(found - expected * size), expected * 0.02,
+                "в шрифте %s высота кириллицы (%d) не такова, как ждали от "
+                "размера %.2f" % (name, found, size))
+            # Базовая линия общая: буква стоит на строке, а не провисает.
+            self.assertEqual(
+                glyph_bottom(merged, "ru0445"),
+                glyph_bottom(original, latin[ord("x")]),
+                "в шрифте %s уменьшенная кириллица сошла с базовой линии"
+                % name)
+
     def test_the_cyrillic_matches_the_latin_height(self):
         """Высота строчных и заглавных кириллицы совпадает с латиницей.
 
         Плоские буквы сравниваются точно: у `х` и `x` высота строчных одна,
         у `Р` и `H` капитель одна. Круглые буквы выходят за высоту строчных,
-        и выход этот у латиницы и у кириллицы различается на единицы шрифта,
-        поэтому для них допуск в два процента.
+        и выход этот у латиницы и у кириллицы различается: у гладкого шрифта
+        доля выхода задана начертанием, поэтому для них допуск в три процента.
+
+        У шрифта с округлёнными координатами сетка найдена по em, и глифы на
+        ней лежат с точностью до единицы: там допуск в один пиксель сетки.
         """
         for name, raw in self.targets():
             unicase = unicase_of(load_font(raw))
+            tolerance = self.tolerance(raw)
             source = font_source.source_for(raw, FONT_DIR, CACHE)
             data, _added, _scale = merge(raw, source, "same")
             original = load_font(raw)
@@ -177,8 +208,8 @@ class FontMergeTest(unittest.TestCase):
                 self.assertIsNotNone(found,
                                      "в шрифте %s нет глифа %s"
                                      % (name, cyrillic))
-                self.assertEqual(
-                    found, expected,
+                self.assertLessEqual(
+                    abs(found - expected), tolerance,
                     "в шрифте %s высота %s (%d) не совпала с латиницей (%d)"
                     % (name, cyrillic, found, expected))
             # В однорегистровом шрифте кириллица рисуется заглавной формой,
@@ -192,7 +223,7 @@ class FontMergeTest(unittest.TestCase):
                                      "в шрифте %s нет глифа %s"
                                      % (name, cyrillic))
                 self.assertLessEqual(
-                    abs(found - expected), expected * 0.02,
+                    abs(found - expected), expected * 0.03,
                     "в шрифте %s высота %s (%d) разошлась с латинской (%d)"
                     % (name, cyrillic, found, expected))
 
@@ -219,6 +250,16 @@ class FontMergeTest(unittest.TestCase):
                     "в шрифте %s базовая линия %s (%d) не совпала с "
                     "латинской (%d)" % (name, cyrillic, found, expected))
 
+    def tolerance(self, raw: bytes) -> int:
+        """На сколько кириллица может отличаться от латиницы.
+
+        У шрифта с округлёнными координатами сетка найдена по em, и буквы
+        лежат на ней с точностью до единицы: там допуск в один пиксель.
+        """
+        if grid_is_exact(load_font(raw)):
+            return 0
+        return pixel_grid(load_font(raw))
+
     def test_the_cyrillic_descenders_match_the_latin_ones(self):
         """Кириллические буквы провисают так же, как латинские.
 
@@ -231,6 +272,7 @@ class FontMergeTest(unittest.TestCase):
         for name, raw in self.targets():
             original = load_font(raw)
             target_depth = descender_depth(original)
+            tolerance = self.tolerance(raw)
             unicase = unicase_of(original)
             source = font_source.source_for(raw, FONT_DIR, CACHE)
             data, _added, _scale = merge(raw, source, "same")
@@ -240,8 +282,8 @@ class FontMergeTest(unittest.TestCase):
                 merged_depth = base - glyph_bottom(merged, "ru%04X" % ord(char))
                 if self.source_has_descender(char, unicase):
                     if target_depth > 0:
-                        self.assertEqual(
-                            merged_depth, target_depth,
+                        self.assertLessEqual(
+                            abs(merged_depth - target_depth), tolerance,
                             "в шрифте %s буква %s уходит на %d, а латиница "
                             "на %d" % (name, char, merged_depth, target_depth))
                 else:

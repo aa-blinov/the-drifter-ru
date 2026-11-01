@@ -70,11 +70,11 @@ spacing:
 | Речь и повествование | 10 px | ChevyRay - Pinch - EU | 125 |
 | Интерфейс, описания | 12 px | CrawlTextBodyWide-EU | 125 |
 
-Десять шрифтов игры используются в тексте: `ChevyRay - Pinch - EU`,
+Двенадцать шрифтов игры используются в тексте: `ChevyRay - Pinch - EU`,
 `ChevyRay - Pinch - EU - AA`, `CrawlTextBodyWide-EU`, `CrawlSmall-EU`,
 `tecno`, `tecno_small`, `embalm`, `Army of Darkness Regular`,
-`CarroisGothic-Regular` и `CarroisGothic-Regular-HD`. Кириллица добавляется в
-каждый из них.
+`CarroisGothic-Regular`, `CarroisGothic-Regular-HD`, `Serif Gothic Bold` и
+`DrifterGothic13`. Кириллица добавляется в каждый из них.
 
 Русский текст равен английскому по длине. На сколько именно, измерено
 по настоящим шрифтам игры; числа в [docs/layout.md](docs/layout.md).

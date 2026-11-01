@@ -41,15 +41,51 @@ def pixel_grid(font) -> int:
     Глиф `.notdef` в расчёт не входит: он рисуется прямоугольником
     произвольного размера и к рисунку шрифта не относится. С ним делитель
     получается единицей, и сетка шрифта не определяется вовсе.
+
+    У некоторых шрифтов координаты округлены до целых, и общий делитель из-за
+    этого рассыпается: у `DrifterGothic13` пиксель это 1024/13 = 78.77, а в
+    координатах стоят 79, 157, 236. Тогда сетка ищется по em: координаты
+    должны лечь на кратные `upem/N` с точностью до единицы.
     """
+    values = _grid_values(font)
     grid = 0
+    for value in values:
+        grid = gcd(grid, value)
+    if grid > 1:
+        return grid
+    upem = font["head"].unitsPerEm
+    for pixels in range(6, 49):
+        step = upem / float(pixels)
+        if all(abs(value - round(value / step) * step) <= 1.0
+               for value in values):
+            return int(round(step))
+    return 1
+
+
+def grid_is_exact(font) -> bool:
+    """Делит ли сетка шрифта координаты нацело.
+
+    У шрифта с округлёнными координатами сетка найдена по em, и глифы на
+    ней лежат с точностью до единицы: высота кириллицы может отличаться от
+    латинской на один пиксель.
+    """
+    values = _grid_values(font)
+    grid = 0
+    for value in values:
+        grid = gcd(grid, value)
+    return grid > 1
+
+
+def _grid_values(font) -> list:
+    """Все координаты букв шрифта по модулю."""
+    values = set()
     for name in font.getGlyphOrder():
         if name == ".notdef":
             continue
         for x, y in _coordinates(font, name):
-            grid = gcd(grid, abs(int(x)))
-            grid = gcd(grid, abs(int(y)))
-    return grid
+            values.add(abs(int(x)))
+            values.add(abs(int(y)))
+    return sorted(value for value in values if value)
 
 
 def height_of(font, char) -> int:

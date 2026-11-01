@@ -40,6 +40,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 
 from font_metrics import load_font  # noqa: E402
+import font_source  # noqa: E402
 from patch_assets import patch_assets, verify  # noqa: E402
 
 ROOT = os.path.dirname(HERE)
@@ -65,6 +66,8 @@ GAME_FONTS = [
     "Army of Darkness Regular",
     "CarroisGothic-Regular-HD",
     "CarroisGothic-Regular",
+    "Serif Gothic Bold",
+    "DrifterGothic13",
 ]
 
 
@@ -159,7 +162,7 @@ PLAY_DIR = os.path.join(ROOT, "work", "fonts")
 
 
 def install_fonts(paths, dry_run=False, mode="grid", source=None, bold=0,
-                  narrow=1.0, game_dir=None):
+                  narrow=1.0, game_dir=None, size=1.0):
     """Вписывание кириллицы в шрифты игры.
 
     Источник собирается под профиль каждого шрифта: у игры у шрифтов разные
@@ -179,7 +182,8 @@ def install_fonts(paths, dry_run=False, mode="grid", source=None, bold=0,
         return
     source_path = base_assets(paths, game_dir) if game_dir else paths["assets"]
     data, patched, expected = patch_assets(source_path, mode,
-                                          set(GAME_FONTS), source, bold, narrow)
+                                          set(GAME_FONTS), source, bold, narrow,
+                                          size)
 
     staged = paths["assets"] + ".new"
     with open(staged, "wb") as fh:
@@ -205,6 +209,11 @@ def main():
     parser.add_argument("--narrow", type=float, default=1.0,
                         help="сжатие кириллицы по горизонтали: 0.85 — "
                              "заметно уже, 0.95 — чуть-чуть")
+    parser.add_argument("--size", type=float, default=font_source.DEFAULT_SIZE,
+                        help="размер кириллицы против латиницы: 1.0 — "
+                             "вровень с латиницей, 0.95 — чуть меньше, "
+                             "0.9 — заметно меньше. Кириллица остаётся на "
+                             "базовой линии, она просто ниже")
     parser.add_argument("--bold", type=int, default=0,
                         help="насколько утолщить кириллицу, в единицах "
                              "шрифта игры: 25 — как в игре, 50 — заметно")
@@ -225,7 +234,7 @@ def main():
     install_translation(paths, args.dry_run)
     if not args.no_fonts:
         install_fonts(paths, args.dry_run, args.mode, args.source, args.bold,
-                      args.narrow, game_dir)
+                      args.narrow, game_dir, args.size)
         license_path = install_font_license(paths)
         if license_path:
             print("лицензия шрифта: %s" % license_path)
