@@ -26,6 +26,13 @@ extract it anywhere, close the game and run `install.bat`. It needs
 [Python 3.9 or newer](https://www.python.org/downloads/) on the `PATH` and finds
 the game in your Steam libraries by itself.
 
+**Remove any other Russian localization first.** Another translation or a
+Russification mod changes the same `translation.csv` and font data, and the
+installer would take its patched files for the originals when it makes the
+backup. Delete the other `translation.csv`, then in Steam choose
+**Properties → Installed Files → Verify integrity of game files** to bring the
+original files back, and only then run `install.bat`.
+
 Then in the game: **Options → Language → Русский**. The language also switches
 with **V** while playing.
 
