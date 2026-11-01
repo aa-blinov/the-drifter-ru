@@ -1,12 +1,11 @@
 name: release
 
-# Релиз по тегу. Тег v* создаёт релиз с файлом, который читает игра, и со
-# скриптами его установки.
+# Релиз по тегу. Тег v* создаёт релиз с пакетом установки; заметки берутся из
+# docs/releases/vX.Y.Z.md.
 
 on:
   push:
     tags: ['v*']
-  workflow_dispatch:
 
 permissions:
   contents: write
@@ -32,18 +31,20 @@ jobs:
           echo "Сборка $VERSION"
 
       - name: Тесты
-        run: python3 -m unittest discover -s tests -v
+        run: |
+          python3 -m pip install --upgrade pip
+          python3 -m pip install -r requirements.txt
+          python3 -m unittest discover -s tests -v
 
       - name: Собрать пакет
         run: |
-          mkdir -p dist
-          cp -R translation scripts docs dist/
-          cp requirements.txt LICENSE dist/
-          cd dist && zip -r "../the-drifter-ru-v${VERSION}.zip" .
+          test -f "docs/releases/v${{ steps.version.outputs.version }}.md"
+          python3 scripts/build_release.py "${{ steps.version.outputs.version }}"
 
       - name: Опубликовать
         uses: softprops/action-gh-release@v2
         with:
-          files: the-drifter-ru-v${{ steps.version.outputs.version }}.zip
-          generate_release_notes: true
-          body_path: CHANGELOG.md
+          name: The Drifter RU v${{ steps.version.outputs.version }}
+          body_path: docs/releases/v${{ steps.version.outputs.version }}.md
+          files: dist/the-drifter-ru-v${{ steps.version.outputs.version }}.zip
+          fail_on_unmatched_files: true

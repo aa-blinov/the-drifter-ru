@@ -27,6 +27,8 @@ Unity теряет данные объектов, которые не разоб
 
     python3 scripts/install.py --game "..." --dry-run
 
+Без --game установщик ищет игру в библиотеках Steam сам.
+
 Нужны UnityPy и fonttools.
 """
 from __future__ import annotations
@@ -70,6 +72,41 @@ GAME_FONTS = [
     "Serif Gothic Bold",
     "DrifterGothic13",
 ]
+
+
+def steam_libraries():
+    """Каталоги steamapps/common из всех библиотек Steam на этой машине."""
+    roots = []
+    try:
+        import winreg
+        with winreg.OpenKey(winreg.HKEY_CURRENT_USER,
+                            r"Software\Valve\Steam") as key:
+            roots.append(winreg.QueryValueEx(key, "SteamPath")[0])
+    except (ImportError, OSError):
+        pass
+    roots += [r"C:\Program Files (x86)\Steam", r"C:\Program Files\Steam",
+              os.path.expanduser("~/.steam/steam"),
+              os.path.expanduser("~/Library/Application Support/Steam")]
+    libraries = []
+    for root in roots:
+        libraries.append(root)
+        manifest = os.path.join(root, "steamapps", "libraryfolders.vdf")
+        if os.path.exists(manifest):
+            with open(manifest, encoding="utf-8", errors="replace") as fh:
+                for line in fh:
+                    parts = line.split('"')
+                    if len(parts) >= 4 and parts[1] == "path":
+                        libraries.append(parts[3].replace("\\\\", "\\"))
+    return libraries
+
+
+def find_game():
+    """Каталог The Drifter в библиотеках Steam или None."""
+    for library in steam_libraries():
+        candidate = os.path.join(library, "steamapps", "common", "The Drifter")
+        if os.path.exists(os.path.join(candidate, "TheDrifter.exe")):
+            return candidate
+    return None
 
 
 def game_paths(game_dir: str):
@@ -201,7 +238,8 @@ def install_fonts(paths, dry_run=False, mode="grid", source=None, bold=0,
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--game", required=True, help="каталог игры")
+    parser.add_argument("--game", default=None,
+                        help="каталог игры; без него ищется в Steam")
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--no-fonts", action="store_true",
                         help="поставить только текст, шрифты не трогать")
@@ -223,15 +261,20 @@ def main():
     parser.add_argument("--bold", type=int, default=0,
                         help="насколько утолщить кириллицу, в единицах "
                              "шрифта игры: 25 — как в игре, 50 — заметно")
-    parser.add_argument("--pixel-ui", action="store_true",
+    parser.add_argument("--pixel-ui", action=argparse.BooleanOptionalAction,
+                        default=True,
                         help="меню и подписи реплик рисуются пиксельным "
-                             "шрифтом вместо гладкого CarroisGothic")
+                             "шрифтом вместо гладкого CarroisGothic "
+                             "(по умолчанию включено)")
     parser.add_argument("--source", default=None,
                         help="шрифт, из которого берётся кириллица, вместо "
                              "собранного под профиль цели")
     args = parser.parse_args()
 
-    game_dir = os.path.abspath(args.game)
+    game_dir = args.game or find_game()
+    if not game_dir:
+        raise SystemExit("игра не найдена в Steam: укажите каталог через --game")
+    game_dir = os.path.abspath(game_dir)
     if not os.path.exists(os.path.join(game_dir, "TheDrifter.exe")):
         raise SystemExit("это не копия The Drifter: %s" % game_dir)
 
