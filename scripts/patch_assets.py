@@ -91,9 +91,31 @@ def patch_object(data: bytes, font: bytes, new_font: bytes):
 UI_PIXEL_FONTS = {"CarroisGothic-Regular-HD", "CarroisGothic-Regular"}
 
 
+# FontRenderingMode Unity: 0 гладкий, 1 гладкий с хинтингом, 2 хинтованный растр
+# без сглаживания. Пиксельный шрифт в растре сохраняет острые края.
+RASTER_MODE = 2
+
+
+def set_rendering_mode(data: bytes, mode: int) -> bytes:
+    """Байты объекта шрифта с другим режимом отрисовки.
+
+    Объект Font кончается полями `m_FontRenderingMode` (int) и двумя bool:
+    `m_UseLegacyBoundsCalculation` и `m_ShouldRoundAdvanceValue`. Поле стоит
+    после данных шрифта, поэтому его место считается от конца объекта и не
+    зависит от длины шрифта. Сериализатор UnityPy поле не пишет, поэтому
+    правка идёт по байтам; перед ней проверяется, что на этом месте лежит
+    режим 0..3, а за ним два bool.
+    """
+    old = struct.unpack("<i", data[-6:-2])[0]
+    if not 0 <= old <= 3 or data[-2] > 1 or data[-1] > 1:
+        raise SystemExit("конец объекта шрифта не похож на режим отрисовки")
+    return data[:-6] + struct.pack("<i", mode) + data[-2:]
+
+
 def patch_assets(assets_path: str, mode: str = "grid", fonts=None,
                  source: str = None, bold: int = 0, narrow: float = 1.0,
-                 size: float = 1.0, pixel_ui: bool = False):
+                 size: float = 1.0, pixel_ui: bool = False,
+                 raster: bool = True):
     """Файл, в шрифтах которого есть кириллица."""
     import UnityPy
 
@@ -124,6 +146,8 @@ def patch_assets(assets_path: str, mode: str = "grid", fonts=None,
             if result is None:
                 print("!! не найдены байты шрифта %s" % name)
                 continue
+            if raster:
+                result = set_rendering_mode(result, RASTER_MODE)
             obj.set_raw_data(result)
             cmap = load_font(new_font).getBestCmap()
             expected[name] = len([c for c in cmap if 0x0400 <= c <= 0x04FF])
