@@ -87,6 +87,11 @@ files.
 
 ## Known issues
 
+- **Colour fringes around the text.** The red and blue edges and the grain are
+  the CRT filter of the game itself, not the font: the original English build
+  has them too. Press **Left Shift + F** in the game to switch the filter off
+  (a dialogue says "Camera CRT filter disabled"); the game remembers the choice.
+  The same keys switch it back on.
 - **The HD dialogue font switch does nothing.** The language file forces the HD
   font on (row 100000, `Force HD Font`). Without it the game draws text with
   its own pixel fonts, and Cyrillic in the fonts with a 5 pixel capital is not
