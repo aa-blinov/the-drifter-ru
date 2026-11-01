@@ -203,7 +203,8 @@ PLAY_DIR = os.path.join(ROOT, "work", "fonts")
 
 
 def install_fonts(paths, dry_run=False, mode="grid", source=None, bold=0,
-                  narrow=1.0, game_dir=None, size=1.0, pixel_ui=False):
+                  narrow=1.0, game_dir=None, size=1.0, pixel_ui=False,
+                  raster=True):
     """Вписывание кириллицы в шрифты игры.
 
     Источник собирается под профиль каждого шрифта: у игры у шрифтов разные
@@ -226,7 +227,7 @@ def install_fonts(paths, dry_run=False, mode="grid", source=None, bold=0,
     source_path = base_assets(paths, game_dir) if game_dir else paths["assets"]
     data, patched, expected = patch_assets(source_path, mode,
                                           set(GAME_FONTS), source, bold, narrow,
-                                          size, pixel_ui)
+                                          size, pixel_ui, raster)
 
     staged = paths["assets"] + ".new"
     with open(staged, "wb") as fh:
@@ -266,6 +267,11 @@ def main():
                         help="меню и подписи реплик рисуются пиксельным "
                              "шрифтом вместо гладкого CarroisGothic "
                              "(по умолчанию включено)")
+    parser.add_argument("--raster", action=argparse.BooleanOptionalAction,
+                        default=True,
+                        help="шрифт меню и реплик без сглаживания, края "
+                             "идут по пиксельной сетке (по умолчанию "
+                             "включено; действует вместе с --pixel-ui)")
     parser.add_argument("--source", default=None,
                         help="шрифт, из которого берётся кириллица, вместо "
                              "собранного под профиль цели")
@@ -286,7 +292,8 @@ def main():
     install_translation(paths, args.dry_run)
     if not args.no_fonts:
         install_fonts(paths, args.dry_run, args.mode, args.source, args.bold,
-                      args.narrow, game_dir, args.size, args.pixel_ui)
+                      args.narrow, game_dir, args.size, args.pixel_ui,
+                      args.raster)
         license_paths = [] if args.dry_run else install_font_license(paths)
         if license_paths:
             for license_path in license_paths:
