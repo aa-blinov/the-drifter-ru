@@ -4,6 +4,8 @@ All notable changes to the-drifter-ru. Versions are ordered newest first.
 
 ## [Unreleased]
 
+## [1.0.1] - 2026-11-02
+
 ### Added
 
 - Как убрать цветную кайму у текста: это CRT-фильтр самой игры
