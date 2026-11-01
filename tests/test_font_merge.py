@@ -157,6 +157,48 @@ class FontMergeTest(unittest.TestCase):
         _name, _raw, _data, _added, scale = self.merged()
         self.assertAlmostEqual(scale, 1.0, places=6)
 
+    def test_ark_pixel_source_is_used_for_pixel_targets(self):
+        """Ark Pixel переносится без сглаживания на сетку цели."""
+        ark_files = [os.path.join(FONT_DIR, name)
+                     for name in font_source.ARK_PIXEL_FILES.values()]
+        if not all(os.path.exists(path) for path in ark_files):
+            self.skipTest("Ark Pixel не скачан")
+        from make_pixel_font import profile_of, source_for
+
+        checked = 0
+        for name, raw in self.targets():
+            if not font_source.is_pixel(raw):
+                continue
+            from install import GAME_FONTS
+            if name not in GAME_FONTS:
+                continue
+            source_path = source_for(raw, FONT_DIR, CACHE, ark_dir=FONT_DIR)
+            with open(source_path, "rb") as source_file:
+                source = load_font(source_file.read())
+            cmap = source.getBestCmap()
+            self.assertGreaterEqual(
+                sum(0x400 <= code <= 0x4FF for code in cmap), 150,
+                "Ark Pixel не дал полный кириллический набор для %s" % name)
+            grid = Metrics(source).grid
+            self.assertGreater(grid, 1)
+            profile = profile_of(raw)
+            for char, pixels in (("а", profile.x_px),
+                                 ("А", profile.cap_px)):
+                points = _coordinates(source, cmap[ord(char)])
+                height = max(y for _x, y in points) - min(
+                    y for _x, y in points)
+                self.assertEqual(height, pixels * grid,
+                                 "%s в %s не совпадает по высоте с латиницей"
+                                 % (char, name))
+            for code, glyph_name in cmap.items():
+                if not 0x400 <= code <= 0x4FF:
+                    continue
+                for x, y in _coordinates(source, glyph_name):
+                    self.assertEqual(x % grid, 0)
+                    self.assertEqual(y % grid, 0)
+            checked += 1
+        self.assertEqual(checked, 8)
+
     def test_the_cyrillic_can_be_made_smaller(self):
         """Уменьшенная кириллица ниже латинских букв, но на той же строке.
 

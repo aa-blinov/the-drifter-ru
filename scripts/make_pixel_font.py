@@ -6,11 +6,9 @@
 метрики: высота строчных, высота заглавных, толщина штриха и пиксельная
 сетка.
 
-Источник собирается из гарнитуры Play. Она не пиксельная, но её растр
-совпадает с игровыми шрифтами до пикселя: у латиницы игры высота строчных и
-высота заглавных совпадают с растром Play в целых кеглях, и кегль тот же
-самый. Поэтому буква кириллицы рисуется не контуром, а квадратами сетки:
-глиф ложится на ту же сетку, что и латиница, и края у него такие же.
+По умолчанию источник собирается из Play, а при установке можно выбрать
+Ark Pixel. В обоих случаях буква кириллицы переносится как растр из квадратов
+сетки: сглаженные контуры не попадают в пиксельный шрифт игры.
 
 Размер подбирается отдельно для строчных и для заглавных. У большинства
 шрифтов игры обе высоты совпадают с одним кеглем, но у шрифта
@@ -41,7 +39,7 @@ from fontTools.pens.ttGlyphPen import TTGlyphPen  # noqa: E402
 
 from font_metrics import (baseline_of, descender_depth, height_of,  # noqa: E402
                           load_font, pixel_grid, unicase_of)
-from font_source import EXTRA_CHARS  # noqa: E402
+from font_source import ARK_PIXEL_FILES, EXTRA_CHARS  # noqa: E402
 
 # Начертания, из которых собирается источник. Толщина штриха у латиницы игры
 # своя у каждого шрифта, и начертание подбирается под неё.
@@ -74,6 +72,7 @@ class Profile:
         # Глубина выноса цели в пикселях её сетки: во столько же уходит
         # под базовую линию кириллический `р`.
         self.descender_px = descender_px
+        self.em_px = max(1, round(upem / grid))
 
     def describe(self):
         return ("сетка %d, x %d px, cap %d px, штрих %d px, базовая %d, "
@@ -338,7 +337,8 @@ def _glyph_contours(rows, base, origin, grid, baseline):
     return pen.glyph()
 
 
-def build_source(target: bytes, play_dir: str, name: str = "The Drifter Cyrillic"):
+def build_source(target: bytes, play_dir: str, name: str = "The Drifter Cyrillic",
+                 ark_dir: str = None):
     """Шрифт кириллицы под метрики целевого шрифта.
 
     Целевой шрифт задаёт шесть вещей: шаг пиксельной сетки, высоту
@@ -347,26 +347,42 @@ def build_source(target: bytes, play_dir: str, name: str = "The Drifter Cyrillic
     кладётся на сетку цели.
     """
     profile = profile_of(target)
-    path, weight, lower_size, upper_size = choose_sizes(play_dir, profile)
+    ark_path = None
+    ark_size = None
+    if ark_dir:
+        ark_size = "10px" if profile.em_px <= 10 else "12px"
+        ark_name = ARK_PIXEL_FILES[ark_size]
+        ark_path = os.path.join(ark_dir, ark_name)
+        if not os.path.exists(ark_path):
+            raise FileNotFoundError(ark_path)
+        path, weight, lower_size, upper_size = ark_path, "Ark Pixel " + ark_size, 0, 0
+    else:
+        path, weight, lower_size, upper_size = choose_sizes(play_dir, profile)
     grid = profile.grid
+    ark_width_scale = (_width_scale(target, path, profile,
+                                    10 if ark_size == "10px" else 12)
+                       if ark_path else 1.0)
     print("цель: %s" % profile.describe())
     print("источник: %s, строчные %d px, заглавные %d px"
           % (weight, lower_size, upper_size))
 
+    source_font = load_font(path) if ark_path else None
+    source_cmap = source_font.getBestCmap() if source_font else None
     codes = _cyrillic_codepoints(path)
-    codes |= {ord(ch) for ch in EXTRA_CHARS}
+    codes |= {ord(ch) for ch in EXTRA_CHARS
+              if not ark_path or ord(ch) in source_cmap}
     codes |= {ord(ch) for ch in CARRIERS}
 
     glyph_order = [".notdef"]
     glyphs = {}
     metrics = {}
     cmap = {}
-
     glyphs[".notdef"] = TTGlyphPen(None).glyph()
     metrics[".notdef"] = (grid, 0)
 
     for code in sorted(codes):
         char = chr(code)
+        source_glyph_code = code
         capital = _is_capital(char)
         size = upper_size if capital else lower_size
         if profile.unicase and char.islower() and 0x400 <= code <= 0x4FF:
@@ -375,13 +391,36 @@ def build_source(target: bytes, play_dir: str, name: str = "The Drifter Cyrillic
             char = char.upper()
             capital = True
             size = upper_size
-        face = _face(path, size)
-        rows, base, origin = rasterise(face, size, char)
-        if ink_span(rows) is None:
-            # Тонкий знак в маленьком кегле не набирает половины ячейки и
-            # пропадает из растра совсем. Ему порог снижается: лучше узкая
-            # буква, чем дыра в строке.
-            rows, base, origin = rasterise(face, size, char, threshold=4)
+        source_glyph_code = ord(char)
+        source_name = None
+        use_ark_glyph = bool(ark_path and source_glyph_code in source_cmap)
+        if ark_path:
+            if not use_ark_glyph:
+                continue
+            source_size = 10 if ark_size == "10px" else 12
+            face = _face(path, source_size)
+            rows, base, origin = rasterise(face, source_size, char)
+            if ink_span(rows) is None:
+                rows, base, origin = rasterise(face, source_size, char,
+                                               threshold=4)
+            target_height = (profile.cap_px if capital
+                             else profile.x_px)
+            span = ink_span(rows)
+            current_height = span[3] - span[2] + 1 if span else 0
+            if target_height and current_height != target_height:
+                rows, base = _resize_ink_height(rows, base, target_height)
+            glyph_width_scale = ark_width_scale[1 if capital else 0]
+            if glyph_width_scale != 1.0:
+                rows, origin = _resize_ink_width(rows, origin,
+                                                 glyph_width_scale)
+        else:
+            face = _face(path, size)
+            rows, base, origin = rasterise(face, size, char)
+            if ink_span(rows) is None:
+                # Тонкий знак в маленьком кегле может исчезнуть при пороге
+                # половины ячейки. Снижаем порог для оставшихся глифов.
+                rows, base, origin = rasterise(face, size, char,
+                                               threshold=4)
         if ink_span(rows) is None:
             continue
         rows = _fit_stem(rows, profile.stem_px)
@@ -392,7 +431,10 @@ def build_source(target: bytes, play_dir: str, name: str = "The Drifter Cyrillic
         glyph_order.append(glyph_name)
         # Ширина буквы берётся у гарнитуры и округляется до целого пикселя:
         # тогда буквы встают на сетку, и строка не разъезжается.
-        advance_px = max(1, round(face.getlength(char) / SUPERSAMPLE))
+        advance_scale = (ark_width_scale[1 if capital else 0]
+                         if ark_path else 1.0)
+        advance_px = max(1, round(face.getlength(char) / SUPERSAMPLE
+                                  * advance_scale))
         metrics[glyph_name] = (advance_px * grid, 0)
         cmap[code] = glyph_name
 
@@ -426,6 +468,88 @@ def _fit_stem(rows, target_stem):
     if stem > target_stem:
         return thin(rows)
     return thicken(rows)
+
+
+def _width_scale(target, source_path, profile, source_size):
+    """Свести средний шаг кириллицы к ширине латиницы того же регистра."""
+    target = load_font(target)
+    source = load_font(source_path)
+    target_cmap = target.getBestCmap()
+    source_cmap = source.getBestCmap()
+    face = _face(source_path, source_size)
+    upper_latin = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    upper_cyrillic = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"
+
+    def scale_for(latin, cyrillic):
+        target_widths = [target["hmtx"].metrics[target_cmap[ord(ch)]][0]
+                         for ch in latin if ord(ch) in target_cmap]
+        source_chars = [ch for ch in cyrillic if ord(ch) in source_cmap]
+        source_widths = [face.getlength(ch) / SUPERSAMPLE
+                         for ch in source_chars]
+        if not target_widths or not source_widths:
+            raise SystemExit("не удалось сопоставить ширину Ark Pixel "
+                             "с латиницей цели")
+        target_average = (sum(target_widths) / len(target_widths)
+                          / profile.grid)
+        lower, upper = 0.5, 1.5
+        for _ in range(40):
+            middle = (lower + upper) / 2
+            average = sum(round(width * middle) for width in source_widths) / len(
+                source_widths)
+            if average < target_average:
+                lower = middle
+            else:
+                upper = middle
+        result = min((lower, upper), key=lambda candidate: abs(
+            sum(round(width * candidate) for width in source_widths)
+            / len(source_widths) - target_average))
+        if not 0.5 <= result <= 1.5:
+            raise SystemExit("масштаб ширины Ark Pixel %.3f вне диапазона"
+                             % result)
+        return result
+
+    upper = scale_for(upper_latin, upper_cyrillic)
+    if profile.unicase:
+        return upper, upper
+    lower = scale_for(upper_latin.lower(), upper_cyrillic.lower())
+    return lower, upper
+
+
+def _resize_ink_width(rows, origin, scale):
+    """Изменить ширину пиксельного глифа без сглаживания."""
+    width = max((len(row) for row in rows), default=0)
+    new_width = max(1, round(width * scale))
+    resized = []
+    for row in rows:
+        new_row = [False] * new_width
+        for x, filled in enumerate(row):
+            if not filled:
+                continue
+            start = min(new_width - 1, int(x * scale))
+            end = min(new_width, max(start + 1,
+                                     int((x + 1) * scale + 0.999999)))
+            for target_x in range(start, end):
+                new_row[target_x] = True
+        resized.append(new_row)
+    return resized, max(0, round(origin * scale))
+
+
+def _resize_ink_height(rows, base, target_height):
+    """Подогнать высоту глифа по целым ячейкам, сохранив резкие края."""
+    above = rows[:base]
+    span = ink_span(above)
+    if not span:
+        return rows, base
+    top, bottom = span[2], span[3]
+    ink = above[top:bottom + 1]
+    source_height = len(ink)
+    if source_height == target_height:
+        return rows, base
+    resized = [ink[min(source_height - 1,
+                       y * source_height // target_height)]
+               for y in range(target_height)]
+    new_above = above[:top] + resized + above[bottom + 1:]
+    return new_above + rows[base:], len(new_above)
 
 
 def fit_descender(rows, base, depth_px):
@@ -464,17 +588,20 @@ def _cyrillic_codepoints(play_path: str):
     return {code for code in font.getBestCmap() if 0x400 <= code <= 0x4FF}
 
 
-def source_for(target: bytes, play_dir: str, cache_dir: str):
+def source_for(target: bytes, play_dir: str, cache_dir: str,
+               ark_dir: str = None):
     """Путь к источнику под этот шрифт: готовый файл или новый.
 
     Источников по профилям получается несколько, и каждый нужен один раз,
     поэтому они лежат в кэше и переиспользуются.
     """
     profile = profile_of(target)
-    path = os.path.join(cache_dir, profile.key() + ".ttf")
+    source_kind = "ark-v9-" if ark_dir else "play-"
+    path = os.path.join(cache_dir, source_kind + profile.key() + ".ttf")
     if os.path.exists(path):
         return path
-    data = build_source(target, play_dir)
+    data = build_source(target, play_dir,
+                        ark_dir=ark_dir if ark_dir else None)
     os.makedirs(cache_dir, exist_ok=True)
     with open(path, "wb") as fh:
         fh.write(data)
