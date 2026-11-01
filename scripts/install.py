@@ -249,7 +249,7 @@ def main():
     if args.dry_run:
         print("\nпробный запуск: ничего не записано")
     else:
-        print("\nготово. Запустите игру и выберите Русский в Options → Language.")
+        print("\nготово. Запустите игру и выберите Русский в Options, Language.")
 
 
 if __name__ == "__main__":
