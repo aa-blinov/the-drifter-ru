@@ -4,6 +4,8 @@ All notable changes to the-drifter-ru. Versions are ordered newest first.
 
 ## [Unreleased]
 
+## [1.0.0] - 2026-11-02
+
 ### Added
 
 - Пакет установки: `scripts/build_release.py` собирает
@@ -13,6 +15,9 @@ All notable changes to the-drifter-ru. Versions are ordered newest first.
   имя архива пустую версию.
 - Установщик сам находит игру в библиотеках Steam, если не задан `--game`.
 - Английский `README.md` и русский `README_ru.md` по образцу esoteric-ebb-ru.
+- Шрифт меню и подписей рисуется без сглаживания (`--raster`, по умолчанию
+  включено, `--no-raster` возвращает мягкие края): режим отрисовки Unity
+  пишется в оба шрифта Carrois по байтам.
 - Меню и подписи реплик рисуются Ark Pixel целиком (`--pixel-ui`, по умолчанию
   включено, `--no-pixel-ui` возвращает гладкий шрифт).
 

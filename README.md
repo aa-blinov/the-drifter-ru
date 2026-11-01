@@ -70,13 +70,9 @@ files.
 
 ## Screenshots
 
-| Main menu | Dialogue |
+| Main menu | Captions |
 | :---: | :---: |
-| ![Main menu](docs/screenshots/main-menu.png) | ![Dialogue](docs/screenshots/bill-phone-dialogue.png) |
-
-| Object caption |
-| :---: |
-| ![Caption at the camp fire](docs/screenshots/camp-caption.png) |
+| ![Main menu](docs/screenshots/main-menu.png) | ![Captions](docs/screenshots/camp-caption.png) |
 
 ## Configuration
 
@@ -86,6 +82,7 @@ files.
 | `--size` | `0.95` | Size of Cyrillic against Latin: 1.0 is level with it, 0.9 is visibly smaller. |
 | `--bold` | `0` | How much heavier to make the Cyrillic, in font units. |
 | `--no-pixel-ui` | off | Keep the smooth game font for the menu and the captions. |
+| `--no-raster` | off | Draw the menu and captions with antialiasing; the edges get soft. |
 | `--no-fonts` | off | Install only the text and leave the fonts alone. |
 
 ## Known issues
