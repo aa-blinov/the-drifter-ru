@@ -13,7 +13,7 @@ Narr,3,Room- BoxCar,OnWalkTo,"Oh shit, how am I getting out of here?","Чёрт,
 Narr,4,Room- BoxCar,WakeUp,This must be me,"Это, видимо, я"
 Mick,0,Room- BoxCar,WakeUp,Damn,Чёрт
 Narr,5,Room- BoxCar,WakeUp,Shouldn't have told Annie I'd come,"Не стоило говорить Энни, что приду"
-Narr,6,Room- BoxCar,WakeUp,Don't know how she tracked down my number,"Не знаю, как она вообще сумела разыскать мой номер?"
+Narr,6,Room- BoxCar,WakeUp,Don't know how she tracked down my number,"Не знаю, как она вообще сумела разыскать мой номер."
 Narr,7,Room- BoxCar,WakeUp,"My strong big sister, crying into the phone",Моя сильная старшая сестра плачет в трубку
 Mick,1,Room- BoxCar,WakeUp,Ah well,Ну ладно
 Narr,8,Room- BoxCar,OnInteractHotspotCracks,Familiar skyline peeks through the vents of the old reefer,Знакомый силуэт города проглядывает сквозь вентиляцию старого холодильного контейнера
@@ -8707,7 +8707,7 @@ Mick,1931,Dialog- DetectiveLab,"Detective says to leave we need petrol, suggests
 Detective,447,Dialog- DetectiveLab,"Detective says to leave we need petrol, suggests asking someone","Well, the storm up there can't last long","Ну, буря там долго не продержится"
 Detective,448,Dialog- DetectiveLab,"Detective says to leave we need petrol, suggests asking someone","I'll make sure we can go in a hurry, if it comes to that","Я прослежу, чтобы мы могли уехать быстро, если понадобится"
 Mick,1932,Dialog- DetectiveLab,"Detective says to leave we need petrol, suggests asking someone",Anything you need?,Тебе что-нибудь нужно?
-Detective,449,Dialog- DetectiveLab,"Detective says to leave we need petrol, suggests asking someone",Actually... A spare can of fuel'd be good,На самом деле… Запасная канистра бензина не помешает
+Detective,449,Dialog- DetectiveLab,"Detective says to leave we need petrol, suggests asking someone",Actually... A spare can of fuel'd be good,"Впрочем, запасная канистра бензина не помешает."
 Detective,450,Dialog- DetectiveLab,"Detective says to leave we need petrol, suggests asking someone","Can't find one up here, and it's a long way to the nearest gas station","Здесь не могу найти, а до ближайшей заправки далеко"
 Mick,1933,Dialog- DetectiveLab,"Detective says to leave we need petrol, suggests asking someone",I'll see what I can find,"Посмотрю, что удастся отыскать"
 Detective,451,Dialog- DetectiveLab,"Detective says to leave we need petrol, suggests asking someone","Ask that sister of yours, she knows her way around","Спроси свою сестру, она тут ориентируется"
