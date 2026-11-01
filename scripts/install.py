@@ -235,7 +235,7 @@ def main():
     if not args.no_fonts:
         install_fonts(paths, args.dry_run, args.mode, args.source, args.bold,
                       args.narrow, game_dir, args.size)
-        license_path = install_font_license(paths)
+        license_path = None if args.dry_run else install_font_license(paths)
         if license_path:
             print("лицензия шрифта: %s" % license_path)
 
