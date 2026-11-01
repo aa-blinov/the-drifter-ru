@@ -1218,7 +1218,7 @@ Alec,33,Room- PaperOffice,Talk to Son in newspaper office 3,I can tell you that 
 Narr,548,Room- PaperOffice,OnUseInvHotspotMonitor,"The papers only contain business IDs, I didn't see anything like that on the computer",В газетах есть только регистрационные номера компаний. Ничего похожего на компьютере я не видел
 Mick,225,Room- PaperOffice,Offer tea,Fancy a cuppa?,Чаю хотите?
 Alec,34,Room- PaperOffice,Offer tea,"You know I prefer milo, Dad","Ты знаешь, что я предпочитаю мило, пап"
-,230,Room- PaperOffice,Offer tea,The computer's off,Компьютер выкл.
+,230,Room- PaperOffice,Offer tea,The computer's off,Компьютер выключен.
 ,231,Room- PaperOffice,Offer tea,Computer screen's showing an error message,На экране компьютера сообщение об ошибке
 ,232,Room- PaperOffice,Offer tea,I got the computer working,Я запустил компьютер
 Alec,35,Room- PaperOffice,OnEnterRegionExit,What if it's aunt Annie?,"А что, это тётя Энни?"
@@ -1239,7 +1239,7 @@ Narr,498,Room- PaperOffice,OnEnterRegionExit,Shit. He's right,Дерьмо. Он
 ,246,Room- PaperOffice,Hotspot Description,Grace's work space has been consumed by stacks of printouts and newspaper clippings,Рабочее место Грейс завалено стопками распечаток и газетных вырезок
 ,247,Room- PaperOffice,Hotspot Description,Grace didn't strike me as the messy type. Looks like the place has been turned over already,"Грейс не казалась мне из тех, кто оставляет беспорядок. Похоже, здесь уже всё перерыли"
 ,248,Room- PaperOffice,Hotspot Description,"A computer box thing is open on its side, there's some wires hanging out","Сбоку раскрыт какой-то ящик с компьютером, из него свисают провода"
-,249,Room- PaperOffice,Hotspot Description,The computer's off,Компьютер выкл.
+,249,Room- PaperOffice,Hotspot Description,The computer's off,Компьютер выключен.
 ,250,Room- PaperOffice,Hotspot Description,"Small barred window, stunning view of the side of the adjacent building",Маленькое окно с решёткой. Прекрасный вид на боковую стену соседнего здания
 ,251,Room- PaperOffice,Hotspot Description,Desk phone's buried under a mountain of paper,Настольный телефон засыпан горой бумаг
 Narr,549,Room- PaperPC,OnEnterRoomAfterFade,What's this one do?,Что делает эта штука?
@@ -2259,7 +2259,7 @@ Sarah,33,Room- Kitchen,Return to house,"Hey, that detective friend of yours call
 Mick,395,Room- Kitchen,Return to house,"Oh, thanks","О, спасибо"
 Narr,975,Room- Kitchen,OnInteractHotspotKeyHook,"There's a spare house key here, but the car keys are missing","Здесь есть запасной ключ от дома, а вот ключи от машины пропали"
 Narr,976,Room- Kitchen,OnInteractHotspotCupboards,"Glasses, mugs... kitchen stuff. Nothing useful","Очки, кружки… кухонные мелочи. Ничего полезного"
-Narr,977,Room- Kitchen,OnInteractHotspotTap,It's off as tight as it'll go,Он выкл. и закручен до упора
+Narr,977,Room- Kitchen,OnInteractHotspotTap,It's off as tight as it'll go,Он закручен до упора.
 Mick,396,Room- Kitchen,OnInteractHotspotKettle,Cup of tea?,Чаю?
 Sarah,34,Room- Kitchen,OnInteractHotspotKettle,"I'm good, thanks","Нет, спасибо"
 Narr,978,Room- Kitchen,OnInteractHotspotKettle,Don't feel like a cuppa,Не хочется чаю
