@@ -50,6 +50,7 @@ BACKUP_DIR = "_ru_backup"
 # шрифты игры, поэтому распространение такой сборки требует, чтобы лицензия
 # лежала рядом с файлом.
 FONT_LICENSE = os.path.join(ROOT, "work", "fonts", "OFL.txt")
+ARK_LICENSE = os.path.join(ROOT, "work", "fonts", "ArkPixel-OFL.txt")
 
 # Шрифты, которыми игра рисует перевод. Это те, что стоят у надписей со
 # строками перевода: у пиксельных шрифтов кириллица ложится на их сетку,
@@ -151,11 +152,14 @@ def install_font_license(paths):
     а та распространяется по SIL Open Font License 1.1: лицензия должна идти
     вместе с файлом.
     """
-    if not os.path.exists(FONT_LICENSE):
-        return None
-    target = os.path.join(paths["data"], "PlayFont-OFL.txt")
-    shutil.copy2(FONT_LICENSE, target)
-    return target
+    copied = []
+    for source, filename in ((FONT_LICENSE, "PlayFont-OFL.txt"),
+                             (ARK_LICENSE, "ArkPixel-OFL.txt")):
+        if os.path.exists(source):
+            target = os.path.join(paths["data"], filename)
+            shutil.copy2(source, target)
+            copied.append(target)
+    return copied
 
 
 PLAY_DIR = os.path.join(ROOT, "work", "fonts")
@@ -170,7 +174,9 @@ def install_fonts(paths, dry_run=False, mode="grid", source=None, bold=0,
     из них, в другом легла бы мимо сетки.
     """
     if source is None:
-        for name in ("Play-Regular.ttf", "Play-Bold.ttf"):
+        for name in ("Play-Regular.ttf", "Play-Bold.ttf",
+                     "ArkPixel-10px-Proportional-Latin.ttf",
+                     "ArkPixel-12px-Proportional-Latin.ttf"):
             if not os.path.exists(os.path.join(PLAY_DIR, name)):
                 raise SystemExit(
                     "нет гарнитуры %s в %s\n"
@@ -235,9 +241,10 @@ def main():
     if not args.no_fonts:
         install_fonts(paths, args.dry_run, args.mode, args.source, args.bold,
                       args.narrow, game_dir, args.size)
-        license_path = None if args.dry_run else install_font_license(paths)
-        if license_path:
-            print("лицензия шрифта: %s" % license_path)
+        license_paths = [] if args.dry_run else install_font_license(paths)
+        if license_paths:
+            for license_path in license_paths:
+                print("лицензия шрифта: %s" % license_path)
 
     if args.dry_run:
         print("\nпробный запуск: ничего не записано")

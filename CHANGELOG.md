@@ -4,6 +4,13 @@ All notable changes to the-drifter-ru. Versions are ordered newest first.
 
 ## [Unreleased]
 
+### Changed
+
+- Пиксельная кириллица в восьми игровых пиксельных шрифтах теперь берётся из
+  Ark Pixel 10px/12px и переносится на их сетку. Гладкие шрифты по-прежнему
+  получают кириллицу из контуров Play. Загрузчик фиксирует upstream-релиз и
+  получает обе лицензии SIL OFL вместе со шрифтами.
+
 ### Added
 
 - `scripts/font_source.py`: выбор источника кириллицы под конкретный шрифт

@@ -121,8 +121,9 @@ def patch_assets(assets_path: str, mode: str = "grid", fonts=None,
             # высота строчных и высота заглавных совпадают с целевыми, и
             # кириллица встаёт на сетку латиницы без перерисовки. У гладкого
             # шрифта сетки нет, и там источник собирается из контуров.
-            source_path = font_source.source_for(raw_font, PLAY_DIR,
-                                                 SOURCE_CACHE)
+            source_path = font_source.source_for(
+                raw_font, PLAY_DIR, SOURCE_CACHE,
+                use_ark=bool(fonts and name in fonts))
             merge_mode = "same"
         new_font, added, scale = merge(raw_font, source_path, merge_mode, bold,
                                        narrow, size)
@@ -154,11 +155,102 @@ def patch_assets(assets_path: str, mode: str = "grid", fonts=None,
     if missing:
         raise SystemExit("в ассетах нет шрифтов: %s" % ", ".join(missing))
 
-    data = env.file.save()
+    if fonts:
+        data = save_selected_objects(env.file, expected)
+    else:
+        data = env.file.save()
 
     # Ридер держит файл открытым, а Windows не заменяет открытый файл.
     release(env)
     return data, patched, expected
+
+
+def save_selected_objects(serialized, expected):
+    """Пересобрать только таблицу смещений, оставив прочие объекты как есть.
+
+    UnityPy сериализует все объекты класса Font, даже если изменили только
+    несколько. Для версии файла 22 сохраняем исходные записи метаданных и
+    переносим неизменённые байты объектов без участия сериализатора.
+    """
+    from UnityPy.streams import EndianBinaryWriter
+
+    reader = serialized.reader
+    header = serialized.header
+    source_reader = reader
+    old_position = source_reader.Position
+    source_reader.Position = 0
+    source_data = source_reader.read(header.file_size)
+    source_reader.Position = old_position
+    if header.version != 22:
+        raise SystemExit("побайтная запись выбранных объектов поддерживает "
+                         "только SerializedFile v22, получена v%d"
+                         % header.version)
+
+    replacement = {}
+    for obj in serialized.objects.values():
+        if obj.type.name != "Font":
+            continue
+        try:
+            name = obj.read_typetree().get("m_Name")
+        except Exception:
+            continue
+        if name in expected:
+            replacement[obj.path_id] = obj.data
+
+    meta_writer = EndianBinaryWriter(endian=header.endian)
+    data_writer = EndianBinaryWriter(endian=header.endian)
+    if header.version >= 7:
+        meta_writer.write_string_to_null(serialized.unity_version)
+    if header.version >= 8:
+        meta_writer.write_int(serialized._m_target_platform)
+    if header.version >= 13:
+        meta_writer.write_boolean(serialized._enable_type_tree)
+    meta_writer.write_int(len(serialized.types))
+    for typ in serialized.types:
+        typ.write(serialized, meta_writer, False)
+    if 7 <= header.version < 14:
+        meta_writer.write_int(serialized.big_id_enabled)
+    meta_writer.write_int(len(serialized.objects))
+    for obj in sorted(serialized.objects.values(), key=lambda item: item.path_id):
+        raw = replacement.get(obj.path_id)
+        if raw is None:
+            raw = source_data[obj.byte_start:obj.byte_start + obj.byte_size]
+        obj.data = raw
+        obj.write(header, meta_writer, data_writer)
+        data_writer.align_stream(8)
+    if header.version >= 11:
+        meta_writer.write_int(len(serialized.script_types))
+        for item in serialized.script_types:
+            item.write(header, meta_writer)
+    meta_writer.write_int(len(serialized.externals))
+    for item in serialized.externals:
+        item.write(header, meta_writer)
+    if header.version >= 20:
+        meta_writer.write_int(len(serialized.ref_types))
+        for item in serialized.ref_types:
+            item.write(serialized, meta_writer, True)
+    if header.version >= 5:
+        meta_writer.write_string_to_null(serialized.userInformation)
+
+    metadata_size = meta_writer.Length
+    data_offset = 48 + metadata_size
+    data_offset += (16 - data_offset % 16) % 16
+    file_size = data_offset + data_writer.Length
+    writer = EndianBinaryWriter()
+    writer.write_u_int(0)
+    writer.write_u_int(0)
+    writer.write_u_int(header.version)
+    writer.write_u_int(0)
+    writer.write_boolean(">" == header.endian)
+    writer.write_bytes(header.reserved)
+    writer.write_u_int(metadata_size)
+    writer.write_long(file_size)
+    writer.write_long(data_offset)
+    writer.write_long(serialized.unknown)
+    writer.write_bytes(meta_writer.bytes)
+    writer.align_stream(16)
+    writer.write_bytes(data_writer.bytes)
+    return writer.bytes
 
 
 def release(env) -> None:

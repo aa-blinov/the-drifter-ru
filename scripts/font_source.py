@@ -29,13 +29,19 @@ EXTRA_CHARS = "«»„“”‘’…—–№°×₂"
 # и в панелях игры ей остаётся место.
 DEFAULT_SIZE = 0.95
 
+ARK_PIXEL_FILES = {
+    "10px": "ArkPixel-10px-Proportional-Latin.ttf",
+    "12px": "ArkPixel-12px-Proportional-Latin.ttf",
+}
+
 
 def is_pixel(target: bytes) -> bool:
     """Пиксельный ли шрифт: у него есть сетка."""
     return pixel_grid(load_font(target)) > 1
 
 
-def source_for(target: bytes, play_dir: str, cache_dir: str):
+def source_for(target: bytes, play_dir: str, cache_dir: str,
+               use_ark: bool = False):
     """Путь к источнику под этот шрифт: готовый файл или новый.
 
     Источник уже в единицах цели, поэтому при слиянии масштаб равен
@@ -43,6 +49,12 @@ def source_for(target: bytes, play_dir: str, cache_dir: str):
     """
     if is_pixel(target):
         import make_pixel_font
-        return make_pixel_font.source_for(target, play_dir, cache_dir)
+        ark_files = [os.path.join(play_dir, name)
+                     for name in ARK_PIXEL_FILES.values()]
+        if use_ark and all(os.path.exists(path) for path in ark_files):
+            return make_pixel_font.source_for(target, play_dir, cache_dir,
+                                              ark_dir=play_dir)
+        return make_pixel_font.source_for(target, play_dir, cache_dir,
+                                          ark_dir=None)
     import make_smooth_font
     return make_smooth_font.source_for(target, play_dir, cache_dir)

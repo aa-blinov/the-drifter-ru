@@ -92,7 +92,7 @@ def main():
         metrics = Metrics(original)
         source = font_source.source_for(
             data, os.path.join(ROOT, "work", "fonts"),
-            os.path.join(ROOT, "work", "fonts", "cyr"))
+            os.path.join(ROOT, "work", "fonts", "cyr"), use_ark=True)
         merged_bytes, _added, _scale = merge(data, source, mode="same")
         merged = load_font(merged_bytes)
 
