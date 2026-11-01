@@ -1,0 +1,28 @@
+The Drifter по-русски: установка
+
+1. Закройте игру.
+2. Нужен Python 3.9 или новее: https://www.python.org/downloads/
+   (при установке отметьте "Add python.exe to PATH").
+3. Распакуйте архив в любую папку и запустите install.bat.
+   Установщик сам найдёт игру в библиотеках Steam. Если игра лежит в другом
+   месте, запустите из командной строки:
+       install.bat --game "D:\Games\The Drifter"
+4. В игре: Options -> Language -> Русский.
+
+Что делает установщик
+- кладёт translation.csv рядом с TheDrifter.exe;
+- вписывает кириллицу в шрифты игры и заменяет гладкий шрифт меню и реплик
+  пиксельным Ark Pixel;
+- сохраняет оригинальный sharedassets1.assets в папке _ru_backup.
+
+Как убрать перевод
+Удалите translation.csv из папки игры и верните файл из _ru_backup:
+скопируйте _ru_backup\sharedassets1.assets поверх
+TheDrifter_Data\sharedassets1.assets. Либо в Steam: правая кнопка по игре,
+Свойства, Установленные файлы, Проверить целостность файлов.
+
+Без замены шрифта меню и реплик (оставить гладкий): install.bat --no-pixel-ui
+
+Файлы игры принадлежат Powerhoof; в архиве их нет. Шрифты Ark Pixel и Play
+скачиваются при установке, лицензии SIL OFL 1.1 копируются в TheDrifter_Data.
+Проект: https://github.com/aa-blinov/the-drifter-ru
