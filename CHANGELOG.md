@@ -4,6 +4,12 @@ All notable changes to the-drifter-ru. Versions are ordered newest first.
 
 ## [Unreleased]
 
+### Added
+
+- Как убрать цветную кайму у текста: это CRT-фильтр самой игры
+  (`GlobalScript.Update` переключает его по Left Shift + F, настройка
+  сохраняется). Подсказка в README, `INSTALL.txt` и в конце установки.
+
 ## [1.0.0] - 2026-11-02
 
 ### Added
