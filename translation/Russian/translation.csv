@@ -6294,7 +6294,7 @@ Sarah,163,Room- Flashback,DoctorEnter,"Oh god, no...","О боже, нет…"
 Sarah,164,Room- Flashback,DoctorEnter,How... how long?,Сколько… сколько времени?
 Doctor,5,Room- Flashback,DoctorEnter,A month at most...,Не больше месяца…
 Mick,1302,Room- Flashback,DoctorEnter,This is what I wanted to prevent!,Именно этого я и хотел избежать!
-Doctor,6,Room- Flashback,DoctorEnter,"We've been over this, there's nothing you or anyone could have done","Мы это уже обсуждали. Ни ты, ни кто-либо другой ничего бы не смог сделать"
+Doctor,6,Room- Flashback,DoctorEnter,"We've been over this, there's nothing you or anyone could have done","Мы это уже обсуждали. Ни вы, ни кто-либо другой ничего не смогли бы сделать"
 Narr,2027,Room- Flashback,DoctorEnter,But there was!,Но я мог!
 Narr,2028,Room- Flashback,DoctorEnter,I was supposed to go back further,Я должен был вернуться ещё дальше
 Narr,2029,Room- Flashback,DoctorEnter,Stop myself from meeting Sarah!,Не встретиться с Сарой!
@@ -6604,7 +6604,7 @@ Narr,2067,Character- Annie,Show sister founder photo (before you know her identi
 Annie,233,Character- Annie,Show sister founder photo (before you know her identity),"Apparently, this woman had a bit of a thing going with Maxwell Holden","Говорят, у этой женщины был роман с Максвеллом Холденом"
 Annie,234,Character- Annie,Show sister founder photo (before you know her identity),"But something happened, a lab accident... she left after that",Но потом что-то случилось — авария в лаборатории… после этого она ушла
 Mick,1373,Character- Annie,Show sister photo again,Anything else you know about this third founder?,Что-нибудь ещё знаешь о третьей соучредительнице?
-Annie,235,Character- Annie,Show sister photo again,"Just what I said, I think she had a thing with Holden, left after an accident","Только то, что я уже сказал. Думаю, у неё был роман с Холденом, и после аварии она ушла"
+Annie,235,Character- Annie,Show sister photo again,"Just what I said, I think she had a thing with Holden, left after an accident","Только то, что я уже сказала. Думаю, у неё был роман с Холденом, и после аварии она ушла"
 Annie,236,Character- Annie,Show sister photo again,Shame there's not more to it...,"Жаль, что тут нечего больше рассказать…"
 Annie,237,Character- Annie,Show sister photo again,Wouldn't mind a bit of office gossip to liven things up around here!,"Не помешали бы офисные сплетни, чтобы здесь было чуть веселее!"
 Mick,1374,Character- Annie,Show sister completed photo of founders,I found something about the third founder. She was married to Roth!,Я кое-что нашёл о третьей соучредительнице. Она была замужем за Ротом!
@@ -6642,7 +6642,7 @@ Mick,1386,Character- Detective,Show remittance to detective,I found a list of pa
 Detective,313,Character- Detective,Show remittance to detective,Good work,Хорошая работа
 Mick,1387,Character- Detective,Show remittance to detective,"It's just hundreds of business IDs though, can you look those up?","Там только сотни регистрационных номеров компаний, можете их проверить?"
 Detective,314,Character- Detective,Show remittance to detective,"If you're happy to give it over to the police and wait a few days, sure","Если не возражаете передать это полиции и подождать пару дней, что ж"
-Mick,1388,Character- Detective,Show remittance to detective,I'll hang onto it for now,Пока оставлю её у себя
+Mick,1388,Character- Detective,Show remittance to detective,I'll hang onto it for now,Пока оставлю его у себя
 Detective,315,Character- Detective,Show remittance to detective,"There's a good boy. See if any other IDs show up, something you can cross check against","Вот молодец. Посмотрите, не появятся ли ещё какие-нибудь регистрационные номера для сверки"
 Narr,2549,Character- Detective,Show pen to hara,"I'm sure he could look up the business ID, but I already know it's MedCon's... And where to find their chairwoman","Уверен, он смог бы найти регистрационный номер, но я уже знаю, что это MedCon… И знаю, где найти их председательницу."
 Mick,1389,Character- Detective,Offer tea,Fancy a cuppa?,Чаю хотите?
@@ -6870,7 +6870,7 @@ Narr,2528,Item- Newspaper,Knife on newspaper,I can just rip it if I need to,"Я 
 ,1186,Item- Newspaper,Item Description,"The old newspaper is still dry, thankfully","Старая газета, к счастью, всё ещё сухая"
 ,1187,Item- Change,Item Description,A few loose coins,Немного мелких монет
 Narr,2125,Item- Rag,OnUseInvInventory,I douse the rag in the foul liquid,Я окунаю тряпку в зловонную жидкость
-,1188,Item- Rag,OnUseInvInventory,The rag's wet with squeeze. Fumes sting my eyes,Тряпка пропиталась выпивкой. Пары жгут глаза
+,1188,Item- Rag,OnUseInvInventory,The rag's wet with squeeze. Fumes sting my eyes,Тряпка пропиталась денатуратом. Пары жгут глаза
 Narr,2550,Item- Rag,OnUseInvInventory,"Alcohol'd help clean the graffiti off the map, but there's not enough left in the lighter","Спиртом можно было бы смыть граффити с карты, но в зажигалке его осталось мало"
 Narr,2126,Item- Rag,OnUseInvInventory,"It'd burn alright, but my only reward'd be a few scorched fingers","Он сгорел бы, это точно, но награда была бы лишь несколько обожжённых пальцев"
 Narr,2127,Item- Rag,OnUseInvInventory,It wouldn't make a very good torch. The plastic handle would melt,Хороший факел из этого не выйдет. Пластиковая ручка расплавится
@@ -7025,7 +7025,7 @@ Narr,2171,Item- Floss,OnUseInvInventory,If I find some use for the floss I can c
 ,1284,Item- Scissors,Item Description,"Small scissors from a first aid kit, made for cutting bandages","Маленькие ножницы из аптечки, которыми режут бинты"
 Narr,2172,Item- FishHook,OnUseInvInventory,"I manage to thread the floss through the hook, and tie a decent clinch",Я продеваю зубной шёлк через крючок и завязываю приличный клинч-узел.
 ,1285,Item- FishHook,Item Description,"A small, sharp fish hook",Небольшой острый рыболовный крючок
-,1286,Item- FlossHook,Item Description,I've tied the floss to the fish hook,Я привязал леску к рыболовному крючку
+,1286,Item- FlossHook,Item Description,I've tied the floss to the fish hook,Я привязал зубной шёлк к рыболовному крючку
 ,1287,Item- Magnet,Item Description,"Another obscure bit of technology. Two heavy metal plates, with a sturdy hinge. Don't know what it does, but someone must","Ещё одна непонятная штука. Две тяжёлые металлические пластины, соединённые прочной петлёй. Не знаю, что она делает, но кто-то же должен знать"
 Narr,2173,Item- JerrycanEsc,OnUseInvInventory,"The bandage soaks up petrol nicely, but don't see how it'll be useful like this","Бинт отлично впитывает бензин, но не понимаю, как он пригодится в таком виде"
 ,1288,Item- JerrycanEsc,Item Description,An empty jerrycan,Пустая канистра
@@ -7426,7 +7426,7 @@ Writer,73,Dialog- WriterFirst,OptionTopicDetective,"I don't want to bother secur
 ,1491,Dialog- WriterFirst,Dialog Option,The mulindji would surely make a good enough story to sell,Мулинджи вполне можно продать как историю
 ,1492,Dialog- WriterFirst,Dialog Option,Maybe Grace talked about what she was investigating?,"Может, Грейс рассказывала, что она расследовала?"
 ,1493,Dialog- PaperHobo,OnStart,Maybe I could use a little more squeeze,"Может, мне стоит выпить ещё немного"
-,1494,Dialog- PaperHobo,OnStart,He's lent me his bottle of squeeze,Он одолжил мне свою бутылку выпивки
+,1494,Dialog- PaperHobo,OnStart,He's lent me his bottle of squeeze,Он одолжил мне свою бутылку денатурата
 Mick,1515,Dialog- PaperHobo,OptionQuestionSqueeze,Think I could have another nip?,"Думаешь, можно сделать ещё глоток?"
 PaperHobo,7,Dialog- PaperHobo,OptionQuestionSqueeze,"A bit moreish, ain't it?","Так и тянет добавить, а?"
 PaperHobo,6,Dialog- PaperHobo,OptionQuestionSqueeze,"Aye, I reckon so","Да, наверное"
@@ -7892,7 +7892,7 @@ Mick,1672,Dialog- DetectiveBridge,OptionTopicSister,I need your help. My sister'
 Mick,1673,Dialog- DetectiveBridge,OptionTopicSister,She was chasing up a lead the reporter had,"Она взялась за зацепку, которую нашла репортёр."
 Mick,1674,Dialog- DetectiveBridge,OptionTopicSister,I think they've taken her,"Думаю, её похитили."
 Detective,377,Dialog- DetectiveBridge,OptionTopicSister,She's the one that-,"Она та, которая—"
-Mick,1675,Dialog- DetectiveBridge,OptionTopicSister,"That hit you over the head, yeah","Что вас оглушило, да?"
+Mick,1675,Dialog- DetectiveBridge,OptionTopicSister,"That hit you over the head, yeah","Та, что тебя оглушила, да?"
 Detective,378,Dialog- DetectiveBridge,OptionTopicSister,"Well, she's a fighter at least","Ну, по крайней мере, она боец."
 Detective,379,Dialog- DetectiveBridge,OptionTopicSister,She'll probably turn up,"Скорее всего, она объявится."
 Detective,380,Dialog- DetectiveBridge,OptionTopicSister,Missing persons won't do anything before 72 hours anyway,До истечения 72 часов по пропавшим вообще ничего делать не будут.
@@ -8394,7 +8394,7 @@ Narr,2255,Dialog- CeoLab,Ask where security is now,I fucking should,"Я, бля�
 ,1724,Dialog- CeoLab,Ask where security is now,"Roth claims I had the wrong idea about his henchmen. They were trying to bring me in, not kill me. And I just imagined the rest?! At least they're not around here","Рот утверждает, что я неправильно понял его людей. Они хотели сдать меня, а не убить. И я просто вообразил остальное?! Хотя бы их здесь нет"
 Mick,1825,Dialog- CeoLab,OptionTopicBodies,The bodies under the reservoir...,Тела под водохранилищем…
 Roth,351,Dialog- CeoLab,OptionTopicBodies,Simulated. To heighten the stress response and trigger the phase-flip,Симуляция. Чтобы усилить реакцию на стресс и вызвать фазовый переворот
-Mick,1826,Dialog- CeoLab,OptionTopicBodies,Bullshit. Where are the missing street kids then?,Брехня. Тогда где пропавшие уличные дети?
+Mick,1826,Dialog- CeoLab,OptionTopicBodies,Bullshit. Where are the missing street kids then?,Дерьмо. Тогда где пропавшие уличные дети?
 Roth,352,Dialog- CeoLab,OptionTopicBodies,"Well, most are helping us out. Here, or in similar facilities","Ну, большинство помогает нам. Здесь или в похожих учреждениях"
 Roth,353,Dialog- CeoLab,OptionTopicBodies,Homeless communities have been extremely helpful,Бездомные общины оказались нам крайне полезны
 Roth,354,Dialog- CeoLab,OptionTopicBodies,"We needed secrecy, people who didn't have ties",Нам нужна была секретность и люди без связей
@@ -8759,7 +8759,7 @@ Mick,1956,Dialog- DetectiveLab,Talk detective about mask: when know they're in e
 Detective,469,Dialog- DetectiveLab,Talk detective about mask: when know they're in every room,"Huh, interesting","Хм, интересно."
 Mick,1957,Dialog- DetectiveLab,Talk detective about mask: know it's for machine,That's not all...,Это ещё не всё…
 Mick,1958,Dialog- DetectiveLab,Talk detective about mask: know it's for machine,"The mask we found, it does contain a neural interface",В найденной нами маске действительно есть нейронный интерфейс.
-Detective,470,Dialog- DetectiveLab,Talk detective about mask: know it's for machine,No shit,Чёрт
+Detective,470,Dialog- DetectiveLab,Talk detective about mask: know it's for machine,No shit,Ни хрена.
 Detective,471,Dialog- DetectiveLab,Talk detective about mask: know it's for machine,"I did my own poking around, they are installed in every room",Я сам всё обшарил: они установлены в каждой комнате
 Detective,472,Dialog- DetectiveLab,Talk detective about mask: know it's for machine,"Supposed to be gas masks, drop down in an emergency","Вроде бы это газовые маски, которые в чрезвычайной ситуации опускаются сверху"
 Detective,473,Dialog- DetectiveLab,Talk detective about mask: know it's for machine,"So, what? Everyone puts on the masks, we go back in time together?","И что? Все надевают маски, и мы вместе отправляемся в прошлое?"
@@ -9004,7 +9004,7 @@ Sanjay,168,Dialog- Sanjay,OptionTopicLeave,He'll be downstairs in the reactor,"�
 ,1845,Dialog- Sanjay,Dialog Option,What's his involvement with this time travel tech?,Каково его участие в этой технологии путешествий во времени?
 ,1846,Dialog- Sanjay,Dialog Option,Maybe he knows how to stop me going nuts,"Может, он знает, как не дать мне сойти с ума"
 Mick,2041,Dialog- EscFunic,OptionTopicEscape,We've gotta be going,Надо уходить
-Annie,300,Dialog- EscFunic,OptionTopicEscape,No shit,Чёрт
+Annie,300,Dialog- EscFunic,OptionTopicEscape,No shit,Ни хрена.
 Sanjay,169,Dialog- EscFunic,OptionTopicEscape,I can get this working...,Я смогу это наладить…
 Mick,2042,Dialog- EscFunic,OptionTopicEscape,We should just leave with what we can carry,Возьмём с собой что сможем унести и уходим
 Annie,301,Dialog- EscFunic,OptionTopicEscape,"Sanj, how much water does a person need a day?","Сандж, сколько воды человеку нужно в день?"
@@ -9020,7 +9020,7 @@ Mick,2045,Dialog- EscFunic,OptionTopicEscape,Of course it has,"Конечно, �
 Annie,303,Dialog- EscFunic,OptionTopicEscape,We need the vehicle,Нам нужна машина
 Sanjay,175,Dialog- EscFunic,OptionTopicEscape,I'll figure this out,Я разберусь
 Annie,304,Dialog- EscFunic,OptionTopicEscape,"Dr. Klein's been monitoring the reactor, we're safe for now","Доктор Кляйн следил за реактором, сейчас мы в безопасности"
-,1847,Dialog- EscFunic,OptionTopicEscape,Sounds like we need the lift working,"Похоже, нужно починить подъёмник"
+,1847,Dialog- EscFunic,OptionTopicEscape,Sounds like we need the lift working,"Похоже, нужно починить лифт"
 Mick,2046,Dialog- EscFunic,OptionTopicKleinHurt,Klein's been hurt,Кляйн ранен
 Annie,305,Dialog- EscFunic,OptionTopicKleinHurt,"We saw, is he alright?","Мы видели, с ним всё в порядке?"
 Mick,2047,Dialog- EscFunic,OptionTopicKleinHurt,It's a bad cut. Needs stitches,Глубокий порез. Нужны швы
@@ -9050,7 +9050,7 @@ Klein,146,Dialog- EscFunic,OptionTopicBlastDoors- Magnetic Clamps,Ah of course,"
 Sanjay,182,Dialog- EscFunic,OptionTopicBlastDoors- Magnetic Clamps,That would explain it,Вот это объясняет всё
 Annie,311,Dialog- EscFunic,OptionTopicBlastDoors- Magnetic Clamps,So how do we get them off?,Так как же мы их отключим?
 Detective,498,Dialog- EscFunic,OptionTopicBlastDoors- Magnetic Clamps,I could hit them at this range,Я мог бы подстрелить их с такого расстояния
-Klein,147,Dialog- EscFunic,OptionTopicBlastDoors- Magnetic Clamps,"Save your ammunition, they're built to withstand explosives","Сохрани боеприпасы, они рассчитаны на взрывы"
+Klein,147,Dialog- EscFunic,OptionTopicBlastDoors- Magnetic Clamps,"Save your ammunition, they're built to withstand explosives","Сохрани боеприпасы, они выдержат взрывы"
 Klein,148,Dialog- EscFunic,OptionTopicBlastDoors- Magnetic Clamps,While they have power nothing will get them down,"Пока у них есть питание, опустить их невозможно"
 Reporter,165,Dialog- EscFunic,OptionTopicBlastDoors- Magnetic Clamps,Well... Can we un-power them?,Ну… Можно ли их обесточить?
 Klein,149,Dialog- EscFunic,OptionTopicBlastDoors- Magnetic Clamps,And how are we supposed to do that from down here?,И как мы это сделаем отсюда?
@@ -9159,7 +9159,7 @@ Detective,510,Dialog- EscDetective,OptionTopicPetrolGone,There should be more in
 Mick,2092,Dialog- EscDetective,OptionTopicPetrolGone,This is it. Annie checked,Вот она. Энни проверила
 Detective,511,Dialog- EscDetective,OptionTopicPetrolGone,You think Roth...?,"Ты думаешь, Рот…?"
 Mick,2093,Dialog- EscDetective,OptionTopicPetrolGone,I'd bet on it,Я бы поставил на него
-Detective,512,Dialog- EscDetective,OptionTopicPetrolGone,"Shit, he'll have drained the tank too...","Чёрт, он и бак слил…"
+Detective,512,Dialog- EscDetective,OptionTopicPetrolGone,"Shit, he'll have drained the tank too...","Дерьмо, он и бак слил…"
 Mick,2094,Dialog- EscDetective,OptionTopicPetrolGone,Just have to find some more,Придётся найти ещё
 ,1874,Dialog- EscDetective,OptionTopicPetrolGone,"The jerrycan's completely dry, we'll need petrol to make it out of the desert","Канистра совершенно пуста, нам нужен бензин, чтобы выбраться из пустыни"
 ,1875,Dialog- EscDetective,OptionTopicPetrolGone,Hara doesn't know where there could be more fuel,"Хара не знает, где ещё может быть топливо"
@@ -9203,7 +9203,7 @@ Mick,2106,Dialog- EscKitchen,OptionTopicBlastDoors,Any idea what's wrong with th
 Klein,155,Dialog- EscKitchen,OptionTopicBlastDoors,I was trying to work that out when this happened,"Я пытался это выяснить, когда всё случилось"
 Mick,2107,Dialog- EscKitchen,OptionTopicBlastDoors,Any idea how to fix it?,"Есть идея, как их починить?"
 Klein,156,Dialog- EscKitchen,OptionTopicBlastDoors,Not with blood pouring over my eyes,Не когда кровь заливает мне глаза
-Reporter,174,Dialog- EscKitchen,OptionTopicBlastDoors,I'm sure Sanjay can work it out,"Я уверен, Санджай сможет разобраться"
+Reporter,174,Dialog- EscKitchen,OptionTopicBlastDoors,I'm sure Sanjay can work it out,"Я уверена, Санджай сможет разобраться"
 Klein,157,Dialog- EscKitchen,OptionTopicBlastDoors,"If I did, I'd have fixed it by now, wouldn't I?","Если бы я знал, то давно бы починил, правда?"
 Reporter,175,Dialog- EscKitchen,OptionTopicBlastDoors,You'll figure it out,Ты разберёшься
 ,1888,Dialog- EscKitchen,OptionTopicBlastDoors,Klein doesn't have any insight into the blocked blast doors,Кляйн ничего не знает о заклинивших взрывных дверях
@@ -9666,7 +9666,7 @@ Try interacting again.","Значок действия <color=#5FCDE4FF>на о�
 ,2003,General Text,Text in GuiControllerTute,Hints,Подсказки
 ,2004,General Text,Text in GuiControllerTute,Walk,Идти
 ,2005,General Text,Text in GuiControllerTute,Look Around,Осмотреться
-,2006,General Text,Text in GuiControllerTute,Look/Interact,Осмотреть/Действовать
+,2006,General Text,Text in GuiControllerTute,Look/Interact,Осмотреть/Взаимодействовать
 ,2007,General Text,Text in GuiControllerTute,Look/Use Item,Осмотреть/Использовать
 ,2008,General Text,Text in GuiControllerTute,Select Item,Выбрать предмет
 ,2009,General Text,Text in GuiControllerTute,Equip/Combine,Надеть/Объединить
@@ -9683,8 +9683,8 @@ Try interacting again.","Значок действия <color=#5FCDE4FF>на о�
 ,2053,General Text,Text in GuiControls,[A]Confirm/Skip Dialog,[A]Подтвердить/Пропуск диалога
 ,2054,General Text,Text in GuiControls,[B]Back,[B]Назад
 ,2022,General Text,Text in GuiControls,Got it!,Есть!
-,2175,General Text,Text in GuiControls,[LB]TOGGLE ITEMS[RB],[LB]ПЕРЕКЛЮЧАТЬ ПРЕДМЕТЫ[RB]
-,2176,General Text,Text in GuiControls,[LT]EQUIP/CRAFT,[LT]СНАРЯДИТЬ/ИЗГОТОВИТЬ
+,2175,General Text,Text in GuiControls,[LB]TOGGLE ITEMS[RB],[LB]ПЕРЕКЛЮЧИТЬ ПРЕДМЕТЫ[RB]
+,2176,General Text,Text in GuiControls,[LT]EQUIP/CRAFT,[LT]НАДЕТЬ/ИЗГОТОВИТЬ
 ,2177,General Text,Text in GuiControls,(once unlocked),(после разблокировки)
 ,2178,General Text,Text in GuiControls,[RT]SELECT/INTERACT,[RT]ВЫБРАТЬ/ВЗАИМОДЕЙСТВОВАТЬ
 ,2179,General Text,Text in GuiControls,(while looking),(во время осмотра)
