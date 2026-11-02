@@ -5876,7 +5876,7 @@ Narr,1826,Room- EscCorridor,Try walking around corridors when moving up from wat
 ,987,Room- EscFunicular,Hotspot Description,Klein's waiting at the elevator controls,Кляйн ждёт у пульта управления лифтом
 ,988,Room- EscFunicular,Hotspot Description,Annie's frantically re-organizing the content of the trailer,Энни лихорадочно перекладывает содержимое трейлера
 ,989,Room- EscFunicular,Hotspot Description,Sanjay impatiently jabs at the elevator controls,Санджай нетерпеливо тычет в кнопки пульта лифта
-Sanjay,112,Room- EscFunicular,Return to funicular after confronting Roth,"Mick, you made it!","Мик, вы добрались!"
+Sanjay,112,Room- EscFunicular,Return to funicular after confronting Roth,"Mick, you made it!","Мик, ты добрался!"
 Annie,184,Room- EscFunicular,Return to funicular after confronting Roth,Thank god!,Слава богу!
 Annie,185,Room- EscFunicular,Return to funicular after confronting Roth,I totally wasn't worried,Я же совершенно не волновалась
 Sanjay,113,Room- EscFunicular,Return to funicular after confronting Roth,Sure you weren't,"Конечно, не волновалась"
@@ -6057,7 +6057,7 @@ Narr,1950,Room- EscRoom,OnInteractHotspotWardrobe,I peek in the wardrobe. Jumble
 Narr,1951,Room- EscRoom,OnInteractHotspotWardrobe,Nothing useful,Ничего полезного
 Narr,1952,Room- EscRoom,OnInteractHotspotWardrobe,Nothing in there I can use,"Там ничего, что мне пригодилось бы"
 Narr,1944,Room- EscRoom,OnInteractHotspotDesk,"The desk's empty, and there's no power to the terminal","Стол пуст, а терминал обесточен"
-Narr,1945,Room- EscRoom,OnInteractPropZapper,Holden's pulse coil...,Импульсная катушка Холдена…
+Narr,1945,Room- EscRoom,OnInteractPropZapper,Holden's pulse coil...,Катушка ЭМИ Холдена…
 Mick,1237,Room- EscRoom,OnInteractPropZapper,Wondered where that had got to,"Интересно, куда же она делась"
 Narr,1946,Room- EscRoom,OnInteractPropZapper,"Klein was curious how it worked, judging by how many pieces it's in","Кляйн явно хотел понять, как она устроена — судя по тому, сколько здесь деталей"
 Narr,1947,Room- EscRoom,OnInteractPropZapper,This big battery-looking thing must have been the power source,"Эта штука, похожая на большую батарейку, и была источником питания"
@@ -7076,7 +7076,7 @@ Narr,2200,Item- Defib,OnUseInvInventory,Knife's been through a lot and lost its 
 ,1329,Item- TopicBill,Item Description,DLPURGE- Poor Bill. I wish I hadn't got you mixed up in all this,"DLPURGE- Бедный Билл. Жаль, что я втянул тебя во всё это"
 ,1330,Item- TopicDetective,Item Description,That man in the yellow jacket... The leader of the mulindji?,"Тот мужчина в жёлтой куртке… главарь Мулинджи, что ли?"
 ,1331,Item- TopicMoney,Item Description,"I need money to get outta town, and that reporter, Grace, said her paper would buy my story","Мне нужны деньги, чтобы уехать из города. Репортёр Грейс сказала, что её газета напечатает мою историю."
-,1332,Item- TopicSon,UpdateDescription,I saw Alec... Is he alive? Is he haunting me? Am I going crazy?,Я видел Алек… Он жив? Он преследует меня? Или я схожу с ума?
+,1332,Item- TopicSon,UpdateDescription,I saw Alec... Is he alive? Is he haunting me? Am I going crazy?,Я видел Алека… Он жив? Он преследует меня? Или я схожу с ума?
 ,1974,Item- TopicSon,UpdateDescription,I must be hallucinating that Alec is still alive. Madness brought on by the phase-flip to torment me,"Мне мерещится, что Алек всё ещё жив. Фазовый переворот свёл меня с ума и теперь мучает"
 ,1333,Item- TopicSon,Item Description,DLPURGE- Alec! My son! He's alive!,DLPURGE- Алек! Мой сын! Он жив!
 ,1334,Item- TopicNurse,Item Description,That nurse... I think she put something in my drip. She's trying to kill me!,"Та медсестра… Кажется, она что-то подмешала в мою капельницу. Она пытается меня убить!"
@@ -7917,7 +7917,7 @@ Detective,389,Dialog- DetectiveBridge,OptionTopicReception,I'll let you work out
 Detective,390,Dialog- DetectiveBridge,OptionTopicReception,"Then, when this backfires, I can claim it was your idea","А когда всё обернётся против нас, я скажу, что это была твоя идея."
 Mick,1686,Dialog- DetectiveBridge,OptionTopicReception,That receptionist is writing a novel,Та рецепционистка пишет роман.
 Detective,391,Dialog- DetectiveBridge,OptionTopicReception,"Ok... well, I think we need more to go on than that","Хорошо… ну, кажется, нам нужно больше зацепок."
-,1602,Dialog- DetectiveBridge,OptionTopicReception,I told Hara the receptionist's writing a novel. He's not sure how to use that as leverage,"Я рассказал Хара про роман рецепционистки. Он не понимает, как использовать это для давления."
+,1602,Dialog- DetectiveBridge,OptionTopicReception,I told Hara the receptionist's writing a novel. He's not sure how to use that as leverage,"Я рассказал Харе про роман рецепционистки. Он не понимает, как использовать это для давления."
 Narr,2239,Dialog- DetectiveBridge,OptionTopicCeo,"I tell him about the tape, the message, and the name Dr. Roth","Я рассказал ему про плёнку, сообщение и имя доктора Рота."
 Mick,1687,Dialog- DetectiveBridge,OptionTopicCeo,I found out this Dr. Roth runs Trinity Biotech,"Я выяснил, что доктор Рот возглавляет Тринити Биотех."
 Detective,392,Dialog- DetectiveBridge,OptionTopicCeo,"Good work, boss","Отличная работа, босс."
@@ -9455,7 +9455,7 @@ Narr,2441,Global Script,Unhandled Use Soup,Should try to get something else,На
 Narr,2526,Global Script,Unhandled Use Soup spoon,The plastic spoon's as useless as it sounds,"Пластиковая ложка бесполезна, как и звучит"
 Narr,2442,Global Script,Unhandled Use Steak,I'd prefer just to eat it,Я бы просто съел это
 Narr,2443,Global Script,Unhandled Use AccessCard,It only works on the door panels,Оно работает только на дверных панелях
-Narr,2444,Global Script,Unhandled Use AccessCardRoth,It only works on Roth's door panel,Оно работает только на дверной панели Рота
+Narr,2444,Global Script,Unhandled Use AccessCardRoth,It only works on Roth's door panel,Она работает только на дверной панели Рота
 Narr,2445,Global Script,Unhandled Use Wrench,The wrench isn't much use there,Гаечный ключ там вряд ли пригодится
 Narr,2446,Global Script,Unhandled Use Gum,Don't wanna gum that up,Не хочу этим всё забивать
 Narr,2447,Global Script,Unhandled Use Gum,Won't be any left for me if I offer everyone a stick,"Если раздать всем по палочке, мне самому ничего не останется"
