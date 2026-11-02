@@ -240,8 +240,8 @@ Mick,48,Room- Bridge,Show bill the jerrycan,"Dragged my arse over to The Pitt, c
 Bill,7,Room- Bridge,Show bill the jerrycan,"You straightened out pretty good after that, eh?","Ну, после всего того ты неплохо выкарабкался, а?"
 Mick,49,Room- Bridge,Show bill the jerrycan,"Met Sarah there... Turned things around, started teaching","Встретил там Сару… Всё изменилось, стал преподавать"
 Bill,8,Room- Bridge,Show bill the jerrycan,"Yup, yup","Да, да"
-,50,Room- Bridge,Prop Description,My phone must have fallen from my pack,"Телефон, похоже, выпал из моей сумки"
-,51,Room- Bridge,Prop Description,"My pack's in tatters, contents strewn everywhere","Сумка изорвана, вещи раскиданы повсюду"
+,50,Room- Bridge,Prop Description,My phone must have fallen from my pack,"Телефон, похоже, выпал из моего рюкзака"
+,51,Room- Bridge,Prop Description,"My pack's in tatters, contents strewn everywhere","Рюкзак изорван, вещи раскиданы повсюду"
 ,52,Room- Bridge,Hotspot Description,There's a way under the bridge,Под мостом есть проход
 ,53,Room- Bridge,Hotspot Description,The bonnet's slightly crumpled but should open,"Капот слегка помят, но должен открываться"
 ,54,Room- Bridge,Hotspot Description,Someone's joyride ended here,Здесь закончилась чья-то покатушка.
@@ -475,7 +475,7 @@ Narr,233,Room- UnderBridgeReturn,OnInteractPropBarrel,Better get it lit or I'll 
 Narr,234,Room- UnderBridgeReturn,OnInteractPropBarrel,"There's some wood in there, only half burned","Там есть дрова, сгоревшие лишь наполовину"
 Narr,235,Room- UnderBridgeReturn,OnInteractPropBarrel,"Paper should be enough to get a fire started, just needs a light","Газеты хватит, чтобы разжечь огонь, нужен только источник пламени"
 Narr,236,Room- UnderBridgeReturn,Move to cover behind barrel,I duck behind the barrel,Я пригибаюсь за бочкой
-Detective,3,Room- UnderBridgeReturn,Move to cover behind barrel,"Not going to do you no good, boss","Вам это не поможет, босс"
+Detective,3,Room- UnderBridgeReturn,Move to cover behind barrel,"Not going to do you no good, boss","Тебе это не поможет, босс"
 ,101,Room- UnderBridgeReturn,Move to cover behind barrel,The barrel's my only cover,Бочка — моё единственное укрытие
 Narr,237,Room- UnderBridgeReturn,Move to cover behind barrel,Too hot to touch now,"Теперь он слишком горячий, чтобы его трогать"
 Narr,238,Room- UnderBridgeReturn,Put paper in fire barrel,With unfeeling hands I crumple pages into the can,Онемевшими руками я комкаю страницы и бросаю в банку
@@ -488,7 +488,7 @@ Narr,244,Room- UnderBridgeReturn,"Try to light fire, no paper",I get it lit and 
 Mick,77,Room- UnderBridgeReturn,"Try to light fire, no paper","Shit, n-no g-g-good","Дерьмо, н-не п-получ-чится"
 Narr,245,Room- UnderBridgeReturn,Light fire,"I fumble the Zippo alight, try to hold the flame steady on the paper","Я лихорадочно щёлкаю Zippo, пытаясь удержать пламя над газетой"
 Mick,78,Room- UnderBridgeReturn,Light fire, C-c-come on,Д-давай
-Narr,246,Room- UnderBridgeReturn,Light fire,It catches. Starts to burn,Загорается. Начинает гореть
+Narr,246,Room- UnderBridgeReturn,Light fire,It catches. Starts to burn,Занялось. Разгорается
 ,102,Room- UnderBridgeReturn,Light fire,Fire flicks shadows violently across the wall,Огонь яростно перебрасывает тени по стене
 Narr,247,Room- UnderBridgeReturn,Light fire,"I hunch over the flames, slowly thawing. The caustic sting of blood returning to frozen fingers","Я склоняюсь над пламенем и медленно оттаиваю. В замёрзшие пальцы возвращается кровь, и они начинают едко покалывать"
 ,103,Room- UnderBridgeReturn,Light fire,"I'm dry again, and the feeling's come back to my limbs. Should be able to use my hands properly now","Я снова сухой, и чувство вернулось в конечности. Теперь руки слушаются"
@@ -518,10 +518,10 @@ Narr,263,Room- UnderBridgeReturn,Cut away lining of Bills coat,Footsteps outside
 Detective,4,Room- UnderBridgeReturn,Cut away lining of Bills coat,"Ah, what have we here?","А, что у нас тут?"
 Detective,5,Room- UnderBridgeReturn,Cut away lining of Bills coat,Got him!,Попался!
 Detective,6,Room- UnderBridgeReturn,Cut away lining of Bills coat,Stop there,Стойте
-Detective,7,Room- UnderBridgeReturn,Cut away lining of Bills coat,You led us on quite the chase,"Ну, вы заставили нас изрядно побегать"
+Detective,7,Room- UnderBridgeReturn,Cut away lining of Bills coat,You led us on quite the chase,"Ну, ты заставил нас изрядно побегать"
 ,106,Room- UnderBridgeReturn,Cut away lining of Bills coat,Bill's ragged form lies in a spreading pool of black,Изломанное тело Билла лежит в расплывающейся чёрной луже
 ,107,Room- UnderBridgeReturn,Cut away lining of Bills coat,The barrel is the only cover close enough,"Бочка — единственное укрытие, достаточно близко"
-Narr,264,Room- UnderBridgeReturn,Cut away lining of Bills coat,I pour one out for my old friend,Выливаю глоток за старого друга
+Narr,264,Room- UnderBridgeReturn,Cut away lining of Bills coat,I pour one out for my old friend,Плескаю на землю за старого друга
 Narr,265,Room- UnderBridgeReturn,OnUseInvHotspotHole,"I flick it alight, and lean in- See what looks like a bundle of clothes blocking the way through",Поджигаю и наклоняюсь — проход перекрывает какой-то ворох одежды
 Narr,266,Room- UnderBridgeReturn,OnEnterRegionToBridge,Spotlight flickers over the edge of the underpass,Прожектор мигает за краем тоннеля
 ,108,Room- UnderBridgeReturn,OnEnterRegionToBridge,They're out there,Они снаружи
@@ -791,7 +791,7 @@ Narr,354,Room- PaperLobby,OnInteractPropLetter,"She scrunches the letter, and th
 Writer,21,Room- PaperLobby,OnInteractPropLetter,My 43rd rejection letter,Моё 43-е отказное письмо
 Mick,142,Room- PaperLobby,OnInteractPropLetter,"Aww jeez, ah, I'm sorry","Ох, боже, прости"
 Narr,355,Room- PaperLobby,OnInteractPropLetterScrunched,I grab the discarded letter,Я подбираю брошенное письмо
-Mick,143,Room- PaperLobby,Ask if she's seen the paper,"Hi, ah... have you... seen today's paper?",Привет… вы… видели сегодняшнюю газету?
+Mick,143,Room- PaperLobby,Ask if she's seen the paper,"Hi, ah... have you... seen today's paper?",Привет… ты… видела сегодняшнюю газету?
 Writer,22,Room- PaperLobby,Ask if she's seen the paper,You think I read the drivel they write here?,"Ты что, думаешь, я читаю эту дребедень, которую они тут печатают?"
 Mick,144,Room- PaperLobby,Ask if she's seen the paper,"Oh, ah, good. Um...","О, хорошо. Э-э…"
 Mick,145,Room- PaperLobby,Talk to the paper receptionist first time. Try sell story,Ah... Hi,Э-э… привет
@@ -959,7 +959,7 @@ Narr,433,Room- PaperAlley,OnInteractCharacterButcher,Is he trying to get up or d
 Narr,434,Room- PaperAlley,OnInteractCharacterButcher,"Either way, gonna bloody well get himself killed",Так или иначе он чертовски скоро себя убьёт
 Mick,170,Room- PaperAlley,OnInteractCharacterButcher,"Need a hand, mate?","Помощь нужна, приятель?"
 Butcher,0,Room- PaperAlley,OnInteractCharacterButcher,Gah!,Га!
-Mick,171,Room- PaperAlley,OnInteractCharacterButcher,Ah... You alright?,Ах… Ты в порядке?
+Mick,171,Room- PaperAlley,OnInteractCharacterButcher,Ah... You alright?,Ах… Вы в порядке?
 Butcher,1,Room- PaperAlley,OnInteractCharacterButcher,"Yes, yes, quite alright","Да, да, всё в порядке"
 Mick,172,Room- PaperAlley,OnInteractCharacterButcher,"Err, what were you...?","Э-э, а что вы там делали…?"
 Butcher,2,Room- PaperAlley,OnInteractCharacterButcher,Love to stay and chat!,С удовольствием поболтал бы!
@@ -2233,7 +2233,7 @@ Sarah,23,Room- Hospital,EndChapterSequence,They've got your sister,Они схв
 ,409,Room- Hospital,Hotspot Description,A door is open to a hospital corridor,Дверь в коридор больницы открыта
 ,410,Room- Hospital,Hotspot Description,"The detective's out cold, no help there",Следователь без сознания — помощи тут не ждать
 ,411,Room- Hospital,Hotspot Description,Service revolver is clutched in his dead hand,Его мёртвая рука сжимает служебный револьвер
-,412,Room- Map,Prop Description,The newspaper office where the reporter Angela Grace worked,"Офис газеты, где работала репортёр Анджела Грейс"
+,412,Room- Map,Prop Description,The newspaper office where the reporter Angela Grace worked,"Офис газеты, где работала репортёрша Анджела Грейс"
 ,413,Room- Map,Prop Description,Mum's final resting place,Последнее пристанище мамы
 ,414,Room- Map,Prop Description,My sister's family home in the suburbs,Дом семьи моей сестры в пригородах
 ,415,Room- Map,Prop Description,The railway overpass by the reservoir. I'm in no hurry to return there,Железнодорожный путепровод у водохранилища. Туда возвращаться мне не к спеху
@@ -2389,7 +2389,7 @@ Narr,1019,Room- Kitchen,OnInteractPropAnsTape,I think this one plays the pre-rec
 Narr,1020,Room- Kitchen,OnInteractPropAnsTape,I'll put back the original tape in case someone calls,"Я верну на место исходную кассету на случай, если кто-нибудь позвонит"
 ,423,Room- Kitchen,OnInteractPropAnsTape,I've removed the cassette,Я извлёк кассету
 SistersPhone,3,Room- Kitchen,Answering machine msg from sister,*Beep*,*Бип*
-Annie,40,Room- Kitchen,Answering machine msg from sister,"Sarah, it's Annie. Can't talk long, but that reporter was on to something alright","Сара, это Энни. Долго говорить не могу, но тот репортёр явно что-то нашёл"
+Annie,40,Room- Kitchen,Answering machine msg from sister,"Sarah, it's Annie. Can't talk long, but that reporter was on to something alright","Сара, это Энни. Долго говорить не могу, но та репортёрша явно что-то нашла"
 Annie,41,Room- Kitchen,Answering machine msg from sister,"She had a contact, his address is here. But I think I'd better-","У неё был знакомый, его адрес здесь. Но мне лучше…"
 Annie,42,Room- Kitchen,Answering machine msg from sister,Oh shit. He's here!,О чёрт. Он здесь!
 Annie,43,Room- Kitchen,Answering machine msg from sister,Get off me! I'll-,Слезай с меня! Я…
@@ -2519,7 +2519,7 @@ Narr,1041,Room- Dr,OnInteractPropPen,I pick up the pen. Blue ballpoint sporting 
 Mick,452,Room- Dr,OnInteractPropPen,So what's this MedCon do?,Так чем занимается MedCon?
 Nazari,10,Room- Dr,OnInteractPropPen,We organize clinical trials for other companies,Мы организуем клинические испытания для других компаний
 Mick,453,Room- Dr,OnInteractPropPen,"Human guinea-pigs, that kinda thing?","Людей-морских свинок, что-то вроде того?"
-Nazari,11,Room- Dr,OnInteractPropPen,"You should sign up, looks like you could use a few extra bucks","Тебе бы стоило записаться. Похоже, пара лишних баксов тебе не повредит"
+Nazari,11,Room- Dr,OnInteractPropPen,"You should sign up, looks like you could use a few extra bucks","Вам бы стоило записаться. Похоже, пара лишних баксов вам не помешает"
 Mick,454,Room- Dr,OnInteractPropPen,"And, what kind of-",И что за—
 Nazari,12,Room- Dr,OnInteractPropPen,"As I said, I'm very busy. Now please...","Как я сказала, я очень занята. Ну, пожалуйста…"
 Nazari,13,Room- Dr,Dr looks at lightbox you've turned on,Turn that off,Выключите это
@@ -2730,7 +2730,7 @@ Narr,1129,Room- HideoutCorridor,OnUseInvPropDoor1,It's all welded metal. Not goi
 ,500,Room- HideoutLab,Hotspot Description,"He's bleeding where I hit him, clutching the rifle he would have used on me. Don't know if he's dead","Он истекает кровью там, где я его ударил, и прижимает к груди винтовку, которой собирался застрелить меня. Не знаю, мёртв ли он"
 ,501,Room- HideoutLab,Hotspot Description,"That door leads back to the corridor, and I'm not letting the Butcher out of my sight","Эта дверь ведёт назад в коридор, а я не буду выпускать Мясника из виду"
 Butcher,5,Room- HideoutLab,AttemptEscape,Oi!,Эй!
-Butcher,6,Room- HideoutLab,AttemptEscape,I can't let you bring more of them down on me,Я не дам вам привести на меня больше таких
+Butcher,6,Room- HideoutLab,AttemptEscape,I can't let you bring more of them down on me,Я не дам тебе привести на меня больше таких
 Peters,9,Room- HideoutLab,AttemptEscape,Too late,Слишком поздно
 Peters,10,Room- HideoutLab,AttemptEscape,"Got you at last, traitor","Наконец-то поймал тебя, предатель"
 Butcher,7,Room- HideoutLab,AttemptEscape,"Agh, ya bastard! How much is Roth paying you?","Ах, ублюдок! Сколько Рот тебе платит?"
@@ -2755,7 +2755,7 @@ Narr,1137,Room- HideoutLab,OnInteractPropCover,"As I stare, horrified, the pale 
 Butcher,10,Room- HideoutLab,OnInteractPropCover,You shouldn't have done that,Тебе не следовало этого делать
 Narr,1138,Room- HideoutLab,OnInteractPropCover,He reaches for the light switch,Он тянется к выключателю
 ,507,Room- HideoutLab,OnInteractPropCover,I think the doorway was around here!,"Кажется, дверной проём был где-то здесь!"
-Narr,1139,Room- HideoutLab,OnInteractPropCover,I crouch down. Blind in the dark,Я приседаю. В темноте — хоть режь
+Narr,1139,Room- HideoutLab,OnInteractPropCover,I crouch down. Blind in the dark,Я приседаю. Хоть глаз выколи.
 Narr,1140,Room- HideoutLab,OnInteractPropCover,At least he can't see me either,Зато и он меня не видит
 ,508,Room- HideoutLab,OnInteractPropCover,The green eyes of the Bucket Butcher follow me in the dark,Зелёные глаза Мясника в ведре следят за мной в темноте
 Narr,1141,Room- HideoutLab,OnInteractHotspotExitL,"Hands in front of me, I stumble for the door","Выставив руки перед собой, я бреду к двери."
@@ -2912,7 +2912,7 @@ Butcher,61,Room- HideoutCell,ButcherEnterFirstTime,"Now... I wonder, my Desert-P
 Butcher,62,Room- HideoutCell,ButcherEnterFirstTime,What do you think he knows?,"Что, по-твоему, он знает?"
 Narr,1174,Room- HideoutCell,ButcherEnterFirstTime,"His gaze holds emotionless curiosity, a disturbed child considering the wings of a captive blowfly","В его взгляде — безразличное любопытство, как у неуравновешенного ребёнка, рассматривающего крылья пойманной мясной мухи"
 Butcher,63,Room- HideoutCell,ExperimentRaiseWinch,Let's do a little experiment...,Проведём небольшой эксперимент…
-Butcher,64,Room- HideoutCell,ExperimentRaiseWinch,Hold still,Не двигайся
+Butcher,64,Room- HideoutCell,ExperimentRaiseWinch,Hold still,Не двигайтесь
 Mick,515,Room- HideoutCell,ExperimentRaiseWinch,Wait!,Подождите!
 Mick,516,Room- HideoutCell,ExperimentRaiseWinch,What is-,Что это—
 Mick,517,Room- HideoutCell,ExperimentRaiseWinch,Arrgh!,А-а-а!
@@ -2940,7 +2940,7 @@ Butcher,76,Room- HideoutCell,Butcher returns final time,"Oh, you really are a pa
 Narr,1180,Room- HideoutCell,Butcher returns final time,"With a glare, he gathers up the Esky","Сверкнув глазами, он подбирает холодильник"
 Butcher,77,Room- HideoutCell,Butcher returns final time,We'll start in just a moment,Начнём через минуту
 Narr,1181,Room- HideoutCell,Butcher returns final time,He mutters under his breath as he returns the broom,"Ворчит себе под нос, возвращая метлу"
-Butcher,78,Room- HideoutCell,Butcher returns final time,"Lots to do, if you don't mind","Много дел, если вам не трудно"
+Butcher,78,Room- HideoutCell,Butcher returns final time,"Lots to do, if you don't mind","Дел по горло, если вы не против."
 ,529,Room- HideoutCell,Butcher returns final time,He's working on something back there... I don't know what,Он там что-то делает… я не знаю что
 Narr,1182,Room- HideoutCell,LinkCable,"I loop the cable between the hook and the radiator pipe. Tuck it behind me, hidden from view","Я оборачиваю кабель вокруг крюка и трубы радиатора. Прячу его за спиной, чтобы никто не увидел"
 Narr,1183,Room- HideoutCell,LinkCable,"If the hook is raised now, it should break the pipe","Если поднять крюк, труба должна сломаться"
@@ -3419,7 +3419,7 @@ Sarah,122,Room- KitchenMeet,Talk to wife about random stuff 2,"Sure, what?","К�
 Mick,626,Room- KitchenMeet,Talk to Detective 1,"How'd you find me, anyway?",Как ты меня вообще нашёл?
 Detective,99,Room- KitchenMeet,Talk to Detective 1,"I am a detective, boss","Я следователь, босс"
 Mick,627,Room- KitchenMeet,Talk to Detective 2,So can you use your detective skills to work out where this lab is?,"Так можешь применить свои следовательские навыки и выяснить, где находится эта лаборатория?"
-Detective,100,Room- KitchenMeet,Talk to Detective 2,"Given time, we'll find it","Дайте нам время, мы её найдём"
+Detective,100,Room- KitchenMeet,Talk to Detective 2,"Given time, we'll find it","Дай нам время, мы её найдём"
 Mick,628,Room- KitchenMeet,Talk to Detective 2,Time is what we don't have,Времени у нас как раз нет
 Mick,629,Room- KitchenMeet,Talk to Detective 3,You trust the Butcher?,Ты доверяешь Мяснику?
 Detective,101,Room- KitchenMeet,Talk to Detective 3,Much as I trust you,"Ровно настолько, насколько я доверяю тебе."
@@ -3635,7 +3635,7 @@ Butcher,220,Room- Desert,OnUseInvPropDoor,Don't even think about it! Fry the loc
 Mick,687,Room- Desert,Talk to Detective 1,Wouldn't those be more useful in the dark?,А в темноте разве не лучше будут?
 Detective,121,Room- Desert,Talk to Detective 1,They do more than night vision... Twenty times mag. Image stabilized...,Они умеют не только видеть в темноте… Двадцатикратное увеличение. Стабилизация изображения…
 Detective,122,Room- Desert,Talk to Detective 1,Wish we had gear half as good at the station,"Жаль, на участке нет снаряжения даже половиной такого качества."
-Mick,688,Room- Desert,Talk to Detective 2,You two seem real chummy,Вы двое отлично ладите.
+Mick,688,Room- Desert,Talk to Detective 2,You two seem real chummy,"Вы двое, смотрю, неплохо спелись."
 Detective,123,Room- Desert,Talk to Detective 2,Don't know who the real enemy is. But it's not Maxwell Holden,"Не знаю, кто настоящий враг. Но это не Максвелл Холден."
 Mick,689,Room- Desert,Talk to Detective 2,I'd still be happier if you'd left him cuffed,"Мне всё-таки спокойнее было бы, если бы ты оставил его в наручниках."
 Detective,124,Room- Desert,Talk to Detective 2,"Nah, he's alright boss. Stake my reputation on it","Нет, босс, он нормальный. Моя репутация за это ручается."
@@ -3782,7 +3782,7 @@ Roth,11,Room- LabVent,Talk to Roth when first wake up in lab,"It's ok, Dr. Gala
 Roth,12,Room- LabVent,Talk to Roth when first wake up in lab,You have every reason to feel the way you do,У вас есть все основания так себя чувствовать
 Roth,13,Room- LabVent,Talk to Roth when first wake up in lab,"But you need to understand, it had to be this way",Но вам нужно понять: всё должно было пойти именно так
 Mick,722,Room- LabVent,Talk to Roth when first wake up in lab,Save it,Забудь.
-Annie,54,Room- LabVent,Talk to Roth when first wake up in lab,Please listen to him,"Пожалуйста, послушайте его"
+Annie,54,Room- LabVent,Talk to Roth when first wake up in lab,Please listen to him,"Пожалуйста, послушай его"
 Roth,14,Room- LabVent,Talk to Roth when first wake up in lab,I know I won't convince you that I'm a friend,"Я знаю, что не смогу убедить вас, что я друг"
 Roth,15,Room- LabVent,Talk to Roth when first wake up in lab,But maybe this will,"Но, может, это поможет"
 Narr,1382,Room- LabVent,Talk to Roth when first wake up in lab,"He hands me a lump of plastic, some kind of data-cartridge. There's a note stuck to it","Он передаёт мне кусок пластика, похожий на кассету с данными. К нему прикреплена записка"
@@ -3851,7 +3851,7 @@ Mick,743,Room- LabVent,Talk to Detective after getting out of vent,What next?,Ч
 Detective,148,Room- LabVent,Talk to Detective after getting out of vent,Don't think we'll get back the way we came,"Похоже, назад мы уже не пройдём"
 Detective,149,Room- LabVent,Talk to Detective after getting out of vent,"Maybe we can take a hostage, steal a vehicle...","Может, взять заложника, угнать машину…"
 Detective,150,Room- LabVent,Talk to Detective after getting out of vent,Your sister good to go?,Твоя сестра в деле?
-Annie,78,Room- LabVent,Talk to Detective after getting out of vent,I'm right here you know,"Я же здесь, ты знаешь"
+Annie,78,Room- LabVent,Talk to Detective after getting out of vent,I'm right here you know,"Я тут, вообще-то"
 Mick,744,Room- LabVent,Talk to Detective after getting out of vent 2,What do we do?,Что будем делать?
 Detective,151,Room- LabVent,Talk to Detective after getting out of vent 2,"Use the rifle, cover the door. They try anything, we shoot","Возьми винтовку, прикрой дверь. Если они дёрнутся — стреляем"
 Annie,79,Room- LabVent,Talk to Detective after getting out of vent 2,Seriously?,Серьёзно?
@@ -3941,7 +3941,7 @@ Annie,91,Room- LabVent,StartChapter7,How about I show you the place?,"Может
 Roth,35,Room- LabVent,StartChapter7,You must have a lot of questions,У вас наверняка много вопросов
 Roth,36,Room- LabVent,StartChapter7,"And I am more than happy to answer now, or after you've had a look around","И я с удовольствием отвечу сейчас или после того, как вы всё осмотрите"
 Detective,162,Room- LabVent,StartChapter7,"Don't look at me, boss. I'm confused as you","Не смотри на меня, босс. Я растерян не меньше твоего"
-Annie,92,Room- LabVent,DoorGunSequence,"Oh, you idiots","О, дураки вы"
+Annie,92,Room- LabVent,DoorGunSequence,"Oh, you idiots","Ох, вы, идиоты"
 Detective,163,Room- LabVent,DoorGunSequence,"Quiet, here they come!","Тихо, вот они идут!"
 Annie,93,Room- LabVent,DoorGunSequence,"Now for god-sakes, will you lower that thing and listen to me?","Ради бога, опусти ты эту штуку и послушай меня!"
 ,657,Room- LabVent,Mick comes to after Annie hits him,"Hara doesn't seem too concerned, but it's always hard to tell with him","Хара, похоже, совсем не тревожится, но с ним это всегда трудно понять"
@@ -3951,11 +3951,11 @@ Detective,164,Room- LabVent,Mick comes to after Annie hits him,What is it with y
 Mick,764,Room- LabVent,Mick comes to after Annie hits him,Uuughhh...,Уу-у-у…
 Annie,94,Room- LabVent,Mick comes to after Annie hits him,"Hey, I said I was sorry!","Эй, я же извинилась!"
 Roth,37,Room- LabVent,Mick comes to after Annie hits him,I think he's coming to,"Кажется, он приходит в себя"
-Roth,38,Room- LabVent,Mick comes to after Annie hits him,"Take it easy, you've been through a lot","Не торопись, тебе пришлось пройти через многое"
+Roth,38,Room- LabVent,Mick comes to after Annie hits him,"Take it easy, you've been through a lot","Полегче, тебе многое пришлось пережить"
 ,660,Room- LabVent,Hotspot Description,Back the way we came,Назад тем же путём
 ,661,Room- LabVent,Hotspot Description,"The shaft continues forward, gradually curving to the right","Тоннель продолжается вперёд, постепенно загибая вправо"
 ,662,Room- LabVent,Hotspot Description,There's light coming through a vent,Через вентиляцию пробивается свет
-,663,Room- LabVent,Hotspot Description,I can see into this room,В эту комнату видно
+,663,Room- LabVent,Hotspot Description,I can see into this room,Отсюда видно в эту комнату
 ,664,Room- LabVent,Hotspot Description,Wardrobe space is built into the walls,В стены встроен шкаф
 ,665,Room- LabVent,Hotspot Description,"A small bathroom back here. Sink, toilet, shower","Здесь маленькая ванная. Раковина, унитаз, душ"
 ,666,Room- LabVent,Hotspot Description,The desk has a built in computer terminal,В стол встроен компьютерный терминал
@@ -4015,7 +4015,7 @@ Narr,1436,Room- LabCorridor,Use roth's card to open his door,"Ok, I'm in","Ла�
 Narr,1437,Room- LabCorridor,Try open door with wrong card,Angry bleep and a red light,Сердитый писк и красная лампочка
 ,668,Room- LabCorridor,Initialise,Another empty room,И снова пустая комната…
 ,669,Room- LabCorridor,Initialise,This one's unoccupied,Никого здесь нет
-,670,Room- LabCorridor,Initialise,Ms. Grace must bunk in here,"Миссис Грейс, видимо, ночует здесь"
+,670,Room- LabCorridor,Initialise,Ms. Grace must bunk in here,"Госпожа Грейс, видимо, ночует здесь"
 ,671,Room- LabCorridor,Initialise,Just an empty room through here,Дальше здесь просто пустая комната
 ,672,Room- LabCorridor,Initialise,Dr. Klein sleeps in here,Здесь спит доктор Кляйн
 ,673,Room- LabCorridor,Initialise,This must be the canteen,"Наверное, это столовая"
@@ -4436,7 +4436,7 @@ Narr,1564,Room- LabKitchen,OnInteractHotspotDispenser,Looks like I can return my
 Narr,1565,Room- LabKitchen,OnInteractHotspotDispenser,Then I can insert another food ticket,Тогда можно вставить ещё один чек на еду
 Narr,1566,Room- LabKitchen,OnInteractHotspotDispenser,Need to insert a food ticket to get a meal,"Чтобы получить еду, нужно вставить чек на еду"
 Narr,1567,Room- LabKitchen,OnUseInvHotspotDispenser,"Machine sucks up my ticket, starts to hum quietly...",Машина засасывает мой талон и тихо гудит…
-Narr,1568,Room- LabKitchen,OnUseInvHotspotDispenser,Then my meal rises into view,Потом еда поднимается в поле зрения.
+Narr,1568,Room- LabKitchen,OnUseInvHotspotDispenser,Then my meal rises into view,Потом передо мной появляется моя еда
 Narr,1569,Room- LabKitchen,OnUseInvHotspotDispenser,I take the bowl and the flimsy plastic spoon it comes with,"Я беру миску и тонкую пластиковую ложку, которая идёт с ней."
 Mick,845,Room- LabKitchen,OnUseInvHotspotDispenser,Ugh. Smells healthy...,Уф. Пахнет здоровой пищей…
 Mick,846,Room- LabKitchen,OnUseInvHotspotDispenser,"If you have to eat everything with plastic cutlery, it's no wonder Annie didn't redeem her steak","Если всё приходится есть пластиковыми приборами, понятно, почему Энни не обменяла свой стейк."
@@ -4545,7 +4545,7 @@ Annie,142,Room- LabInterface,"Mick walks into lab, greeted by sister",Let me kno
 Detective,213,Room- LabInterface,"Mick walks into lab, after sister falls to death","What's this about, Doc?","В чём дело, доктор?"
 Roth,48,Room- LabInterface,"Mick walks into lab, after sister falls to death",The very thing we're all here for,Ради чего мы все здесь и собрались
 Roth,49,Room- LabInterface,"Mick walks into lab, after sister falls to death","Mr. Carter, and his ability to go back in time",Мистер Картер и его способности путешествовать во времени
-Roth,50,Room- LabInterface,"Mick walks into lab, after sister falls to death",To change things,Изменять вещи
+Roth,50,Room- LabInterface,"Mick walks into lab, after sister falls to death",To change things,Чтобы всё изменить
 Mick,876,Room- LabInterface,"Mick walks into lab, after sister falls to death",That's your plan!?,Это ваш план!?
 Mick,877,Room- LabInterface,"Mick walks into lab, after sister falls to death",I can barely go back a whole minute!,Я едва могу вернуться на целую минуту назад!
 Sanjay,5,Room- LabInterface,"Mick walks into lab, after sister falls to death",That's where the quantum coupler comes in!,Именно для этого нужен квантовый соединитель!
@@ -4945,7 +4945,7 @@ Klein,22,Room- LabReactor,OnInteractHotspotComputer,You can go annoy someone els
 Narr,1653,Room- LabReactor,Look at computer when Herr's not there,I don't get on well with computers,Я не лажу с компьютерами
 Narr,1654,Room- LabReactor,Look at computer when Herr's not there,And this isn't the safest place to learn,И учиться здесь небезопасно
 Mick,960,Room- LabReactor,Ask Herr about computer when lab's falling apart,Anything I can do to help?,Чем могу помочь?
-Klein,23,Room- LabReactor,Ask Herr about computer when lab's falling apart,"Find Dr. Roth. Without his passcode, there's only so much I can do",Найдите доктора Рота. Без его кода доступа я мало что могу сделать.
+Klein,23,Room- LabReactor,Ask Herr about computer when lab's falling apart,"Find Dr. Roth. Without his passcode, there's only so much I can do",Найди доктора Рота. Без его кода доступа я мало что могу сделать.
 Klein,24,Room- LabReactor,Alt,Nothing,Ничего
 Mick,961,Room- LabReactor,OnInteractHotspotGauge,You have to keep an eye on these gauges?,Вам нужно следить за этими приборами?
 Klein,25,Room- LabReactor,OnInteractHotspotGauge,Of course not,"Разумеется, нет."
@@ -5167,9 +5167,9 @@ Narr,1697,Room- EscCorrR,OnInteractHotspotLadderDown,No going back now,Обра�
 Mick,1023,Room- EscCorrR,OnInteractCharacterDetective,"Klein's doing all he can, but this place is falling apart!","Кляйн делает всё, что может, но это место разваливается!"
 Mick,1024,Room- EscCorrR,OnInteractCharacterDetective,He needs Roth's passcode to stop it,"Ему нужен код Рота, чтобы остановить всё"
 Detective,230,Room- EscCorrR,OnInteractCharacterDetective,"Even if we find him, he won't tell us",Даже найдём его — всё равно ничего не скажет
-Mick,1025,Room- EscCorrR,OnInteractCharacterDetective,Where's Annie? Did you get the cartridge?,Где Энни? Ты достал кассету?
-Detective,231,Room- EscCorrR,OnInteractCharacterDetective,"It's right here, she's up top prepping to go","Она здесь. Энни наверху, готовится отправляться"
-Mick,1026,Room- EscCorrR,OnInteractCharacterDetective,"You'll have to load it into the coupler, I can't get through","Тебе придётся загрузить её в соединитель, я сюда не пройду"
+Mick,1025,Room- EscCorrR,OnInteractCharacterDetective,Where's Annie? Did you get the cartridge?,Где Энни? Ты достал картридж?
+Detective,231,Room- EscCorrR,OnInteractCharacterDetective,"It's right here, she's up top prepping to go","Он здесь. Энни наверху, готовится отправляться"
+Mick,1026,Room- EscCorrR,OnInteractCharacterDetective,"You'll have to load it into the coupler, I can't get through","Тебе придётся загрузить его в соединитель, я сюда не пройду"
 Detective,232,Room- EscCorrR,OnInteractCharacterDetective,"Got it, boss","Понял, босс"
 Mick,1027,Room- EscCorrR,OnInteractCharacterDetective,"Careful, Roth might be in there already","Осторожно, Рот может уже быть внутри"
 Detective,233,Room- EscCorrR,OnInteractCharacterDetective,Damn,Чёрт
@@ -5199,7 +5199,7 @@ Narr,1689,Room- EscCorrR,OnEnterRegionExitLeft,No. I need to go further back,Н�
 ,868,Room- EscCorrR,Hotspot Description,A torn cable dances about in the water,В воде пляшет оборванный кабель
 ,869,Room- EscCorrR,Hotspot Description,"Part of the ceiling has fallen away, taking a water pipe with it",Часть потолка обвалилась вместе с водопроводной трубой
 ,870,Room- EscCorrR,Hotspot Description,A ladder descends back down the shaft to the reactor floor,"По шахте вниз, к полу реактора, снова ведёт лестница"
-Detective,237,Room- EscCorrL,OnEnterRoomAfterFade,"You there, boss?","Вы тут, босс?"
+Detective,237,Room- EscCorrL,OnEnterRoomAfterFade,"You there, boss?","Ты тут, босс?"
 Mick,1033,Room- EscCorrL,Detective talks to mick through the blast door,Hara?,Хара?
 Detective,238,Room- EscCorrL,Detective talks to mick through the blast door,Hey! Can you hear me?,Эй! Ты меня слышишь?
 Mick,1034,Room- EscCorrL,Detective talks to mick through the blast door,Yeah! Not much better this side though,Да! Только с этой стороны лучше не стало
@@ -5210,7 +5210,7 @@ Detective,240,Room- EscCorrL,Detective talks to mick through the blast door 2nd 
 Mick,1037,Room- EscCorrL,Detective passes mick stuff through the blast door,"Alright, throw me the cart","Хорошо, бросай мне картридж"
 Detective,241,Room- EscCorrL,Detective passes mick stuff through the blast door,Take my pistol too,Забери мой пистолет тоже
 Detective,242,Room- EscCorrL,Detective passes mick stuff through the blast door,In case Roth's in there already,"На случай, если Рота уже внутри"
-Narr,1702,Room- EscCorrL,Detective passes mick stuff through the blast door,Hara slings the pistol and cartridge under the rising door,Хара бросает пистолет и кассету под поднимающейся дверью
+Narr,1702,Room- EscCorrL,Detective passes mick stuff through the blast door,Hara slings the pistol and cartridge under the rising door,Хара бросает пистолет и картридж под поднимающейся дверью
 Narr,1703,Room- EscCorrL,Detective passes mick stuff through the blast door,"I catch them clumsily, but manage not to shoot myself in the foot","Я неуклюже ловлю их, но умудряюсь не прострелить себе ногу"
 Detective,243,Room- EscCorrL,Detective passes mick stuff through the blast door,"Good luck, boss. I'll go see what I can do about our exit","Удачи, босс. Я попробую найти способ выбраться отсюда"
 Mick,1038,Room- EscCorrL,Talk to detective when retracing steps,I need you to get everyone out of here,"Мне нужно, чтобы ты вывел отсюда всех"
@@ -5327,7 +5327,7 @@ Roth,104,Room- EscInterface,Talk to Roth first time after coming back from past,
 Mick,1060,Room- EscInterface,Talk to Roth again after coming back from past,I... I was wrong! I won't make the same mistake a third time,Я… Я ошибся! Я не повторю ту же ошибку в третий раз
 Roth,105,Room- EscInterface,Talk to Roth again after coming back from past,I hope you'll reconsider,"Надеюсь, ты передумаешь"
 Roth,106,Room- EscInterface,Talk to Roth again after coming back from past,It's not like you have a choice,У тебя всё равно нет выбора
-Mick,1061,Room- EscInterface,Talk to Roth again after coming back from past,Stay back!,Отойди назад!
+Mick,1061,Room- EscInterface,Talk to Roth again after coming back from past,Stay back!,Не подходи!
 Roth,107,Room- EscInterface,Talk to Roth again after coming back from past,"If you've flipped back, you know there's no way out","Если ты уже вернулся назад, то знаешь: выхода нет"
 Roth,108,Room- EscInterface,Talk to Roth again after coming back from past,Sit down. Or I'll sit you down,Сядь. Или я усажу тебя
 Roth,111,Room- EscInterface,Talk to roth first time,Both of us want this,Мы оба этого хотим
@@ -5963,7 +5963,7 @@ Reporter,101,Room- EscFunicular,Use repaired lift,"Well, give it back when you'r
 Mick,1217,Room- EscFunicular,Use repaired lift,Sure sure. Let's just get this over with,Да-да. Давай просто покончим с этим
 ,1001,Room- EscFunicular,Use repaired lift,Let's get that fuel and get outta here!,Заберём топливо и свалим отсюда!
 Narr,2545,Room- EscFunicular,OnUseInvCharacterAnnie,Hara was sorting the petrol. Should show him,Хара разбирался с бензином. Покажу ему
-,1002,Room- EscFunicular,Prop Description,No amount of coffee will help us now,Теперь нам уже не поможет никакое количество кофе
+,1002,Room- EscFunicular,Prop Description,No amount of coffee will help us now,Теперь нам уже никакой кофе не поможет
 ,1003,Room- EscFunicular,Prop Description,"Liquid's pooled on the ground, stinks of petrol",Жидкость растеклась по земле и воняет бензином
 ,1004,Room- EscFunicular,Prop Description,"A jerrycan lies in a puddle of fuel, didn't Hara check these were filled?","Канистра лежит в луже топлива. Разве Хара не проверял, что они полные?"
 ,1005,Room- EscFunicular,Hotspot Description,Lift back down to the lower floors,Спустить лифт на нижние этажи
@@ -6352,7 +6352,7 @@ Narr,2035,Room- Boss,Use pistol on Roth,No good. There must be something else I 
 Narr,2036,Room- Boss,Use flamer on Roth when he's not distracted,No good. There must be something else I can use as a weapon!,"Бесполезно. Должно быть, найдётся что-нибудь ещё — пригодится как оружие!"
 Roth,242,Room- Boss,Grab gun while roth NOT distracted. He attacks.,No you don't!,"Нет, не выйдет!"
 Roth,243,Room- Boss,Grab gun while roth NOT distracted. He attacks.,Not so fast,Не так быстро
-Roth,244,Room- Boss,Grab gun while roth NOT distracted. He attacks.,Tut tut,Цыц-цыц
+Roth,244,Room- Boss,Grab gun while roth NOT distracted. He attacks.,Tut tut,Ай-ай-ай
 Narr,2037,Room- Boss,Grab gun while roth NOT distracted. He attacks.,Can't reach it without him seeing me,"Не доберусь до него, не попавшись ему на глаза"
 Narr,2038,Room- Boss,Grab gun while distracted,Got it!,Есть!
 Mick,2146,Room- Boss,Tell detective to try using weapon on Roth (With alternates),"Ok, try now!","Хорошо, попробуй сейчас!"
@@ -6668,7 +6668,7 @@ Detective,324,Character- Detective,Give jerrycan detective asked for to him,And 
 Mick,1396,Character- Detective,Give jerrycan detective asked for to him,"So then, we figure out what Roth's up to, and I can convince her","Значит, выясним, что задумал Рот, и я смогу убедить её"
 Detective,325,Character- Detective,Give jerrycan detective asked for to him,"Sounds like a plan, boss","Звучит как план, босс"
 Mick,1397,Character- Detective,Give jerrycan detective asked for to him,I could really use something to eat too,Мне бы тоже не помешало что-нибудь поесть
-Mick,1398,Character- Detective,Use soup on detective,Want some soup?,Хочешь супу?
+Mick,1398,Character- Detective,Use soup on detective,Want some soup?,Хотите супу?
 Detective,326,Character- Detective,Use soup on detective,Not really...,Не то чтобы…
 Mick,1399,Character- Detective,Use soup on detective,Annie got a steak,У Энни стейк
 Detective,327,Character- Detective,Use soup on detective,Swap with her then,Поменяйся с ней тогда
@@ -6828,7 +6828,7 @@ Mick,1548,Character- Klein,Zapper 2s,Did you know all the founders of Trinity?,�
 Klein,145,Character- Klein,Zapper 2s,It's precisely none of your business if I did,"Тебе это совершенно ни к чему, знал я об этом или нет"
 Narr,2094,Character- Klein,Zapper 2s,Don't want him to know I nicked it from his locker,"Не хочу, чтобы он узнал, что я стащил её из его шкафчика"
 ,1165,Character- Klein,Character Description,"Waxy skin drawn tight across bony features. His eyes dart as he pauses to think, foot tapping an anxious staccato","Восковая кожа, натянутая на костистые черты. Глаза бегают, пока он замирает, размышляя; нога отбивает нервный стук"
-,1166,Character- Sophia,Character Description,She looks confused more than anything,"Она выглядит растерянной, и это заметнее всего."
+,1166,Character- Sophia,Character Description,She looks confused more than anything,Больше всего она выглядит растерянной.
 ,1167,Character- Doctor,Character Description,FlashbackDoc,Документ-воспоминание
 ,1168,Character- Sfx,Character Description,Sfx,звуки
 ,1169,Character- Debug,Character Description,Debug,Отладка
@@ -7375,7 +7375,7 @@ Narr,2196,Dialog- ReporterBridge,Getting the knife from the reporter,I cringe at
 ,1473,Dialog- ReporterBridge,Dialog Option,Maybe she has a portable phone charger or a spare battery or something?,"Может, у неё есть портативное зарядное устройство для телефона, запасная батарейка или что-нибудь ещё?"
 ,1474,Dialog- ReporterBridge,Dialog Option,Did she hear those shots up on the railway?,Слышала ли она те выстрелы у железнодорожных путей?
 ,1475,Dialog- WriterFirst,OnStart,She won't know anything about mum's funeral,Она ничего не знает о похоронах мамы
-Mick,1500,Dialog- WriterFirst,OptionQuestion,You're working late,Ты задержалась на работе
+Mick,1500,Dialog- WriterFirst,OptionQuestion,You're working late,Вы задержались на работе
 Writer,57,Dialog- WriterFirst,OptionQuestion,Early,Рано
 Writer,58,Dialog- WriterFirst,OptionQuestion,I'm working early,Я работаю с раннего утра
 Writer,59,Dialog- WriterFirst,OptionQuestion,"Look, I know you're just trying to get out of the cold for a bit, but you can't stay here","Послушай, я понимаю, что ты хочешь просто немного согреться, но остаться здесь не можешь"
@@ -7389,7 +7389,7 @@ Writer,61,Dialog- WriterFirst,OptionTopicReporter,"Look, I've been answering cal
 Writer,62,Dialog- WriterFirst,OptionTopicReporter,"'I saw her on a bus', 'I saw her at the game', 'I saw her flying off to heaven with fuckin' Elvis'","«Я видел её на автобусе», «Я видел её на игре», «Я видел, как она улетела на небесах вместе с долбаным Элвисом»"
 Writer,63,Dialog- WriterFirst,OptionTopicReporter,"I've heard it all, darl. Now get lost","Я всё это слышала, дорогая. Теперь проваливай"
 ,1477,Dialog- WriterFirst,OptionTopicReporter,"She's not going to listen to me, but maybe I could see her office?","Она меня не послушает, но, может, мне удастся увидеть её кабинет?"
-Mick,1504,Dialog- WriterFirst,OptionTopicReporter,Think I could take a look at Ms. Grace's office?,"Как думаешь, можно мне взглянуть на кабинет миссис Грейс?"
+Mick,1504,Dialog- WriterFirst,OptionTopicReporter,Think I could take a look at Ms. Grace's office?,"Как думаете, можно мне взглянуть на кабинет миссис Грейс?"
 Writer,64,Dialog- WriterFirst,OptionTopicReporter,Seriously?,Серьёзно?
 Mick,1505,Dialog- WriterFirst,OptionTopicReporter,I guess not,"Пожалуй, нет"
 ,1478,Dialog- WriterFirst,OptionTopicReporter,She's not going to listen to me,Она меня не послушает
@@ -7897,7 +7897,7 @@ Detective,378,Dialog- DetectiveBridge,OptionTopicSister,"Well, she's a fighter a
 Detective,379,Dialog- DetectiveBridge,OptionTopicSister,She'll probably turn up,"Скорее всего, она объявится."
 Detective,380,Dialog- DetectiveBridge,OptionTopicSister,Missing persons won't do anything before 72 hours anyway,До истечения 72 часов по пропавшим вообще ничего делать не будут.
 Detective,381,Dialog- DetectiveBridge,OptionTopicSister,Best retrace her steps yourself,Лучше самому пройти по её следам.
-Mick,1676,Dialog- DetectiveBridge,OptionTopicSister,I'm on it,Берусь.
+Mick,1676,Dialog- DetectiveBridge,OptionTopicSister,I'm on it,Займусь.
 ,1601,Dialog- DetectiveBridge,OptionTopicSister,"With nothing else to go on, Hara thinks retracing her steps is the best bet. Maybe I missed something back at her place?","Других зацепок нет. Хара считает, что стоит повторить её путь. Может, я что-то пропустил у неё дома?"
 Mick,1677,Dialog- DetectiveBridge,OptionTopicSister,"Oh, I think Annie took her car. Can you put an APB out on that?","Кажется, Энни забрала машину. Можете пустить её в розыск?"
 Mick,1679,Dialog- DetectiveBridge,OptionTopicSister,"I found my sister's car registration. Orange Datsun, UNE432","Я нашёл регистрацию машины моей сестры. Оранжевый «Дацун», UNE432."
@@ -8082,7 +8082,7 @@ Nazari,82,Dialog- DrTalks,OptionTopicLooping,No. I don't think it's possible,"Н
 ,1644,Dialog- DrTalks,OptionTopicLooping,Is that what's happening to me? Some quirk of quantum cognition?,Именно это со мной происходит? Какая-то особенность квантового познания?
 ,1645,Dialog- DrTalks,OptionTopicLooping,"When I die, I seem to travel back in time. Could this have something to do with Trinity's research on Quantum Cognition?","Когда я умираю, мне кажется, я путешествую назад во времени. Это может иметь отношение к исследованиям Тринити в области квантового познания?"
 Mick,1733,Dialog- DrTalks,OptionTopicSister,Trinity have kidnapped my sister,Тринити похитили мою сестру
-Nazari,83,Dialog- DrTalks,OptionTopicSister,"I'm sorry she's missing, but take it up with the police","Мне жаль, что она пропала, но поговорите с полицией"
+Nazari,83,Dialog- DrTalks,OptionTopicSister,"I'm sorry she's missing, but take it up with the police","Мне жаль, что она пропала, но поговори с полицией"
 Mick,1734,Dialog- DrTalks,OptionTopicSister,The cops work for Trinity! At least some of them...,"Копы работают на Тринити! По крайней мере, некоторые…"
 Mick,1735,Dialog- DrTalks,OptionTopicSister,I need to know where they might have taken her!,"Мне нужно знать, куда они могли её увезти!"
 Nazari,84,Dialog- DrTalks,OptionTopicSister,"Even if they have, I have no way to contact them","Даже если они её увезли, связаться с ними я никак не смогу"
@@ -8186,7 +8186,7 @@ Mick,1764,Dialog- ButcherCell,OptionTopicMonster,"I've seen these monsters, inse
 Butcher,262,Dialog- ButcherCell,OptionTopicMonster,You see them too?,Ты их тоже видишь?
 Mick,1765,Dialog- ButcherCell,OptionTopicMonster,Yes!,Да!
 Butcher,263,Dialog- ButcherCell,OptionTopicMonster,"An effect of the phase-flip, I thought I'd cut it out of me","Побочный эффект фазового переворота. Я думал, мне удалось избавиться от него"
-Butcher,264,Dialog- ButcherCell,OptionTopicMonster,"But, those echoes are still there",Но эти отзвуки всё ещё остаются
+Butcher,264,Dialog- ButcherCell,OptionTopicMonster,"But, those echoes are still there",Но эти отголоски никуда не делись.
 Narr,2246,Dialog- ButcherCell,OptionTopicMonster,That's all it was then? A hallucination?,Так всё это было галлюцинацией?
 Narr,2247,Dialog- ButcherCell,OptionTopicMonster,I'm just crazy?,Я просто сумасшедший?
 ,1667,Dialog- ButcherCell,OptionTopicMonster,The monsters were all in my head... What else is?,Все монстры были в моей голове… Что ещё там есть?
@@ -8357,7 +8357,7 @@ Roth,328,Dialog- CeoLab,OptionTopicLooping,The pain I've brought you... This pat
 Roth,329,Dialog- CeoLab,OptionTopicLooping,But my other attempts failed,Но все мои прежние попытки провалились…
 ,1719,Dialog- CeoLab,OptionTopicLooping,"Roth has been looping, but claims this is new for him. He said his past attempts failed. Failed at what?","Рот проходил цикл, но утверждает, что для него это впервые. Он сказал, что прежние попытки провалились. Провалились в чём?"
 Mick,1817,Dialog- CeoLab,OptionTopicLooping,Your other attempts failed... at what?,Твои прежние попытки провалились… в чём?
-Roth,330,Dialog- CeoLab,OptionTopicLooping,"Unlocking your potential, Mr. Carter!","Раскрыть ваш потенциал, мистер Картер!"
+Roth,330,Dialog- CeoLab,OptionTopicLooping,"Unlocking your potential, Mr. Carter!","Раскрыть твой потенциал, мистер Картер!"
 Roth,331,Dialog- CeoLab,OptionTopicLooping,"Together, we will save the world!",Вместе мы спасём мир!
 Narr,2253,Dialog- CeoLab,OptionTopicLooping,What a crock of shit,Вот это куча дерьма
 ,1720,Dialog- CeoLab,OptionTopicLooping,"So Holden was right, Roth has been looping a long time. Trying to get me here to achieve some bullshit goal to save the world","Значит, Холден был прав: Рот уже давно проходит цикл. Он пытается доставить меня сюда, чтобы достичь какой-то долбаной цели и спасти мир"
@@ -8434,7 +8434,7 @@ Mick,1835,Dialog- CeoLab,Ask roth about reactor in general,"Ok, I get it","Хо�
 Mick,1836,Dialog- CeoLab,Tell roth about radiation level,"Whatever you think, your reactor isn't working right","Как бы ты ни думал, твой реактор работает неправильно"
 Roth,372,Dialog- CeoLab,Tell roth about radiation level,Nonsense,Чушь
 Mick,1837,Dialog- CeoLab,Tell roth about radiation level,I checked the levels myself. They're way out of line,Я сам проверял показатели. Они сильно выходят за пределы нормы
-Roth,373,Dialog- CeoLab,Tell roth about radiation level,"Don't worry yourself, Mr. Carter. Everything is in complete control","Не тревожьтесь, мистер Картер. Всё под полным контролем"
+Roth,373,Dialog- CeoLab,Tell roth about radiation level,"Don't worry yourself, Mr. Carter. Everything is in complete control","Не тревожься, мистер Картер. Всё под полным контролем"
 Narr,2258,Dialog- CeoLab,Tell roth about radiation level,Yeah... In his control. That's what I'm worried about,Да… Под его контролем. Именно это меня и беспокоит
 ,1731,Dialog- CeoLab,Tell roth about radiation level,"Roth assures me there's no problem, he has the reactor under control","Рот заверил меня, что проблем нет, у него реактор под контролем"
 Mick,1838,Dialog- CeoLab,OptionTopicLeave,You say I'm free to go?,"Ты говоришь, я свободен уйти?"
@@ -8574,7 +8574,7 @@ Annie,274,Dialog- SisterLab,Ask sister about girl in coma once you know she's fo
 Mick,1879,Dialog- SisterLab,Ask sister about girl in coma once you know she's founder (or roth's wife),"That's not all, she was Roth's wife!",И это не всё. Она была женой Рота!
 Annie,275,Dialog- SisterLab,Ask sister about girl in coma once you know she's founder (or roth's wife),Gideon's?! I heard she was with Maxwell Holden,"Гайдона?! Я слышала, что она была с Максвеллом Холденом."
 Mick,1880,Dialog- SisterLab,Ask sister about girl in coma once you know she's founder (or roth's wife),"Nope, Roth","Нет, с Ротом"
-Mick,1881,Dialog- SisterLab,Ask sister about girl in coma once you know she's founder (or roth's wife),I told you he's bad news,"Я же говорил, что он скверный человек"
+Mick,1881,Dialog- SisterLab,Ask sister about girl in coma once you know she's founder (or roth's wife),I told you he's bad news,"Я же говорил, он тот ещё тип."
 Annie,276,Dialog- SisterLab,Ask sister about girl in coma once you know she's founder (or roth's wife),"I don't know... It's strange, I give you that","Не знаю… Это странно, согласна."
 Annie,277,Dialog- SisterLab,Ask sister about girl in coma once you know she's founder (or roth's wife),I suppose she's here for treatment and he wanted to keep it quiet?,"Полагаю, она здесь на лечении, а он хотел сохранить всё в тайне?"
 Annie,278,Dialog- SisterLab,Ask sister about girl in coma once you know she's founder (or roth's wife),He is a very private man,Он очень скрытный человек
@@ -8983,7 +8983,7 @@ Sanjay,161,Dialog- Sanjay,"Ask sanj about mask you found, before having seen it 
 Sanjay,162,Dialog- Sanjay,"Ask sanj about mask you found, before having seen it used in machine",Herr Doktor will know. He helped design this place,Герр Доктор знает. Он участвовал в проектировании этого места
 ,1834,Dialog- Sanjay,"Ask sanj about mask you found, before having seen it used in machine",Sanjay suggested showing the mask we found to Dr. Klein,Санджай предложил показать найденную маску доктору Кляйну
 Mick,2037,Dialog- Sanjay,"Ask sanj about mask you found, before having seen it used in machine","Sanjay, I found this mask, a bit like the visors in here","Санджай, я нашёл эту маску. Она похожа на визоры, которые здесь"
-Sanjay,163,Dialog- Sanjay,"Ask sanj about mask you found, before having seen it used in machine","Hmm, give us a look","Хм, покажите-ка"
+Sanjay,163,Dialog- Sanjay,"Ask sanj about mask you found, before having seen it used in machine","Hmm, give us a look","Хм, покажи-ка"
 Mick,2038,Dialog- Sanjay,"Ask sanj about mask you found, before having seen it used in machine",I'll have to go get it,Мне придётся сходить за ней
 Sanjay,164,Dialog- Sanjay,"Ask sanj about mask you found, before having seen it used in machine",Sure,Конечно.
 ,1835,Dialog- Sanjay,"Ask sanj about mask you found, before having seen it used in machine",Sanjay said he'd take a look if I bring the mask to him,"Санджай сказал, что посмотрит маску, если я принесу её ему"
@@ -9077,7 +9077,7 @@ Mick,2060,Dialog- EscFunic,OptionTopicPetrolGone,"I'll go too, you can't keep wa
 ,1855,Dialog- EscFunic,OptionTopicPetrolGone,"We need fuel. There's some in the reactor floor, and Sanjay can override the lift to get us there. Hope Hara can take care of things up here...","Нам нужно топливо. Часть его есть на полу реактора, а Санджай может взять управление лифтом на себя, чтобы доставить нас туда. Надеюсь, Хара справится с делами здесь…"
 ,1856,Dialog- EscFunic,OptionTopicPetrolGone,I should share our plan for getting fuel,Нужно рассказать о нашем плане добычи топлива
 Mick,2061,Dialog- EscFunic,Ask sanjay how lift's going,How's that lift coming?,Как там лифт?
-Sanjay,188,Dialog- EscFunic,Ask sanjay how lift's going,Done in a jiffy,Скоро закончу
+Sanjay,188,Dialog- EscFunic,Ask sanjay how lift's going,Done in a jiffy,Мигом сделаю
 Mick,2062,Dialog- EscFunic,Ask sanjay how lift's going,"If we're taking the rifle, then we need the detective up here with his pistol","Если мы берём винтовку, значит, следователь должен подняться сюда вместе с пистолетом"
 Mick,2063,Dialog- EscFunic,Ask sanjay how lift's going,If we're leaving the others I want the detective up here with his pistol,"Если мы оставляем остальных, я хочу, чтобы следователь поднялся сюда вместе с пистолетом"
 Mick,2064,Dialog- EscFunic,Ask sanjay how lift's going,I'm not coming back to a bunch of corpses,Я не собираюсь возвращаться к куче трупов
@@ -9134,7 +9134,7 @@ Detective,501,Dialog- EscDetective,Detective holding hatch shut 1,"Either check 
 ,1869,Dialog- EscDetective,Detective holding hatch shut 1,Hara needs something to seal this hatch,"Харе нужно что-нибудь, чтобы загерметизировать этот люк"
 Mick,2081,Dialog- EscDetective,OptionTopicEscape,I told Klein to get you all out of here,Я велел Кляйну вытащить вас всех отсюда
 Detective,502,Dialog- EscDetective,OptionTopicEscape,We ran into some problems...,"Ну, у нас тут проблемы…"
-Mick,2082,Dialog- EscDetective,OptionTopicEscape,"Well, good thing for me","Ну, мне же лучше"
+Mick,2082,Dialog- EscDetective,OptionTopicEscape,"Well, good thing for me","Ну, мне-то повезло."
 Detective,503,Dialog- EscDetective,OptionTopicEscape,Providing we can still escape,Если мы вообще сможем выбраться
 Mick,2083,Dialog- EscDetective,OptionTopicEscape,Right,Верно
 ,1870,Dialog- EscDetective,OptionTopicEscape,Lucky for me they weren't quicker leaving,"Везло же мне, что они не ушли быстрее"
@@ -9538,7 +9538,7 @@ Narr,2522,Global Script,Generic responses for using items on characters while pa
 Narr,2523,Global Script,OnRepeatTopic,We already talked about that,Мы уже об этом говорили
 Narr,2524,Global Script,OnRepeatTopic,Don't know what else to say about that,Больше мне нечего об этом сказать
 Narr,2525,Global Script,OnRepeatTopic,Don't have anything else to say about that now,Сейчас мне больше нечего об этом сказать
-,1909,Global Script,UpdateTopicFuneral,"Paper won't buy my story, so I've got to borrow money from Annie at the funeral. Need a current paper, to find the time and place from the death notice","Газета не купит мою историю, поэтому на похоронах Энни придётся занять денег. Нужна свежая газета, чтобы по объявлению о смерти найти время и место"
+,1909,Global Script,UpdateTopicFuneral,"Paper won't buy my story, so I've got to borrow money from Annie at the funeral. Need a current paper, to find the time and place from the death notice","Газета не купит мою историю, поэтому на похоронах придётся занять денег у Энни. Нужна свежая газета, чтобы по объявлению о смерти найти время и место"
 ,1910,Global Script,UpdateTopicFuneral,"I have the funeral location, just got to wait for Annie so I can borrow some cash for clothes and a coach out of town","Место похорон я знаю, остаётся дождаться Энни и занять у неё денег на одежду и автобус за город"
 ,1911,Global Script,UpdateTopicFuneral,I know how to find mum's grave now. I'll wait there until Annie shows up and lends me the cash to get outta here,"Теперь я знаю, где могила мамы. Подожду там, пока Энни появится и одолжит денег, чтобы убраться отсюда"
 ,1912,Global Script,UpdateTopicFuneral,I'll have to wait for Annie at mum's grave site. Caretaker'll call the cops if he sees me. Problem is finding her plot...,"Придётся подождать Энни у могилы мамы. Смотритель вызовет копов, если увидит меня. Только вот участок мамы никак не найти…"
