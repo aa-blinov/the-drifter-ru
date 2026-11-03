@@ -268,7 +268,7 @@ Mick,52,Room- UnderBridge,Try getting hose from washing machine,Come... On... Yo
 Narr,111,Room- UnderBridge,Try getting hose from washing machine,Bloody thing's screwed in there too tight,Чёртова штука там тоже затянута слишком крепко
 Reporter,9,Room- UnderBridge,Try getting hose from washing machine,Would this help?,Это поможет?
 Narr,112,Room- UnderBridge,Try getting hose from washing machine,"I glance up, kid's holding an oversized hunting knife like it's a snake","Я поднимаю взгляд. Девушка держит огромный охотничий нож, будто змею"
-Mick,53,Room- UnderBridge,Try getting hose from washing machine,Jesus,Иисусе
+Mick,53,Room- UnderBridge,Try getting hose from washing machine,Jesus,Господи
 ,60,Room- UnderBridge,Try getting hose from washing machine,Have a feeling the reporter won't just give me her knife,"Кажется, репортёрша просто так мне нож не отдаст"
 Narr,113,Room- UnderBridge,Look at washing machine,Nothing but a random tangle of wires and tubes,"Ничего, только беспорядочный клубок проводов и трубок"
 Narr,114,Room- UnderBridge,OnInteractPropHobo,I'll leave him be,Я не стану его трогать
@@ -337,7 +337,7 @@ Narr,132,Room- Dock,OnInteractPropBoat,The mulindji?,Это Мулинджи?
 Narr,133,Room- Dock,OnInteractPropReporter,He's dragging the reporter to the boat,Он тащит репортёра к лодке
 Narr,134,Room- Dock,OnInteractPropReporter,What do they want with her? Was she actually on to something?,Что им от неё нужно? Она что-то выяснила?
 Narr,135,Room- Dock,Captured,Shove from behind,Толчок сзади
-Mick,71,Room- Dock,Captured,Wait!,Подождите!
+Mick,71,Room- Dock,Captured,Wait!,Подожди!
 Narr,136,Room- Dock,OnUseInvPropReporter,This dinky little knife won't do squat against two armed soldiers!,Против двух вооружённых солдат этот малюсенький ножичек — пустая затея!
 Narr,137,Room- Dock,OnUseInvPropReporter,They'll see me!,Они меня увидят!
 ,72,Room- Dock,Prop Description,"A man waits in the boat, all in black","В лодке ждёт мужчина, весь в чёрном"
@@ -1394,7 +1394,7 @@ Caretaker,20,Room- CemeteryChapel,Talk to Caretaker again 1,You will not go arou
 Narr,623,Room- CemeteryChapel,Talk to Caretaker again 1, He tosses some coins into the dirt,Он бросает несколько монет в землю
 Caretaker,21,Room- CemeteryChapel,Talk to Caretaker again 1,That's all I have and all you'll get from me,"Это всё, что у меня есть, и больше вы от меня не получите"
 Caretaker,22,Room- CemeteryChapel,Talk to Caretaker again 1,"If you're not gone when I'm finished here, I'm calling the police!","Если вы не уйдёте, пока я тут не закончу, я вызываю полицию!"
-Mick,237,Room- CemeteryChapel,Talk to Caretaker again 1,Wait a minute!,Подождите минуту!
+Mick,237,Room- CemeteryChapel,Talk to Caretaker again 1,Wait a minute!,Подожди минуту!
 Narr,624,Room- CemeteryChapel,Talk to Caretaker again 1,"If there's one thing I hate, it's pompous, self-righteous, hypocritical...","Больше всего я ненавижу высокомерных, самодовольных лицемеров…"
 Narr,625,Room- CemeteryChapel,Talk to Caretaker again 1,"Shit, well I'd better not wait out front for the cops to arrive then","Чёрт, тогда мне не стоит ждать снаружи, пока прибудут копы"
 Narr,626,Room- CemeteryChapel,Talk to Caretaker again 1,"I'll have to find where they're burying her, wait there","Мне придётся найти место, где её хоронят, и подождать там"
@@ -1819,7 +1819,7 @@ Narr,805,Room- Crypt,Cut roots after monster appeared,I hack twisting wood away 
 ,364,Room- Crypt,Cut roots after monster appeared,Hunting knife's held its edge remarkably well,Охотничий нож отлично сохранил лезвие
 Narr,806,Room- Crypt,Cut roots after monster appeared,"The beam groans under the weight of earth above it, then-","Балка скрипит под тяжестью земли над ней, а потом—"
 ,365,Room- Crypt,Cut roots after monster appeared,"The beam's fallen and wedged against the wall. Blocking the way through, and barely holding up the weight of earth above",Балка упала и заклинила у стены. Она перекрыла проход и еле держит тяжесть земли над собой
-Mick,310,Room- Crypt,Cut roots after monster appeared,Jesus,Иисусе
+Mick,310,Room- Crypt,Cut roots after monster appeared,Jesus,Господи
 Narr,807,Room- Crypt,RoofCollapse,"As I watch in horror, the creature wraps black limbs around the beam","Я в ужасе смотрю, как существо обвивает балку чёрными конечностями"
 Narr,808,Room- Crypt,RoofCollapse,"Again, the creature wraps its black limbs around the beam",Снова существо обвивает балку чёрными конечностями
 Narr,809,Room- Crypt,RoofCollapse,And rips the heavy wood apart,И разрывает тяжёлое дерево
@@ -2128,16 +2128,16 @@ Nurse,13,Room- Hospital,CoroutineCopNurseArgue,"Well, what are we going to do wi
 Cop,20,Room- Hospital,CoroutineCopNurseArgue,We'll say the patient attacked. Got the DI's gun,"Скажем, что пациент на него напал. Пистолет следователя у меня"
 Nurse,14,Room- Hospital,CoroutineCopNurseArgue,"Ok, then what? Turned it on himself?","Хорошо, и что дальше? Он в себя стрелял?"
 Cop,21,Room- Hospital,CoroutineCopNurseArgue,Then I came in. Shot him...,Потом я вошёл. Выстрелил ему…
-Cop,22,Room- Hospital,CoroutineCopNurseArgue,Wait... No. Just... let me think a second...,Подождите… Нет. Просто… дайте подумать секунду…
+Cop,22,Room- Hospital,CoroutineCopNurseArgue,Wait... No. Just... let me think a second...,Подожди… Нет. Просто… дай подумать секунду…
 Cop,23,Room- Hospital,OnAnyClick,Too slow,Слишком поздно
 Narr,939,Room- Hospital,OnInteractHotspotDetectiveDown,He's still breathing,Он всё ещё дышит
 Narr,940,Room- Hospital,OnInteractHotspotDetectiveDown,I should probably go before he wakes up...,"Наверное, мне пора свалить, пока он не проснулся…"
 Mick,373,Room- Hospital,OnInteractHotspotDetectiveDown,"Ah... Hey, are you alright?","А… Эй, с вами всё в порядке?"
 Detective,70,Room- Hospital,OnInteractHotspotDetectiveDown,Ughhh,Угх…
-Detective,71,Room- Hospital,OnEnterRegionNearDoor,Wait!,Подождите!
+Detective,71,Room- Hospital,OnEnterRegionNearDoor,Wait!,Подожди!
 Mick,374,Room- Hospital,OnInteractCharacterRoth,"Ah, hello?","А, привет?"
 Narr,941,Room- Hospital,OnInteractCharacterRoth,It's all in my head... Must be...,Всё это у меня в голове… Должно быть…
-Mick,375,Room- Hospital,OnInteractCharacterRoth,Wait a minute!,Подождите минуту!
+Mick,375,Room- Hospital,OnInteractCharacterRoth,Wait a minute!,Подожди минуту!
 Narr,942,Room- Hospital,Try talking to cop,I turn to the cop,Я поворачиваюсь к копу
 Cop,24,Room- Hospital,Try talking to cop,Talk to the DI. I'm just here for the overtime,Поговорите со следователем. Я тут только сверхурочные получаю
 Mick,376,Room- Hospital,Try talking to cop after he knocks out detective,Who are you people?,Кто вы такие?
@@ -2913,7 +2913,7 @@ Butcher,62,Room- HideoutCell,ButcherEnterFirstTime,What do you think he knows?,"
 Narr,1174,Room- HideoutCell,ButcherEnterFirstTime,"His gaze holds emotionless curiosity, a disturbed child considering the wings of a captive blowfly","В его взгляде — безразличное любопытство, как у неуравновешенного ребёнка, рассматривающего крылья пойманной мясной мухи"
 Butcher,63,Room- HideoutCell,ExperimentRaiseWinch,Let's do a little experiment...,Проведём небольшой эксперимент…
 Butcher,64,Room- HideoutCell,ExperimentRaiseWinch,Hold still,Не двигайтесь
-Mick,515,Room- HideoutCell,ExperimentRaiseWinch,Wait!,Подождите!
+Mick,515,Room- HideoutCell,ExperimentRaiseWinch,Wait!,Подожди!
 Mick,516,Room- HideoutCell,ExperimentRaiseWinch,What is-,Что это—
 Mick,517,Room- HideoutCell,ExperimentRaiseWinch,Arrgh!,А-а-а!
 ,526,Room- HideoutCell,RaiseWinchBG,"I can see a glint of metal behind the vent covering, must be the pliers the prisoner next door threw in there","За крышкой вентиляции я вижу блеск металла. Наверное, это клещи, которые заключённый из соседней камеры засунул туда"
@@ -4066,7 +4066,7 @@ Mick,778,Room- LabCorridor,Enter key-code from dusted keys,"7, 7, 4, 2","7, 7, 4
 Mick,779,Room- LabCorridor,Enter key-code from dusted keys,Got it!,Есть!
 Mick,780,Room- LabCorridor,HallucinationOnEnterAfterFade,Oh jeez,О господи
 Mick,781,Room- LabCorridor,HallucinationOnEnterAfterFade,Bill?,Билл?
-Mick,782,Room- LabCorridor,HallucinationOnEnterAfterFade,Wait!,Подождите!
+Mick,782,Room- LabCorridor,HallucinationOnEnterAfterFade,Wait!,Подожди!
 Mick,783,Room- LabCorridor,HallucinationOnEnterAfterFade,Get it together,Возьми себя в руки
 Alec,93,Room- LabCorridor,HallucinationOnEnterAfterFade,Dad...,Папа…
 Alec,94,Room- LabCorridor,HallucinationOnEnterAfterFade,Come back for me!,Вернись за мной!
@@ -6521,7 +6521,7 @@ Mick,1342,Room- End,Signal helicopter,Well...,Ну…
 Klein,101,Room- End,Signal helicopter,I'd suggest we don't stand here soaking up radiation any longer than necessary,"Я бы предложил не стоять тут и не ловить радиацию дольше, чем нужно"
 Mick,1343,Room- End,Signal helicopter,Sounds good to me,Меня это устраивает
 Sarah,171,Room- End,Signal helicopter,"Well, hop in","Ну, залезайте"
-Roth,279,Room- End,Signal helicopter,Wait... please!,Подождите… пожалуйста!
+Roth,279,Room- End,Signal helicopter,Wait... please!,Подожди… пожалуйста!
 Roth,280,Room- End,Signal helicopter,Help me!,Помогите!
 Mick,1344,Room- End,Signal helicopter,"Oh god, he's alive","Боже, он жив"
 Roth,281,Room- End,Signal helicopter,"Carter? Carter, is that you?","Картер? Картер, это ты?"
