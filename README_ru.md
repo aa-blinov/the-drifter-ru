@@ -14,6 +14,8 @@ CSV-файле и установщик, который вписывает кир
 | Главное меню | Подписи |
 |:---:|:---:|
 | ![Главное меню на русском](docs/screenshots/main-menu.png) | ![Подписи в сцене у костра](docs/screenshots/camp-caption.png) |
+| ![Интро на русском](docs/screenshots/intro-ru.png) | ![Меню с русским текстом](docs/screenshots/main-menu-ru.png) |
+| ![Сцена в лагере](docs/screenshots/camp-ru.png) | |
 
 ## Установка
 
