@@ -30,7 +30,7 @@ CSV-файле и установщик, который вписывает кир
    запускайте `install.bat`.
 2. Закройте игру. Нужен [Python 3.9 или новее](https://www.python.org/downloads/)
    в `PATH`.
-3. Скачайте [пакет установки v1.0.1](https://github.com/aa-blinov/the-drifter-ru/releases/download/v1.0.1/the-drifter-ru-v1.0.1.zip)
+3. Скачайте [пакет установки v1.0.2](https://github.com/aa-blinov/the-drifter-ru/releases/download/v1.0.2/the-drifter-ru-v1.0.2.zip)
    со [страницы релизов](https://github.com/aa-blinov/the-drifter-ru/releases).
    Архивы `Source code` для установки не нужны.
 4. Распакуйте архив в любую папку и запустите `install.bat`. Он поставит
